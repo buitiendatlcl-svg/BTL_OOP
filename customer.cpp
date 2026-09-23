@@ -65,21 +65,24 @@ void customer::inputFromKeyboard(){
 }
 
 void customer::showToConsole(){
-	cout << id << "|" << fullName << "|" << dateOfBirth << "|" << address << "|" << phoneNumber << endl;
+	cout << getId() << "|" << fullName << "|" << dateOfBirth << "|" << address << "|" << phoneNumber << endl;
 }
 
 string customer::toFileString(){
-	return id + "|" + fullName + "|" + dateOfBirth + "|" + address + "|" + phoneNumber;
+	return getId() + "|" + fullName + "|" + dateOfBirth + "|" + address + "|" + phoneNumber;
 }
 
 void customer::fromFileString(string &s){
 	stringstream ss(s);
 	string tmp;
-	getline(ss, id, '|');
+	getline(ss, tmp, '|');
+	setId(tmp);
 	
 	getline(ss, fullName, '|');
 	
 	getline(ss, dateOfBirth, '|');
+	
+	getline(ss, address, '|');
 	
 	getline(ss, phoneNumber, '|');
 }

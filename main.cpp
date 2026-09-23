@@ -27,7 +27,8 @@ int main() {
                 customer newCustomer;
                 
                 // L?y thông tin t? ngu?i dùng thông qua bàn phím
-                newCustomer.inputFromKeyboard(); 
+                newCustomer.inputFromKeyboard();
+	 
                 
                 // Hàm create s? ki?m tra trùng mã ID, d?y d?i tu?ng vào vector và t? d?ng luu xu?ng file customer.txt
                 if (repo.create(newCustomer) == 1) {
