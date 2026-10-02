@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <algorithm>
+#include <string>
 using namespace std;
 
 template <class T>
@@ -44,7 +46,7 @@ public:
 	
 	//chuc nang Create trong CRUD
 	int create(T obj){
-		for(auto x : data){
+		for(auto x : data){  // range based for loop
 			if(x.getId() == obj.getId())
 				return 0;
 		}
@@ -94,5 +96,21 @@ public:
 		}
 	}
 	
+	string autoGenId(string productName){
+		if(data.empty()){
+			return productName + "1";
+		}
+
+		int maxIdNumber = 0;
+		for(auto obj : data){
+			string currentId = obj.getId();
+			string numStr = currentId.substr(productName.length());
+			int num = stoi(numStr);
+			if(num > maxIdNumber){
+				maxIdNumber = num;
+			}
+		}
+		return productName + to_string(maxIdNumber + 1);		
+	}
 	
 };
