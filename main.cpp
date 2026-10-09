@@ -2,64 +2,134 @@
 #include <vector>
 #include "customer.h"
 #include "repository.h"
+#include "internet.h"
 
 using namespace std;
 
 int main() {
-    // 1. Kh?i t?o d?i tu?ng repository qu?n lý l?p customer
-    // Truy?n tên file "customer.txt" vào hàm kh?i t?o. H? th?ng s? t? d?ng d?c d? li?u t? file lên (n?u file dã t?n t?i).
-    repository<customer> repo("customer.txt");
-    
-    int choice;
-    do {
-        cout << "\n=========== MENU QUAN LY KHACH HANG ===========" << endl;
-        cout << "1. Nhap thong tin khach hang va luu vao file" << endl;
-        cout << "2. Xem danh sach khach hang (lay tu file)" << endl;
-        cout << "0. Thoat chuong trinh" << endl;
-        cout << "===============================================" << endl;
-        cout << "Chon chuc nang (0-2): ";
-        cin >> choice;
-        cin.ignore(); // Xóa ký t? '\n' còn sót l?i trong b? d?m sau l?nh cin d? dùng getline()
-
-        switch (choice) {
-            case 1: {
-                cout << "\n--- NHAP THONG TIN KHACH HANG MOI ---" << endl;
-                customer newCustomer;
-                
-                // L?y thông tin t? ngu?i dùng thông qua bàn phím
-                newCustomer.inputFromKeyboard();
-	 
-                
-                // Hàm create s? ki?m tra trùng mã ID, d?y d?i tu?ng vào vector và t? d?ng luu xu?ng file customer.txt
-                if (repo.create(newCustomer) == 1) {
-                    cout << "=> Them moi va luu vao file customer.txt thanh cong!\n";
-                } else {
-                    cout << "=> Loi: Ma dinh danh (ID) cua khach hang nay da ton tai!\n";
-                }
-                break;
-            }
-            case 2: {
-                cout << "\n--- DANH SACH KHACH HANG ---" << endl;
-                // L?y danh sách (vector) các khách hàng hi?n có
-                vector<customer> list = repo.getData(); 
-                
-                if (list.empty()) {
-                    cout << "Danh sach hien dang trong!" << endl;
-                } else {
-                    // Duy?t qua danh sách và hi?n th? thông tin t?ng d?i tu?ng ra màn hình
-                    for (auto c : list) {
-                        c.showToConsole();
-                    }
-                }
-                break;
-            }
-            case 0:
-                cout << "Tam biet!" << endl;
-                break;
-            default:
-                cout << "Lua chon khong hop le, vui long nhap lai!" << endl;
-        }
-    } while (choice != 0);
+	repository<internet> repo("data/internet.txt");
+	
+	int choice;
+	do{
+		cout << "\n==========Menu quan ly cac goi mang==========" << endl;
+		cout << "1. Nhap thong tin goi mang moi" << endl;
+		cout << "2. Xem danh sach cac goi mang hien co" << endl;
+		cout << "3. Chinh sua thong tin cac goi mang hien co" << endl;
+		cout << "4. Xoa goi mang hien co" << endl;
+		cout << "0. Thoat chuong trinh" << endl;
+		cout << "Chon chuc nang: ";
+		cin >> choice;
+		cin.ignore();
+		switch(choice){
+			case 1:{
+				cout << "\n--Nhap thong tin goi mang moi--" << endl;
+				internet newInternet;
+				string newId = repo.autoGenId("G");
+				newInternet.setId(newId);
+				
+				newInternet.inputFromKeyboard();
+				if(repo.create(newInternet) == 1){
+					cout << "Them moi thanh cong!" << endl;
+				}
+				else{
+					cout << "Them moi that bai!" << endl;
+				}
+				break;
+			}
+			case 2:{
+				cout << "\n--Danh sach cac goi mang dang hoat dong" << endl;
+				vector<internet> list = repo.getData();
+				if(list.empty())
+					cout << "Danh sanh hien khong co goi mang nao" << endl;
+				else{
+					for(auto x : list){
+						x.showToConsole();
+					}
+				}
+				break;
+			}
+			case 3:{
+				cout << "\n----Danh sach goi mang hien co----" << endl;
+				vector<internet> list = repo.getData();
+				for(auto x : list){
+					x.showToConsole();
+				}
+				cout <<"\nChon Id goi mang ban muon chinh sua: ";
+				string search;
+				getline(cin, search);
+				if(repo.searchId(search) != NULL){
+					auto it = repo.searchId(search);
+					it->showToConsole();
+					cout << "\n---Chon thanh phan ban muon chinh sua----" << endl;
+					cout << "1. Chinh sua ten" << endl;
+					cout << "2. Chinh sua toc do" << endl;
+					cout << "3. Chinh sua tep khach hang" << endl;
+					cout << "4. Chinh sua gia cuoc(VND)" << endl;
+					cout << "Nhap lua chon cua ban: ";
+					int option; cin >> option;
+					cin.ignore();
+					switch(option){
+						case 1:{
+							cout << "Nhap ten moi ban muon doi: ";
+							string newPackageName;
+							getline(cin, newPackageName);
+							it->setPackageName(newPackageName);
+							cout << "Ban da chinh sua thanh cong!" << endl;
+							repo.saveToFile();
+							break;
+						}
+						case 2:{
+							cout << "Nhap toc do moi ban muon doi: ";
+							string newSpeed;
+							getline(cin, newSpeed);
+							it->setSpeed(newSpeed);
+							cout << "Ban da chinh sua thanh cong!" << endl;
+							repo.saveToFile();
+							break;
+						}
+						case 3:{
+							cout << "Nhap tep khach hang moi ban muon doi: ";
+							string newCustomerType;
+							getline(cin, newCustomerType);
+							it->setCustomerType(newCustomerType);
+							cout << "Ban da chinh sua thanh cong!" << endl;
+							repo.saveToFile();
+							break;
+						}
+						case 4:{
+							cout << "Nhap gia cuoc moi ban muon doi: ";
+							double newPrice;
+							cin >> newPrice; cin.ignore();
+							it->setPrice(newPrice);
+							cout << "Ban da chinh sua thanh cong!" << endl;
+							repo.saveToFile();
+							break;
+						}
+					}
+				}
+				else
+					cout << "ID khong ton tai" << endl;
+				
+				break;
+			}
+			case 4:{
+				cout << "\n----Danh sach hien co----" << endl;
+				vector<internet> list = repo.getData();
+				for(auto x : list){
+					x.showToConsole();
+				}
+				
+				cout << "\nChon ID goi mang ban muon xoa: ";
+				string removeId;
+				getline(cin, removeId);
+				if(repo.remove(removeId) == 1)
+					cout << "Ban da xoa thanh cong!" << endl;
+				else
+					cout << "ID khong ton tai!" << endl;
+				break;
+			}
+		} 
+	} while(choice != 0);
 
     return 0;
 }
