@@ -10,10 +10,20 @@ customer::customer(){
 	dateOfBirth = "";
 	address = "";
 	phoneNumber = "";
-	setId("");
 }
 
 void customer::setFullName(string fullName){
+	stringstream ss(fullName);
+	string res, w;
+	while(ss >> w){
+		res += toupper(w[0]);
+		for(int i = 1; i < (int)w.size(); i++){
+			res += tolower(w[i]);
+		}
+		res += " ";
+	}
+	res.pop_back();
+	fullName = res;
 	this->fullName = fullName;
 }
 string customer::getFullName(){
@@ -42,10 +52,12 @@ string customer::getPhoneNumber(){
 }
 
 void customer::inputFromKeyboard(){
+	
+	
 	string temp;
-	cout << "Nhap ma dinh danh: ";
-	getline(cin, temp);
-	setId(temp);
+//	cout << "Nhap ma dinh danh: ";
+//	getline(cin, temp);
+//	setId(temp);
 	
 	cout << "Nhap ten: ";
 	getline(cin, temp);

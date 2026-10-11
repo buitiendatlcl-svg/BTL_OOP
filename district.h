@@ -1,5 +1,5 @@
 #pragma once
-#include "Entity2.h"
+#include "entity.h"
 #include <string>
 
 using namespace std;

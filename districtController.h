@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include "district.h" 
-#include "Repository2.h"
+#include "repository.h"
 #include "contract.h"
 #include "internet.h"
 
@@ -15,9 +15,9 @@ using namespace std;
 
 class districtController {
 private:
-    Repository<district> repo;
-    Repository<internet> repoInternet;
-    Repository<contract> repoHopDong;
+    repository<district> repo;
+    repository<internet> repoInternet;
+    repository<contract> repoHopDong;
     map<string, vector<string>> mapTram;
     
     int tinhSoKhuVuc(string maKV);

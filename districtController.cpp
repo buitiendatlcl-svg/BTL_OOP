@@ -58,7 +58,7 @@ int districtController::tinhTongBangThong(string maKV){//ham tinh tong bang thon
 	vector<contract> dsHopDong=repoHopDong.getData();//doc hop dong
 	for(auto& hd : dsHopDong ){
 		if(hd.getAreaId()==maKV){//lay ma khuvuc cua hop dong
-			string maGoi=hd.getInternetId();//lay ma internet
+			string maGoi=hd.getPackageId();//lay ma internet
 			internet* timThay=repoInternet.searchId(maGoi);//tim kiem id cua internet
 			if(timThay!=nullptr){
 				tong+=stoi(timThay->getSpeed());
@@ -192,7 +192,7 @@ void districtController::readFunction() {
 		    if(remain<=0){
 		    	cout << "=> CANH BAO: Tram dang bi qua tai! Can cap nhat lai bang thong\n";
 			}
-			else cout<< "=> THONG BAO: Bang thong cua tram o muc an toan !\n"
+			else cout<< "=> THONG BAO: Bang thong cua tram o muc an toan !\n";
         }
 		 else {
             cout << "=> [LOI]: Khong tim thay ma khu vuc: " << ma << endl;
@@ -215,7 +215,7 @@ void districtController::updateFunction() {
         getline(cin, input);
         if(!input.empty()) {
             timThay->setMaxBandWidth(stoi(input));
-            repo.saveChange();
+            repo.saveToFile();
             cout << "=> Da cap nhat bang thong thanh cong!" << endl;
         } else {
             cout << "=> Khong co thay doi nao duoc luu." << endl;

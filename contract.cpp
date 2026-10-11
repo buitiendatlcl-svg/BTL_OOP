@@ -27,7 +27,7 @@ string contract::getPackageId(){
 	return packageId;
 }
 
-void contract::setAreaId(string AreaId){
+void contract::setAreaId(string areaId){
 	this->areaId = areaId;
 }
 string contract::getAreaId(){
@@ -88,6 +88,14 @@ void contract::fromFileString(string &s){
 	
 	getline(ss, signDate, '|');
 	
+	string statusStr;
+	getline(ss, statusStr, '|');
+	if (statusStr == "Hoat dong"){
+	    setStatus(true);
+	} 
+	else{
+	    setStatus(false);
+	}
 }
 
 
