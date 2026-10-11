@@ -95,6 +95,9 @@ void contractController::createFunction(){
 		cout << "Khong tim thay ID khu vuc" << endl;
 	}
 	
+	string newContractId = contractRepo.autoGenId("HD");
+	newContract.setId(newContractId);
+	
 	newContract.inputFromKeyboard();
 	if(contractRepo.create(newContract)){
 		cout << "Them moi hop dong thanh cong!" << endl;
