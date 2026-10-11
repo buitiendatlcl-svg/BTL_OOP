@@ -5,7 +5,7 @@ using namespace std;
 contractController::contractController(){
 	repository<customer> customerRepo{"data/customer.txt"};
 	repository<internet> internetRepo{"data/internet.txt"};
-	repository<district> districtRepo{"data/data_tram.txt"};
+	repository<district> districtRepo{"data/data_khuvuc.txt"};
 }
 
 void contractController::createFunction(){
