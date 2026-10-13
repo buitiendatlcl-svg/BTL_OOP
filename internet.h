@@ -1,5 +1,5 @@
 #pragma once
-#include "entity.h"
+#include "Entity.h"
 #include <string>
 
 using namespace std;
@@ -11,7 +11,7 @@ private:
 public:
 	
 	internet();
-	//alhsais
+	
 	void setPackageName(string packageName);
 	string getPackageName();
 	
