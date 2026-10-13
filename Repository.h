@@ -3,21 +3,22 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <string>
 using namespace std;
 
 template <class T>
-class Repository{
+class repository{
 private:
 	vector<T> data;
 	string fileName;
 public:
-	Repository(string fileName){
+	repository(string fileName){
 		this->fileName = fileName; //fileName chinh la duong dan toi file.txt luu data cua doi tuong
-		readFromFile();//tu dong luu vao data
+		readFromFile();
 	}
 	
 	void readFromFile(){
-	ifstream ifs; // khai bao ifstream giup doc file.txt ma khong xoa hay sua
+		ifstream ifs; // khai bao ifstream giup doc file.txt ma khong xoa hay sua
 		ifs.open(fileName);
 		if(!ifs.is_open())
 			return;
@@ -31,7 +32,6 @@ public:
 		}
 		ifs.close();
 	}
-	
 	
 	void saveToFile(){
 		ofstream ofs; // khai bao ofstream se lam cho file.txt bi xoa sach
@@ -47,7 +47,7 @@ public:
 	
 	//chuc nang Create trong CRUD
 	int create(T obj){
-		for(auto x : data){
+		for(auto x : data){  // range based for loop
 			if(x.getId() == obj.getId())
 				return 0;
 		}
@@ -56,9 +56,9 @@ public:
 		return 1;
 	}
 	
-	//chuc nang Read 
+	//chuc nang Read trong CRUD
 	
-	vector<T> getData(){//
+	vector<T> getData(){
 		return data;  // tu data nay se xay dung mot menu cua doi tuong do de cout
 	}
 	
@@ -79,9 +79,7 @@ public:
 	}
 	
 	// sau khi lay pointer va sua thi can goi them ham saveToFile de update thong tin
-	void saveChange(){
-		saveToFile();
-	}
+	
 	int remove(string id){
 		auto it = remove_if(data.begin(), data.end(), [&](T obj){
 			if(obj.getId() == id)
@@ -99,7 +97,7 @@ public:
 		}
 	}
 	
-string autoGenId(string productName){
+	string autoGenId(string productName){
 		if(data.empty()){
 			return productName + "1";
 		}
@@ -107,28 +105,13 @@ string autoGenId(string productName){
 		int maxIdNumber = 0;
 		for(auto obj : data){
 			string currentId = obj.getId();
-            
-            // 1. Ki?m tra mã ID có d? dài l?n hon ti?n t? (VD: "G1" dài hon "G") 
-            // và ph?i b?t d?u b?ng ti?n t? dó
-            if (currentId.length() > productName.length() && currentId.find(productName) == 0) {
-			    string numStr = currentId.substr(productName.length());
-                // 2. B?c try-catch khi ép ki?u
-                try {
-			        int num = stoi(numStr);
-			        if(num > maxIdNumber){
-				        maxIdNumber = num;
-			        }
-                } catch(...) {
-                    // N?u g?p mã l?i (nhu Gabc), h? th?ng s? ph?t l? và không b? crash
-                }
-            }
+			string numStr = currentId.substr(productName.length());
+			int num = stoi(numStr);
+			if(num > maxIdNumber){
+				maxIdNumber = num;
+			}
 		}
 		return productName + to_string(maxIdNumber + 1);		
 	}
-	void reloadData() {
-		data.clear();   
-		readFromFile(); 
-	}
-	
 	
 };
