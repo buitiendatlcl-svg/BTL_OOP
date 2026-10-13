@@ -11,7 +11,7 @@ customer::customer(){
 	address = "";
 	phoneNumber = "";
 }
-
+//dlkjskldfgslkfgjspr
 void customer::setFullName(string fullName){
 	stringstream ss(fullName);
 	string res, w;
