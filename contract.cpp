@@ -63,7 +63,7 @@ void contract::inputFromKeyboard(){
 }
 
 void contract::showToConsole(){
-	cout << getId() << "|" << getCustomerId() << "|" << getPackageId() << "|" << getAreaId() << "|" << signDate	<< "|" << status;
+	cout << getId() << "|" << getCustomerId() << "|" << getPackageId() << "|" << getAreaId() << "|" << signDate	<< "|" << status<<endl;
 }
 
 string contract::toFileString(){

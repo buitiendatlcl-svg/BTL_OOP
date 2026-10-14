@@ -3,7 +3,7 @@
 #include <string>
 
 // Include các file header c?a các Controller và Model tuong ?ng
-#include "repository.h"
+#include "Repository.h"
 #include "district.h"
 #include "districtController.h"
 #include "internet.h"
@@ -16,7 +16,7 @@ using namespace std;
 int main() {
     // Kh?i t?o các d?i tu?ng Controller
     // districtController có tham s? m?c d?nh là "data/data_khuvuc.txt" nên không c?n truy?n vào
-    districtController dc;
+    districtController dc("data/data_khuvuc.txt");
     internetController ic;
     contractController cc;
 

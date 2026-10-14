@@ -151,7 +151,11 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
+<<<<<<< HEAD
 FileName=Entity.h
+=======
+FileName=entity.h
+>>>>>>> vttm
 CompileCpp=1
 Folder=
 Compile=1

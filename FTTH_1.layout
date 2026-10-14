@@ -1,6 +1,10 @@
 [Editors]
 Order=1,2,3,4,5,8,9,13,14,11,10,7,6,15,12
+<<<<<<< HEAD
 Focused=10
+=======
+Focused=2
+>>>>>>> vttm
 [Editor_1]
 CursorCol=1
 CursorRow=1
@@ -8,8 +12,13 @@ TopLine=1
 LeftChar=1
 [Editor_2]
 CursorCol=1
+<<<<<<< HEAD
 CursorRow=167
 TopLine=161
+=======
+CursorRow=1
+TopLine=1
+>>>>>>> vttm
 LeftChar=1
 [Editor_3]
 CursorCol=1
