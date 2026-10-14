@@ -151,7 +151,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
-FileName=entity.h
+FileName=Entity.h
 CompileCpp=1
 Folder=
 Compile=1
