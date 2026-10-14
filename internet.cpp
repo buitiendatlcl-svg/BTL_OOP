@@ -95,7 +95,8 @@ void internet::showToConsole(){
 
 string internet::toFileString(){
 	string strPrice = to_string(price);
-	return getId() + "|" + packageName + "|" + speed + "|" + customerType + "|" + strPrice;
+	string strSpeed = to_string(speed);
+	return getId() + "|" + packageName + "|" + strSpeed + "|" + customerType + "|" + strPrice;
 }
 
 void internet::fromFileString(string &s){
@@ -106,7 +107,8 @@ void internet::fromFileString(string &s){
 	
 	getline(ss, packageName, '|');
 	
-	getline(ss, speed, '|');
+	getline(ss, tmp, '|');
+	speed = stoi(tmp);
 	
 	getline(ss, customerType, '|');
 	

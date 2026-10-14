@@ -62,7 +62,7 @@ int districtController::tinhTongBangThong(string maKV){//ham tinh tong bang thon
 			string maGoi=hd.getPackageId();//lay ma internet
 			internet* timThay=repoInternet.searchId(maGoi);//tim kiem id cua internet
 			if(timThay!=nullptr){
-				tong+=stoi(timThay->getSpeed());
+				tong+=timThay->getSpeed();
 			}
 		}
 	}
