@@ -7,7 +7,7 @@ using namespace std;
 
 internet::internet(){
 	packageName = "";
-	speed = "";
+	speed = 0;
 	customerType = "";
 	price = 0;
 }
@@ -19,10 +19,10 @@ string internet::getPackageName(){
 	return packageName;
 }
 
-void internet::setSpeed(string speed){
+void internet::setSpeed(int speed){
 	this->speed = speed;
 }
-string internet::getSpeed(){
+int internet::getSpeed(){
 	return speed;
 }
 
@@ -43,27 +43,49 @@ double internet::getPrice(){
 void internet::inputFromKeyboard(){
 	string temp;
 	
-//	cout << "Nhap ma goi moi: ";
-//	getline(cin, temp);
-//	setId(temp);
-	
 	cout << "Nhap ten goi moi: ";
 	getline(cin, temp);
 	setPackageName(temp);
 	
-	cout << "Nhap toc do: ";
-	getline(cin, temp);
-	setSpeed(temp);
+	int speed;
+	while(true){
+		cout << "Nhap toc do: ";
+		getline(cin, temp);
+		try{
+			speed = stoi(temp);
+			if(speed < 0){
+				cout << "[Loi]Vui long chi nhap lai!" << endl; 
+			}
+			else
+				break;
+		}
+		catch(...){
+			cout << "[Loi]Vui long nhap lai!" << endl;
+		}
+	}
+	setSpeed(speed);
 	
 	cout << "Nhap tep khach hang: ";
 	getline(cin, temp);
 	setCustomerType(temp);
 	
-	cout << "Nhap gia dich vu(VND): ";
 	double price;
-	cin >> price;
+	while(true){
+		cout << "Nhap gia dich vu(VND): ";
+		getline(cin, temp);
+		try{
+			price = stod(temp);
+			if(price < 0){
+				cout << "[Loi]Vui long chi nhap lai!" << endl; 
+			}
+			else
+				break;
+		}
+		catch(...){
+			cout << "[Loi]Vui long nhap lai!" << endl;
+		}
+	}
 	setPrice(price);
-	cin.ignore();
 
 }
 
@@ -73,7 +95,8 @@ void internet::showToConsole(){
 
 string internet::toFileString(){
 	string strPrice = to_string(price);
-	return getId() + "|" + packageName + "|" + speed + "|" + customerType + "|" + strPrice;
+	string strSpeed = to_string(speed);
+	return getId() + "|" + packageName + "|" + strSpeed + "|" + customerType + "|" + strPrice;
 }
 
 void internet::fromFileString(string &s){
@@ -84,7 +107,8 @@ void internet::fromFileString(string &s){
 	
 	getline(ss, packageName, '|');
 	
-	getline(ss, speed, '|');
+	getline(ss, tmp, '|');
+	speed = stoi(tmp);
 	
 	getline(ss, customerType, '|');
 	

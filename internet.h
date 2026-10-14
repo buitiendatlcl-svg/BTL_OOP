@@ -1,22 +1,23 @@
 #pragma once
-#include "entity.h"
+#include "Entity.h"
 #include <string>
 
 using namespace std;
 
 class internet : public entity{
 private:
-	string packageName, speed, customerType;
+	string packageName, customerType;
+	int speed;
 	double price;
 public:
 	
 	internet();
-	//alhsais
+	
 	void setPackageName(string packageName);
 	string getPackageName();
 	
-	void setSpeed(string speed);
-	string getSpeed();
+	void setSpeed(int speed);
+	int getSpeed();
 	
 	void setCustomerType(string customerType);
 	string getCustomerType();

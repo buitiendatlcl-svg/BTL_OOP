@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "repository.h"
+#include "Repository.h"
 #include "contract.h"
 #include "customer.h"
 #include "internet.h"
@@ -10,10 +10,10 @@ using namespace std;
 
 class contractController{
 private:
-	repository<contract> contractRepo{"data/contract.txt"};
-	repository<customer> customerRepo{"data/customer.txt"};
-	repository<internet> internetRepo{"data/internet.txt"};
-	repository<district> districtRepo{"data/data_tram.txt"};
+	Repository<contract> contractRepo{"data/contract.txt"};
+	Repository<customer> customerRepo{"data/customer.txt"};
+	Repository<internet> internetRepo{"data/internet.txt"};
+	Repository<district> districtRepo{"data/data_khuvuc.txt"};
 	
 	void createFunction();
 	void readFunction();

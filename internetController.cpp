@@ -77,8 +77,8 @@ void internetController::updateFunction(){
 				}
 				case 2:{
 					cout << "Nhap toc do ban muon thay doi: ";
-					string newSpeed;
-					getline(cin, newSpeed);
+					int newSpeed; cin >> newSpeed;
+					cin.ignore();
 					it->setSpeed(newSpeed);
 					internetRepo.saveToFile();
 					cout << "\nThay doi thanh cong!" << endl;

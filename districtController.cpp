@@ -53,7 +53,8 @@ void districtController::showTitle() {
     cout << string(75, '-') << endl;
 }
 int districtController::tinhTongBangThong(string maKV){//ham tinh tong bang thon trong 1 khu vuc trong hop dong
-	
+	repoHopDong.reloadData();
+	repoInternet.reloadData();
 	int tong=0;
 	vector<contract> dsHopDong=repoHopDong.getData();//doc hop dong
 	for(auto& hd : dsHopDong ){
@@ -61,13 +62,15 @@ int districtController::tinhTongBangThong(string maKV){//ham tinh tong bang thon
 			string maGoi=hd.getPackageId();//lay ma internet
 			internet* timThay=repoInternet.searchId(maGoi);//tim kiem id cua internet
 			if(timThay!=nullptr){
-				tong+=stoi(timThay->getSpeed());
+				tong+=timThay->getSpeed();
 			}
 		}
 	}
 	return tong;
 }
 int districtController::tinhSoKhuVuc(string maKV){//tinh toan co bao nhieu khu vuc trong hop dong
+repoHopDong.reloadData();
+	repoInternet.reloadData();
 	int tong=0;
 	vector<contract> dsHopDong=repoHopDong.getData();
 	for(auto& hd: dsHopDong){
@@ -103,23 +106,31 @@ void districtController::createFunction() {
     } while(!check); 
     
     vector<string> dsTramCuaTinh = mapTram[tinhNhap];
-    int chonTram;
-    do {
+    int chon;
+    while(true){
         cout << "\n--- Danh sach Tram tai " << tinhNhap << " ---\n";
         for(size_t i = 0; i < dsTramCuaTinh.size(); i++) {
             cout << i + 1 << ". " << dsTramCuaTinh[i] << "\n";
         }
-        
+       
         cout << "Moi chon Tram phu trach (1-" << dsTramCuaTinh.size() << "): ";
-        cin >> chonTram;
-        cin.ignore();
+       	string chonTram;
+       	getline(cin,chonTram);
         
-        if (chonTram < 1 || chonTram > dsTramCuaTinh.size()) {
-            cout << "=> Lua chon sai. Vui long chon lai!\n";
+        try{
+		chon=stoi(chonTram);
+        if (chon < 1 || chon > dsTramCuaTinh.size()) {
+            cout << "=> Lua chon sai. Vui long chon lai!\n";}
+            else{
+            	break;
+			}
         }
-    } while (chonTram < 1 || chonTram > dsTramCuaTinh.size());
+        catch(...){
+        	cout<<"[LOI] Vui long chi nhap so!\n";
+		}
+    }
 
-    tramNhap = dsTramCuaTinh[chonTram - 1];
+    tramNhap = dsTramCuaTinh[chon - 1];
     cout << "=> Da chon: " << tramNhap << " (" << tinhNhap << ")\n";
     
     vector<district> dsHienTai = repo.getData();
@@ -138,22 +149,35 @@ void districtController::createFunction() {
             if(soHienTai > maxId) maxId = soHienTai;
         }
     }
-    
+    string max;
+    if(maxId<=8){
+    	max="0"+to_string(maxId+1);
+	}
+	else max=to_string(maxId+1);
+     district kvMoi;
     if(!daTonTai) {
         // S?a l?i hoàn thi?n thu?t toán sinh chu?i ID
-        string ma = string("KV")+ (maxId + 1 < 10 ? "0" :"") + to_string(maxId + 1);
-        int bangThong;
-        
-        cout << "Nhap bang thong toi da cua tram (Mbps): ";
-        cin >> bangThong;
-        cin.ignore();
-        
-        district kvMoi;
+        string ma = string("KV")+ max;
+        string bangThong;
+        while(true){
+        	cout << "Nhap bang thong toi da cua tram (Mbps): ";
+        	
+        try{	
+        getline(cin,bangThong);
+        int kq=stoi(bangThong);
+        if(kq<=0){
+        	cout<<"Vui long chi nhap so lon hon 0";
+		}
+		else{
+		 kvMoi.setMaxBandWidth(kq);
+		 break;}
+	}catch(...){
+		cout<<"[LOI]Vui long chi nhap so!\n";
+	}} 
         kvMoi.setId(ma);
         kvMoi.setDistrict(tinhNhap);
         kvMoi.setStation(tramNhap);
-        kvMoi.setMaxBandWidth(bangThong); 
-        
+
         if (repo.create(kvMoi)) {
             cout << "=> Them thanh cong! He thong da tu cap ma: " << ma << endl;
         }
@@ -202,31 +226,56 @@ void districtController::readFunction() {
 
 void districtController::updateFunction() {
     cout << "\n--- CAP NHAT THONG TIN KHU VUC ---" << endl;
+    cout << "\n--- DANH SACH DANG CO TRONG HE THONG ---" << endl;
+    vector<district> ds=repo.getData();
+    showTitle();
+    for(auto& kv :ds){
+    	kv.showToConsole();
+	}
     cout << "Nhap ma KV can cap nhat: ";
     string ma;
     getline(cin, ma);
     district* timThay = repo.searchId(ma);
-    
+     while(true){
     if(timThay) {
         showTitle(); // S?a l?i thi?u ch?m ph?y
         timThay->showToConsole();
         string input;
+       
         cout << "\nSua bang thong (" << timThay->getMaxBandWidth() << ") [Bo trong giu nguyen]: ";
         getline(cin, input);
-        if(!input.empty()) {
-            timThay->setMaxBandWidth(stoi(input));
+          if(input.empty()) {
+            cout << "=> Khong co thay doi nao duoc luu." << endl;
+            break;
+        }
+		try{
+        int chon=stoi(input);
+        if (chon <= 0) {
+            cout << "=> [LOI] Vui long chi nhap so lon hon 0!\n";
+			}
+			else {
+            timThay->setMaxBandWidth(chon);
             repo.saveToFile();
             cout << "=> Da cap nhat bang thong thanh cong!" << endl;
-        } else {
-            cout << "=> Khong co thay doi nao duoc luu." << endl;
+            break;
         }
-    } else {
+       
+    }
+	catch(...){
+	 cout<<"[LOI] Vui long chi nhap so !\n";}}
+	 else {
         cout << "=> Khong tim thay!" << endl;
     } 
-}
+}}
 
 void districtController::deleteFunction() {
     cout << "\n--- XOA KHU VUC ---" << endl;
+    cout << "\n--- DANH SACH KHU VUC HIEN CO TRONG HE THONG ---" << endl;
+    showTitle();
+    vector<district>ds=repo.getData(); 
+    for(auto& kv : ds){
+    	kv.showToConsole();
+	}
     while(true){
     cout << "Nhap ma KV can xoa (Hoac nhap '0' de thoat chuc nang): ";
     string ma;
