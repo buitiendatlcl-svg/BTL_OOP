@@ -15,8 +15,12 @@ Focused=5
 =======
 [Editors]
 Order=1,2,3,4,5,8,9,13,14,11,10,7,6,15,12
+<<<<<<< Updated upstream
 Focused=2
 >>>>>>> vttm
+=======
+Focused=15
+>>>>>>> Stashed changes
 [Editor_1]
 CursorCol=1
 CursorRow=1
@@ -30,8 +34,12 @@ TopLine=81
 =======
 CursorCol=1
 CursorRow=1
+<<<<<<< Updated upstream
 TopLine=1
 >>>>>>> vttm
+=======
+TopLine=161
+>>>>>>> Stashed changes
 LeftChar=1
 [Editor_3]
 CursorCol=1
