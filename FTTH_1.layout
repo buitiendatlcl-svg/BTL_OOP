@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [Editor_11]
 CursorCol=17
 CursorRow=20
@@ -11,20 +12,35 @@ Focused=12
 Order=13,3,4,5
 Focused=5
 >>>>>>> Stashed changes
+=======
+[Editors]
+Order=1,2,3,4,5,8,9,13,14,11,10,7,6,15,12
+Focused=2
+>>>>>>> vttm
 [Editor_1]
 CursorCol=1
 CursorRow=1
 TopLine=1
 LeftChar=1
 [Editor_2]
+<<<<<<< HEAD
 CursorCol=2
 CursorRow=166
 TopLine=81
+=======
+CursorCol=1
+CursorRow=1
+TopLine=1
+>>>>>>> vttm
 LeftChar=1
 [Editor_3]
 CursorCol=1
 CursorRow=1
+<<<<<<< HEAD
 TopLine=8
+=======
+TopLine=1
+>>>>>>> vttm
 LeftChar=1
 [Editor_4]
 CursorCol=1
@@ -47,9 +63,15 @@ CursorRow=1
 TopLine=1
 LeftChar=1
 [Editor_8]
+<<<<<<< HEAD
 CursorCol=11
 CursorRow=65
 TopLine=59
+=======
+CursorCol=1
+CursorRow=1
+TopLine=1
+>>>>>>> vttm
 LeftChar=1
 [Editor_9]
 CursorCol=1
@@ -57,6 +79,7 @@ CursorRow=1
 TopLine=1
 LeftChar=1
 [Editor_10]
+<<<<<<< HEAD
 CursorCol=20
 CursorRow=111
 TopLine=90
@@ -75,17 +98,44 @@ TopLine=1
 LeftChar=1
 [Editor_15]
 >>>>>>> Stashed changes
+=======
+>>>>>>> vttm
 CursorCol=1
 CursorRow=1
 TopLine=1
 LeftChar=1
+<<<<<<< HEAD
 [Editor_16]
+=======
+[Editor_11]
+>>>>>>> vttm
 CursorCol=1
 CursorRow=1
 TopLine=1
 LeftChar=1
 [Editor_12]
+<<<<<<< HEAD
 CursorCol=19
 CursorRow=81
 TopLine=144
+=======
+CursorCol=1
+CursorRow=1
+TopLine=1
+LeftChar=1
+[Editor_13]
+CursorCol=2
+CursorRow=17
+TopLine=1
+LeftChar=1
+[Editor_14]
+CursorCol=26
+CursorRow=21
+TopLine=1
+LeftChar=1
+[Editor_15]
+CursorCol=1
+CursorRow=1
+TopLine=1
+>>>>>>> vttm
 LeftChar=1

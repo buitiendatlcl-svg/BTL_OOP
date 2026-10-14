@@ -150,6 +150,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+<<<<<<< HEAD
 [Unit12]
 FileName=internet.h
 CompileCpp=1
@@ -201,6 +202,19 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
+=======
+[Unit11]
+FileName=entity.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit12]
+>>>>>>> vttm
 FileName=internet.cpp
 CompileCpp=1
 Folder=
@@ -210,3 +224,46 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+<<<<<<< HEAD
+=======
+[Unit13]
+FileName=internet.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit14]
+FileName=internetController.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
+FileName=main.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit16]
+FileName=Repository.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+>>>>>>> vttm
