@@ -36,7 +36,7 @@ void customer::setDateOfBirth(string dateOfBirth){
 string customer::getDateOfBirth(){
 	return dateOfBirth;
 }
-
+jbkbjb
 void customer::setAddress(string address){
 	this->address = address;
 }
