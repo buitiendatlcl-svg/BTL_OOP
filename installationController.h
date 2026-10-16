@@ -35,6 +35,6 @@ class installationController{
 	    void deleteFunction();
     
     public:
-    	installationController(string fileName="data/data_phieulapdat.txt");
+    	installationController();
     	void run();
 };
