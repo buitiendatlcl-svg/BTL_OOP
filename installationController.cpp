@@ -2,8 +2,8 @@
 using namespace std;
 // check lai ai xem co sai code ko
 
-installationController::installationController(string fileName) : 
-		repoPhieuLapDat(fileName),
+installationController::installationController() : 
+		repoPhieuLapDat("data/data_phieulapdat.txt"),
 		repoHopDong("data/contract.txt"),
 		repoNhanVien("data/employee.txt"),
 		repoInternet("data/internet.txt")
