@@ -43,13 +43,13 @@ void installationController::docDanhSachModem(){//doc danh sach modem luu map ke
 	file.close();
 }
 	void installationController:: showTitle(){
-		cout << left << setw(12) << "Ma phieu lap dat"
-	         << setw(12) << "Ma hop dong"
-	         << setw(12) << "Ma nhan vien ky thuat"
-	         << setw(30) << "Loai modem"
-	         << setw(15) << "Ngay lap dat"
-	         << setw(15) << "Trang thai" << endl;
-	        cout << string(96, '-') << endl;
+		cout << left << setw(18) << "Ma phieu lap dat" 
+         << setw(15) << "Ma hop dong" 
+         << setw(25) << "Ma nhan vien ky thuat" 
+         << setw(20) << "Loai modem" 
+         << setw(15) << "Ngay lap dat" 
+         << setw(15) << "Trang thai" << endl;
+    cout << string(108, '-') << endl;
 	}
 	
 	void installationController::capNhatNgayHen(installationForm* phieu) {
@@ -101,7 +101,7 @@ void installationController::capNhatModem(installationForm* phieu) {
       repoHopDong.reloadData();
     contract* hd = repoHopDong.searchId(phieu->getIdContract());
     if (hd) {
-        string maGoi = hd->getInternetId();
+        string maGoi = hd->getPackageId();
         internet* goi = repoInternet.searchId(maGoi);
         if (goi) {
             string loaiKH = chuanHoaTen(goi->getCustomerType());
@@ -113,10 +113,8 @@ void installationController::capNhatModem(installationForm* phieu) {
             
             cout << "Danh sach Modem phu hop:\n";
             for (size_t i = 0; i < dsModem.size(); i++) {
-                cout << i + 1 << ". " << dsModem[i] << "\n";
+                cout << i + 1 << "." << dsModem[i] << "\n";
             }
-            string chon;
-            
             cout << "Chon Modem thay the (1-" << dsModem.size() << ") hoac '0' de huy: ";
             int chon;
             cin >> chon;
@@ -136,7 +134,7 @@ void installationController::createFunction(){
 	repoHopDong.reloadData();
 	vector<contract> dsHD=repoHopDong.getData();
 	vector<installationForm> dsPhieu=repoPhieuLapDat.getData();
-	cout << "\n* DANH SACH HOP DONG DANG CHO THI CONG:\n  ";
+	cout << "\n* DANH SACH HOP DONG DANG CHO THI CONG:\n";
 	int dem=0;
 	for(auto& hd : dsHD){//tra ma hop dong trung voi ma hd da có trong phieu lap dat
 		bool check=false;
@@ -147,7 +145,7 @@ void installationController::createFunction(){
 			}
 		}
 		if(check==false){
-			cout<<	hd.getId()<<"\n";
+			hd.showToConsole();
 			dem++;
 		}
 	}
@@ -178,7 +176,7 @@ void installationController::createFunction(){
 	//nhan vien lap dat 
 	contract* check=repoHopDong.searchId(maHD);
 	string k=check->getAreaId();
-	cout << "\n* DANH SACH MA NHAN VIEN QUAN LY"<<k<<"DANG CO TRONG HE THONG:\n  ";
+	cout << "\n* DANH SACH MA NHAN VIEN QUAN LY "<<k<<" DANG CO TRONG HE THONG:\n";
 		repoNhanVien.reloadData();
 		vector<employee> dsNV=repoNhanVien.getData();
 		bool kt=false;
@@ -186,7 +184,7 @@ void installationController::createFunction(){
 		if(nv.getAreaId()==k){
 			kt=true;
 		cout<<nv.getId()<<" - "<<nv.getFullName()<<"\n";
-	}
+	}}
 	cout << "\n" << string(40, '-') << "\n";
 	if(!kt){
 		cout<<"=>Chua co nhan vien nao quan ly o khu vuc nay\n";
@@ -207,12 +205,12 @@ void installationController::createFunction(){
 	else{
 		break;
 	}}
-	cout << "\n* DANH SACH Loai Modem Phu Hop Voi Ma Hop Dong:\n  ";
+	cout << "\n* DANH SACH Loai Modem Phu Hop Voi Ma Hop Dong:\n";
 	repoHopDong.reloadData();
 	repoInternet.reloadData();
 	string loaiKH,loaiModem,maGoi;
 	contract* tim=repoHopDong.searchId(maHD);
-	maGoi=tim->getInternetId();
+	maGoi=tim->getPackageId();
 	internet* timLoaiKH=repoInternet.searchId(maGoi);
 	if (timLoaiKH == nullptr) {
         cout << "=> [LOI DATA]: Khong tim thay thong tin Goi Internet '" << maGoi << "'!\n";
