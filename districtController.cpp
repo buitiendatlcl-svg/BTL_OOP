@@ -7,8 +7,8 @@
 //neu muon xoa
 using namespace std;
 
-districtController::districtController(string fileName) : 
-	repo(fileName),repoInternet("data/internet.txt"),repoHopDong("data/contract.txt")
+districtController::districtController() : 
+	repo("data/data_khuvuc.txt"),repoInternet("data/internet.txt"),repoHopDong("data/contract.txt")
 {
     docDanhSachTram();
 }
@@ -62,7 +62,7 @@ int districtController::tinhTongBangThong(string maKV){//ham tinh tong bang thon
 			string maGoi=hd.getPackageId();//lay ma internet
 			internet* timThay=repoInternet.searchId(maGoi);//tim kiem id cua internet
 			if(timThay!=nullptr){
-				tong+=timThay->getSpeed();
+				tong+=stoi(timThay->getSpeed());
 			}
 		}
 	}
