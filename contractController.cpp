@@ -163,6 +163,7 @@ void contractController::updateFunction(){
 }
 
 void contractController::deleteFunction(){
+	
 }
 
 void contractController::run(){
