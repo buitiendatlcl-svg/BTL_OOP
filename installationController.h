@@ -10,6 +10,7 @@
 #include "contract.h"
 #include "employee.h"//sua sau
 #include "internet.h"
+#include "installation.h"
 using namespace std;
 
 class installationController{
@@ -29,7 +30,7 @@ class installationController{
 		void capNhatTrangThai(installationForm* phieu);
 		 
 	    void createFunction();
-	    void chucNangXemVaTimKiem();
+	    void readFunction();
 	    void updateFunction();
 	    void deleteFunction();
     
