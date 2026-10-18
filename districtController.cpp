@@ -204,7 +204,7 @@ docDanhSachTram();
                 break;
             }
         } catch(...) {
-            cout << "=> [LOI] Vui long chi nhap so nguyen hop le (khong dính chu cai hay ky tu la)!\n";
+            cout << "=> [LOI] Vui long chi nhap so nguyen hop le (khong dinh chu cai hay ky tu la)!\n";
         }
     }
     kvMoi.setId(ma);
@@ -294,23 +294,25 @@ void districtController::updateFunction() {
             cout << "=> Khong co thay doi nao duoc luu." << endl;
             break;
         }
-		try{
-        int chon=stoi(input);
-        if (chon <= 0) {
-            cout << "=> [LOI] Vui long chi nhap so lon hon 0!\n";
-			}
-			else {
-            timThay->setMaxBandWidth(chon);
-            repo.saveToFile();
-            cout << "=> Da cap nhat bang thong thanh cong!" << endl;
-            break;
+		 try {   
+            size_t pos; 
+            int kq = stoi(input, &pos);
+            
+            if (pos != input.length()) {
+                throw runtime_error("Chuoi co chua chu cai hoac ky tu la"); 
+            }
+            
+            if (kq < 0) {
+                cout << "=> Vui long chi nhap so lon hon 0!\n";
+            } else {
+                timThay->setMaxBandWidth(stoi(input));
+                cout<<"Da cap nhat thanh cong!";
+                break;
+            }
+        } catch(...) {
+            cout << "=> [LOI] Vui long chi nhap so nguyen hop le (khong dinh chu cai hay ky tu la)!\n";
         }
-       
-    }
-	catch(...){
-	 cout<<"[LOI] Vui long chi nhap so !\n";}}
-	
-}
+    }}
 
 void districtController::deleteFunction() {
     cout << "\n--- XOA KHU VUC ---" << endl;
