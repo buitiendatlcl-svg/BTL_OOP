@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-<<<<<<< HEAD
+
 
 // Include các file header c?a các Controller và Model tuong ?ng
 #include "Repository.h"
@@ -10,7 +10,6 @@
 #include "internetController.h"
 #include "contract.h"
 #include "contractController.h"
-=======
 #include "repository.h"
 
 
@@ -19,20 +18,19 @@
 #include "districtController.h" 
 #include "employeeController.h" 
 #include "warrantyController.h" 
->>>>>>> origin/hai
+
 
 using namespace std;
 
 int main() {
-<<<<<<< HEAD
+
     // Kh?i t?o các d?i tu?ng Controller
     // districtController có tham s? m?c d?nh là "data/data_khuvuc.txt" nên không c?n truy?n vào
-    districtController dc("data/data_khuvuc.txt");
+    districtController dc;
     internetController ic;
     contractController cc;
-=======
+
     int mainChoice;
->>>>>>> origin/hai
 
     do {
         cout << "\n================ HE THONG QUAN LY DICH VU INTERNET ================" << endl;

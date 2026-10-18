@@ -16,8 +16,6 @@ districtController::districtController() :
 string districtController::normalizeName(string s) {
     for(char &c : s) c = toupper(c);
     
-    
-   
     return s;
     
 }

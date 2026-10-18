@@ -221,7 +221,7 @@ void employeeController::deleteFunction() {
 }
 
 
-void employeeController::menu() {
+void employeeController::run() {
     int choice;
     do {
         cout << "\n=========== QUAN LY NHAN VIEN ===========" << endl;

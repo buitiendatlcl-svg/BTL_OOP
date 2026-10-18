@@ -11,9 +11,10 @@ using namespace std;
 
 class employeeController {
 private:
-    repository<employee> employeeRepo;
-    repository<district> districtRepo;
-    repository<warranty> warrantyRepo;
+    Repository<employee> employeeRepo;
+    Repository<district> districtRepo;
+    Repository<warranty> warrantyRepo;
+    
 
     void createFunction();
     void readFunction();
@@ -21,8 +22,6 @@ private:
     void deleteFunction();
 
 public:
-   
     employeeController();
-    
-    void menu();
+    void run();
 };

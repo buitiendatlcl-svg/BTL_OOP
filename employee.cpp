@@ -4,68 +4,39 @@
 #include <sstream>
 #include <cctype>
 
-
 using namespace std;
 
-
-employee :: employee (){
+employee::employee (){
 	fullName = "";
 	dateOfBirth = "";
 	phoneNumber = "";
-<<<<<<< HEAD
 	specialization = "";
-=======
 	specialization = ""; //chuyen mon
->>>>>>> origin/hai
 	areaId = "";
 	salary = 0.0;
 }
 
-<<<<<<< HEAD
-string employee :: standardizeName (string name) {
-    string result = "";
-    bool newWord = true;
-
-    for (char c : name) {
-        if (c == ' ') {
-            // Ch? thêm 1 kho?ng tr?ng n?u tru?c dó dã có ch? (b? qua kho?ng tr?ng d?u câu)
-            if (!result.empty() && result.back() != ' ') {
-                result += ' '; 
-            }
-            newWord = true;
-        } else {
-            if (newWord) {
-                result += toupper(c); // Vi?t hoa ch? cái d?u tiên c?a t?
-                newWord = false;
-            } else {
-                result += tolower(c); // Vi?t thu?ng các ch? cái phía sau
-            }
-        }
-    }
-    if (!result.empty() && result.back() == ' ') {
-        result.pop_back(); 
-    }
-=======
-string employee :: standardizeName (string name) { //chuan hoa ten cho: ten nv, chuyen mon
+string employee::standardizeName(string name){ //chuan hoa ten cho: ten nv, chuyen mon
     string result = "";
     stringstream ss(name);
     string word;
     while (ss >> word){ 
     	word[0] = toupper(word[0]);
-    	for (int i = 1; i < (int)word.size(); i++){
+    	for(int i = 1; i < (int)word.size(); i++){
     		word[i] = tolower(word[i]);
     	}
-    	if (!result.empty()) result += " ";
+    	if(!result.empty()){
+    		result += " ";
+		}
     	result += word;	
 	}
->>>>>>> origin/hai
     return result;
-	}
+}
 
-void employee :: setFullName(string fullName){
+void employee::setFullName(string fullName){
 	this->fullName = standardizeName(fullName);
 }
-string employee :: getFullName(){
+string employee::getFullName(){
 	return fullName;
 }
 
@@ -165,41 +136,4 @@ void employee::fromFileString(string &s){
 		salary = stod(tmp);
 	}
 }
-<<<<<<< HEAD
-=======
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> origin/hai

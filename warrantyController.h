@@ -8,18 +8,18 @@
 #include "repository.h"
 
 class warrantyController {
-	private:
-		repository <warranty> warrantyRepo;
-		repository <contract> contractRepo;
-		repository <employee> employeeRepo;
-		
-		void createFunction();
-		void readFunction();
-		void updateFunction();
-		void deleteFunction();
+private:
+	Repository <warranty> warrantyRepo;
+	Repository <contract> contractRepo;
+	Repository <employee> employeeRepo;
 	
-	public:
-		warrantyController();
-		
-		void menu();
+	void createFunction();
+	void readFunction();
+	void updateFunction();
+	void deleteFunction();
+
+public:
+	warrantyController();
+	
+	void run();
 };

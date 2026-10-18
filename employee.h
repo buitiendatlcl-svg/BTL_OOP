@@ -12,7 +12,7 @@ private:
     string specialization; 
     string areaId;
 	double salary;   
-    string standardizeName(string name);
+    string standardizeName(string fullName);
 
 public:
 

@@ -202,7 +202,7 @@ void warrantyController::deleteFunction() {
     }
 }
 
-void warrantyController::menu() {
+void warrantyController::run() {
     int choice;
     do {
         cout << "\n====== QUAN LY PHIEU BAO HANH - SUA CHUA ======" << endl;
