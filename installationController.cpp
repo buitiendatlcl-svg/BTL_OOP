@@ -20,6 +20,7 @@ string installationController::chuanHoaNgay(string s){//Chuan hoa ngay sinh dang
 	return s;
 }
 void installationController::docDanhSachModem(){//doc danh sach modem luu map key-value
+	mapModem.clear();
 	ifstream file("data/data_modem.txt");//doc file txt
 	if(!file.is_open()) return;
 	
@@ -96,6 +97,7 @@ void installationController::capNhatTrangThai(installationForm* phieu) {
 }
 
 void installationController::capNhatModem(installationForm* phieu) {
+	docDanhSachModem();
     cout << "\n--- CAP NHAT MODEM ---\n";
     cout << "Modem hien tai: " << phieu->getModem() << "\n";
       repoHopDong.reloadData();
@@ -130,6 +132,7 @@ void installationController::capNhatModem(installationForm* phieu) {
 }
 //chuc nang them
 void installationController::createFunction(){
+	docDanhSachModem();
 	cout << "\n----THEM MOI PHIEU LAP DAT----" << endl;
 	repoHopDong.reloadData();
 	vector<contract> dsHD=repoHopDong.getData();
@@ -443,11 +446,11 @@ void installationController::run(){
 		int choice;
 	do{
 		cout << "\n============= QUAN LY HOP DONG =============" << endl;
-		cout << "1. C - Them thong tin hop dong moi" << endl;
-        cout << "2. R - Xem danh sach cac hop dong hien co" << endl;
-        cout << "3. U - Thay doi cac hop dong hien co" << endl;
-        cout << "4. D - Xoa hop dong hien co" << endl;
-        cout << "0. Thoat chuong trinh quan ly goi mang" << endl;
+		cout << "1. C - Them thong tin phieu lap dat moi" << endl;
+        cout << "2. R - Xem danh sach cac phieu lap dat hien co" << endl;
+        cout << "3. U - Thay doi cac phieu lap dat hien co" << endl;
+        cout << "4. D - Xoa phieu lap dat hien co" << endl;
+        cout << "0. Thoat chuong trinh quan ly phieu lap dat" << endl;
         cout << "Nhap lua chon cua ban: ";
         cin >> choice; cin.ignore();
         switch(choice){
