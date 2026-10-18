@@ -11,6 +11,7 @@
 #include "contract.h"
 #include "contractController.h"
 #include "repository.h"
+#include "installation.h"
 
 
 #include "internetController.h" 
@@ -18,6 +19,7 @@
 #include "districtController.h" 
 #include "employeeController.h" 
 #include "warrantyController.h" 
+#include "installationController.h"
 
 
 using namespace std;
@@ -29,16 +31,20 @@ int main() {
     districtController dc;
     internetController ic;
     contractController cc;
+    installationController inc;
+    employeeController ec;
+    warrantyController wc;
 
     int mainChoice;
 
     do {
         cout << "\n================ HE THONG QUAN LY DICH VU INTERNET ================" << endl;
-        cout << "1. Quan ly Goi Internet (UC 1)" << endl;
-        cout << "2. Quan ly Tuyen cap / Khu vuc (UC 5)" << endl;
-        cout << "3. Quan ly Nhan vien ky thuat (UC 7)" << endl;
-        cout << "4. Quan ly Hop dong thue bao (UC 2)" << endl;
-        cout << "5. Quan ly Phieu bao hanh - sua chua (UC 8)" << endl;
+        cout << "1. Quan ly Goi Internet" << endl;
+        cout << "2. Quan ly Tuyen cap / Khu vuc" << endl;
+        cout << "3. Quan ly Nhan vien ky thuat" << endl;
+        cout << "4. Quan ly Hop dong thue bao" << endl;
+        cout << "5. Quan ly Phieu bao hanh - sua chua" << endl;
+        cout << "6. Quan ly Phieu lap dat" << endl;
         cout << "-------------------------------------------------------------------" << endl;
         cout << "0. Thoat chuong trinh" << endl;
         cout << "===================================================================" << endl;
@@ -49,35 +55,35 @@ int main() {
 
         switch (mainChoice) {
             case 1: {
-                internetController intCtrl;
-                intCtrl.run();
+                ic.run();
                 break;
             }
 
             case 2: {
-                districtController distCtrl;
-                distCtrl.run();
+                dc.run();
                 break;
             }
 
             case 3: {
-                employeeController empCtrl;
-                empCtrl.run();
+                ec.run();
                 break;
             }
 
             case 4: {
-                contractController conCtrl;
-                conCtrl.run();
+                cc.run();
                 break;
             }
 
             case 5: {
-                warrantyController warCtrl;
-                warCtrl.run();
+                wc.run();
                 break;
             }
-
+            
+			case 6:{
+				inc.run();
+				break;
+			}
+			
             case 0:
                 cout << "\nCam on ban da su dung he thong. Tam biet!" << endl;
                 break;
