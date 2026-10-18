@@ -2,7 +2,7 @@
 
 
 employeeController::employeeController() 
-    : employeeRepo("data/employee.txt"), districtRepo("data/data_khuvuc.txt"){ //warrantyRepo("data/warranty.txt") {
+    : employeeRepo("data/employee.txt"), districtRepo("data/district.txt"), warrantyRepo("data/warranty.txt") {
 }
 
 
@@ -186,39 +186,39 @@ void employeeController::updateFunction() {
 }
 
 
-//void employeeController::deleteFunction() {
-//    cout << "\n--- XOA NHAN VIEN ---" << endl;
-//    cout << "Nhap ID nhan vien can xoa: ";
-//    string delId;
-//    getline(cin, delId);
-//    if (employeeRepo.searchId(delId) == nullptr) {
-//        cout << "=> Loi: Khong tim thay nhan vien mang ma " << delId << "!" << endl;
-//        return;
-//    }
-//
-//    bool isWorking = false; 
-//    vector<warranty> wList = warrantyRepo.getData();
-//    for (auto w : wList) {
-//  
-//        if (w.getEmployeeId() == delId) { 
-//            isWorking = true;
-//
-//            cout << "=> KHONG THE XOA! Nhan vien dang phu trach Phieu bao hanh ma: " << w.getId() << endl;
-//        }
-//    }
-//
-//    if (isWorking) {
-//        cout << "=> Vui long chuyen giao cac Phieu tren cho nhan vien khac truoc khi xoa nhan vien nay!" << endl;
-//        return; 
-//    }
-//
-//
-//    if (employeeRepo.remove(delId) == 1) {
-//        cout << "=> Da xoa nhan vien thanh cong!" << endl;
-//    } else {
-//        cout << "=> Xoa that bai do loi he thong!" << endl;
-//    }
-//}
+void employeeController::deleteFunction() {
+    cout << "\n--- XOA NHAN VIEN ---" << endl;
+    cout << "Nhap ID nhan vien can xoa: ";
+    string delId;
+    getline(cin, delId);
+    if (employeeRepo.searchId(delId) == nullptr) {
+        cout << "=> Loi: Khong tim thay nhan vien mang ma " << delId << "!" << endl;
+        return;
+    }
+
+    bool isWorking = false; 
+    vector<warranty> wList = warrantyRepo.getData();
+    for (auto w : wList) {
+  
+        if (w.getEmployeeId() == delId) { 
+            isWorking = true;
+
+            cout << "=> KHONG THE XOA! Nhan vien dang phu trach Phieu bao hanh ma: " << w.getId() << endl;
+        }
+    }
+
+    if (isWorking) {
+        cout << "=> Vui long chuyen giao cac Phieu tren cho nhan vien khac truoc khi xoa nhan vien nay!" << endl;
+        return; 
+    }
+
+
+    if (employeeRepo.remove(delId) == 1) {
+        cout << "=> Da xoa nhan vien thanh cong!" << endl;
+    } else {
+        cout << "=> Xoa that bai do loi he thong!" << endl;
+    }
+}
 
 
 void employeeController::run() {
@@ -239,7 +239,7 @@ void employeeController::run() {
             case 1: createFunction(); break;
             case 2: readFunction(); break;
             case 3: updateFunction(); break;
-//            case 4: deleteFunction(); break;
+            case 4: deleteFunction(); break;
             case 0: cout << "Dang thoat khoi quan ly nhan vien..." << endl; break;
             default: cout << "Lua chon khong hop le!" << endl;
         }

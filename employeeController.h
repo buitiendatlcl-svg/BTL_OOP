@@ -4,7 +4,7 @@
 #include <string>
 #include "employee.h"
 #include "district.h"
-//#include "warranty.h"
+#include "warranty.h"
 #include "repository.h"
 
 using namespace std;
@@ -13,7 +13,8 @@ class employeeController {
 private:
     Repository<employee> employeeRepo;
     Repository<district> districtRepo;
-//    repository<warranty> warrantyRepo;
+    Repository<warranty> warrantyRepo;
+    
 
     void createFunction();
     void readFunction();
@@ -21,8 +22,6 @@ private:
     void deleteFunction();
 
 public:
-   
     employeeController();
-    
     void run();
 };
