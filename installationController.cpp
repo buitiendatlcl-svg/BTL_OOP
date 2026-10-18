@@ -82,8 +82,12 @@ void installationController::capNhatTrangThai(installationForm* phieu) {
 }
     //try catch de bat ng dung nhap int so chu khong phai string linh tinh
     try {
-        int tt = stoi(trangThaiMoi);
-        if (tt == -1 || tt == 0 || tt == 1 || tt == 2) {
+    	size_t pos;
+        int tt = stoi(trangThaiMoi,&pos);
+        if(pos!=trangThaiMoi.length()){
+        	throw runtime_error("Loi ky tu la");
+		}
+        else if (tt == -1 || tt == 0 || tt == 1 || tt == 2) {
                 phieu->setState(tt);
                 cout << "=> Tinh trang: Da cap nhat trang thai tren he thong tam thoi.\n";
 				break;
@@ -96,40 +100,53 @@ void installationController::capNhatTrangThai(installationForm* phieu) {
 } 
 }
 
-void installationController::capNhatModem(installationForm* phieu) {
-	docDanhSachModem();
-    cout << "\n--- CAP NHAT MODEM ---\n";
-    cout << "Modem hien tai: " << phieu->getModem() << "\n";
-      repoHopDong.reloadData();
-    contract* hd = repoHopDong.searchId(phieu->getIdContract());
-    if (hd) {
-        string maGoi = hd->getPackageId();
-        internet* goi = repoInternet.searchId(maGoi);
-        if (goi) {
-            string loaiKH = chuanHoaTen(goi->getCustomerType());
-            if (mapModem.find(loaiKH) == mapModem.end() || mapModem[loaiKH].empty()) {
-    cout << "=> [LOI DATA]: He thong chua co Modem cho loai khach: " << loaiKH << "\n";
-    return; // Thoát ra kh?i hàm c?p nh?t
-}
-            vector<string> dsModem = mapModem[loaiKH];
-            
-            cout << "Danh sach Modem phu hop:\n";
-            for (size_t i = 0; i < dsModem.size(); i++) {
-                cout << i + 1 << "." << dsModem[i] << "\n";
-            }
-            cout << "Chon Modem thay the (1-" << dsModem.size() << ") hoac '0' de huy: ";
-            int chon;
-            cin >> chon;
-            cin.ignore();
-            
-            if (chon >= 1 && chon <= dsModem.size()) {
-                phieu->setModem(dsModem[chon - 1]);
-                cout << "=> Tinh trang: Da thay doi Modem thanh cong.\n";
-            }
-            else  cout<< "=> Khong co thay doi nao duoc luu." << endl;
-        }
-    }
-}
+	void installationController::capNhatModem(installationForm* phieu) {
+		docDanhSachModem();
+	    cout << "\n--- CAP NHAT MODEM ---\n";
+	    cout << "Modem hien tai: " << phieu->getModem() << "\n";
+	      repoHopDong.reloadData();
+	    contract* hd = repoHopDong.searchId(phieu->getIdContract());
+	    if (hd) {
+	        string maGoi = hd->getPackageId();
+	        internet* goi = repoInternet.searchId(maGoi);
+	        if (goi) {
+	            string loaiKH = chuanHoaTen(goi->getCustomerType());
+	            if (mapModem.find(loaiKH) == mapModem.end() || mapModem[loaiKH].empty()) {
+	    cout << "=> [LOI DATA]: He thong chua co Modem cho loai khach: " << loaiKH << "\n";
+	    return; // Thoát ra kh?i hàm c?p nh?t
+	}
+	            vector<string> dsModem = mapModem[loaiKH];
+	            
+	            cout << "Danh sach Modem phu hop:\n";
+	            for (int i = 0; i < dsModem.size(); i++) {
+	                cout << i + 1 << "." << dsModem[i] << "\n";
+	            }
+	            cout << "Chon Modem thay the (1-" << dsModem.size() << ") hoac '0' de huy: ";
+	            string choose;
+	            getline(cin,choose);
+	            try{
+	            	size_t pos;
+                    int in = stoi(choose, &pos);
+                    
+                    // Ch?n ngu?i dùng nh?p s? kèm ch? (VD: "2abc")
+                    if (pos != choose.length()) {
+                        throw runtime_error("Loi ky tu la");
+                    }
+	            	if(in==0){
+	            		return;
+					}
+	            	else if (in >= 1 && in <= dsModem.size()) {
+	                phieu->setModem(dsModem[in - 1]);
+	                cout << "=> Tinh trang: Da thay doi Modem thanh cong.\n";
+	            }
+	            else  cout<< "=> Khong co thay doi nao duoc luu." << endl;
+				}
+	            catch(...){
+	            	cout<<"[LOI] Vui long chi nhap so nguyen !\n";
+				}  
+	        }
+	    }
+	}
 //chuc nang them
 void installationController::createFunction(){
 	docDanhSachModem();
@@ -162,6 +179,7 @@ void installationController::createFunction(){
 	while(true){
 		cout << "-> Nhap Ma Hop Dong can lap dat: ";
 		getline(cin,maHD);
+		maHD=chuanHoaTen(maHD);
 		contract* timThay=repoHopDong.searchId(maHD);
 		if(timThay !=nullptr){//kiem tra trung 
 			bool kiemtra=false;
@@ -198,6 +216,7 @@ void installationController::createFunction(){
 	while(true){
 	cout << "-> Nhap Ma Nhan Vien phu trach: ";
 	getline(cin,maNV);
+	maNV=chuanHoaTen(maNV);
 	employee* timThay=repoNhanVien.searchId(maNV);
 	if(timThay==nullptr){
 		cout<<"=> [LOI]: Khong tim thay Ma Nhan Vien trong he thong! Moi nhap lai !\n";
@@ -235,26 +254,29 @@ void installationController::createFunction(){
 		cout<<i+1<<". "<<dsModem[i]<<"\n";
 	}
 	cout << "\n" << string(40, '-') << "\n";
-	int chon;
-	
+
+	string input;
 	while(true){
 		cout << "Moi chon loai Modem (1-" << dsModem.size() << "): ";
-		string input;
+	
 		getline(cin,input);
 		try{
-			
-			chon=stoi(input);
-			if (chon < 1 || chon > dsModem.size()) {
-            cout << "=> Lua chon sai. Vui long chon lai!\n";
+		size_t pos;
+                    int in = stoi(input, &pos);
+                    if (pos !=input.length()) {
+                        throw runtime_error("Loi ky tu la");
+                    }
+			if (in >= 1 || in <= dsModem.size()) {
+             break;
         }
 		 	else {
-            break;
+           cout << "=> Lua chon sai. Vui long chon lai!\n";
 		}
 	}catch(...){
 		cout << "=> [LOI] Vui long chi nhap so!\n";
 	}}
 	
-	loaiModem=dsModem[chon-1];
+	loaiModem=dsModem[stoi(input)-1];
 	
 	string ngayHen;
 cout << "-> Nhap ngay hen lap dat (VD: 20/10/2026): ";
@@ -313,7 +335,7 @@ void installationController::readFunction() {
         cout << "\nNhap Ma Phieu Lap Dat de xem chi tiet (hoac '0' de thoat): ";
         string ma;
         getline(cin, ma);
-        
+        ma=chuanHoaTen(ma);
         if (ma == "0") {
             cout << "=> Da thoat chuc nang xem chi tiet.\n";
             break; 
@@ -343,6 +365,7 @@ void installationController::updateFunction(){
 	cout << "Nhap ma PLD can cap nhat(hoac '0' de thoat): ";
     string ma;
     getline(cin, ma);
+    ma=chuanHoaTen(ma);
     if (ma == "0") {
     cout << "=> Da thoat chuc nang cap nhat.\n";
     return; 
@@ -406,7 +429,7 @@ void installationController::updateFunction(){
 		cout<<"Hay chon ma phieu lap dat can xoa (hoac '0' de thoat) : ";
 		string ma;
 		getline(cin,ma);
-		
+		ma=chuanHoaTen(ma);
 		if(ma=="0"){///1
 			 cout << "=> Da thoat chuc nang xoa.\n";
             break; 
@@ -434,10 +457,12 @@ void installationController::updateFunction(){
                         cout << "=> Da xoa an toan Phieu Lap Dat: " << ma << endl;
                     }
                 } 
-				else {
+				else if(xacNhan == "n" || xacNhan == "N") {
                     cout << "=> Da huy xoa.\n";
                 }
-                break; 
+                else{
+                	cout<<"[LOI] Vui long chi nhap 'y','Y','n' hoac 'N' !\n";
+				} 
             }
 		}
 		}
