@@ -12,11 +12,16 @@ employee :: employee (){
 	fullName = "";
 	dateOfBirth = "";
 	phoneNumber = "";
+<<<<<<< HEAD
 	specialization = "";
+=======
+	specialization = ""; //chuyen mon
+>>>>>>> origin/hai
 	areaId = "";
 	salary = 0.0;
 }
 
+<<<<<<< HEAD
 string employee :: standardizeName (string name) {
     string result = "";
     bool newWord = true;
@@ -40,6 +45,20 @@ string employee :: standardizeName (string name) {
     if (!result.empty() && result.back() == ' ') {
         result.pop_back(); 
     }
+=======
+string employee :: standardizeName (string name) { //chuan hoa ten cho: ten nv, chuyen mon
+    string result = "";
+    stringstream ss(name);
+    string word;
+    while (ss >> word){ 
+    	word[0] = toupper(word[0]);
+    	for (int i = 1; i < (int)word.size(); i++){
+    		word[i] = tolower(word[i]);
+    	}
+    	if (!result.empty()) result += " ";
+    	result += word;	
+	}
+>>>>>>> origin/hai
     return result;
 	}
 
@@ -146,3 +165,41 @@ void employee::fromFileString(string &s){
 		salary = stod(tmp);
 	}
 }
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> origin/hai

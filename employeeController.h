@@ -4,16 +4,16 @@
 #include <string>
 #include "employee.h"
 #include "district.h"
-//#include "warranty.h"
+#include "warranty.h"
 #include "repository.h"
 
 using namespace std;
 
 class employeeController {
 private:
-    Repository<employee> employeeRepo;
-    Repository<district> districtRepo;
-//    repository<warranty> warrantyRepo;
+    repository<employee> employeeRepo;
+    repository<district> districtRepo;
+    repository<warranty> warrantyRepo;
 
     void createFunction();
     void readFunction();
@@ -24,5 +24,5 @@ public:
    
     employeeController();
     
-    void run();
+    void menu();
 };
