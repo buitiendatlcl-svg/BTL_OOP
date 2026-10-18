@@ -1,6 +1,34 @@
-HA NOI|Tram Cau Giay|Tram Dong Da|Tram Ha Dong
-HAI PHONG|Tram Le Chan|Tram Ngo Quyen|Tram Kien An
-DA NANG|Tram Hai Chau|Tram Son Tra
-HUNG YEN|Tram To Lam
-BINH DUONG
-HO CHI MINH
+Ha Noi|Tram Ba Dinh|Tram Cau Giay
+Ho Chi Minh|Tram Quan 1|Tram Tan Binh
+Da Nang|Tram Hai Chau|Tram Son Tra
+Hai Phong|Tram Le Chan|Tram Ngo Quyen
+Can Tho|Tram Ninh Kieu|Tram Cai Rang
+An Giang|Tram Long Xuyen|Tram Chau Doc
+Ba Ria Vung Tau|Tram Vung Tau|Tram Ba Ria
+Bac Giang|Tram TP Bac Giang|Tram Viet Yen
+Bac Ninh|Tram TP Bac Ninh|Tram Tu Son
+Ben Tre|Tram TP Ben Tre|Tram Ba Tri
+Binh Duong|Tram Thu Dau Mot|Tram Di An
+Binh Dinh|Tram Quy Nhon|Tram An Nhon
+Binh Phuoc|Tram Dong Xoai|Tram Phuoc Long
+Binh Thuan|Tram Phan Thiet|Tram La Gi
+Ca Mau|Tram TP Ca Mau|Tram Nam Can
+Dak Lak|Tram Buon Ma Thuot|Tram Buon Ho
+Dak Nong|Tram Gia Nghia|Tram Dak Mil
+Dong Nai|Tram Bien Hoa|Tram Long Khanh
+Dong Thap|Tram Cao Lanh|Tram Sa Dec
+Gia Lai|Tram Pleiku|Tram An Khe
+Ha Nam|Tram Phu Ly|Tram Duy Tien
+Ha Tinh|Tram TP Ha Tinh|Tram Ky Anh
+Hai Duong|Tram TP Hai Duong|Tram Chi Linh
+Hau Giang|Tram Vi Thanh|Tram Nga Bay
+Hoa Binh|Tram TP Hoa Binh|Tram Luong Son
+Hung Yen|Tram TP Hung Yen|Tram My Hao
+Khanh Hoa|Tram Nha Trang|Tram Cam Ranh
+Kien Giang|Tram Rach Gia|Tram Phu Quoc
+Kon Tum|Tram TP Kon Tum|Tram Ngoc Hoi
+Lai Chau|Tram TP Lai Chau|Tram Muong Te
+Lam Dong|Tram Da Lat|Tram Bao Loc
+Lang Son|Tram TP Lang Son|Tram Huu Lung
+Lao Cai|Tram TP Lao Cai|Tram Sa Pa
+Long An|Tram Tan An|Tram Kien Tuong
