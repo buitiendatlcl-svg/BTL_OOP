@@ -24,6 +24,7 @@ string districtController::normalizeName(string s) {
 
 // S?a l?i void string thành void
 void districtController::docDanhSachTram() {
+	mapTram.clear();
     ifstream file("data/data_tram.txt");
     if(!file.is_open()) return;
     
@@ -82,6 +83,7 @@ repoHopDong.reloadData();
 }
 
 void districtController::createFunction() {
+	docDanhSachTram();
     cout << "\n--- THEM MOI KHU VUC / TUYEN CAP ---" << endl;
     if (mapTram.empty()) {
         cout << "=> LOI: He thong chua co du lieu Tram. Vui long kiem tra lai file data_tram.txt!\n";
