@@ -3,11 +3,11 @@
 using namespace std;
 
 	InvoiceController::InvoiceController()
-	:invoiceRepo("data/invoice.txt"), contractRepo("data/contract.txt"){}
+	:invoiceRepo("data/invoice.txt"), contractRepo("data/contract.txt"), internetRepo("data/internet.txt"){}
 	
 	//Ham hien thi MenuHoaDon
 	void InvoiceController::run(){
-		int choice;
+		int choice = -1;
 		do{
 			cout << "\n==========QUAN LY HOA DON CUOC==========" << endl;
 			cout << "1. Lap hoa don cuoc moi" << endl;
@@ -20,15 +20,19 @@ using namespace std;
 			cout << "Lua chon cua ban: ";
 			
   		// Kiem tra nhap chu thay cho nhap so
-        if (!(cin >> choice)) { //Kiem tra ham Cin co nhap datatype cua choice khong ?
-            cout << "\n[LOI]: Lua chon khong hop le! Vui long chi nhap so (0-4)." << endl;
-            cin.clear();            // 1. Xóa c? l?i c?a cin
-            cin.ignore(1000, '\n'); // 2. V?t b? chu?i ký t? rác (nhu KH002) ra kh?i b? d?m
-            choice = -1;            // 3. Ð?t giá tr? khác 0 d? không b? thoát nh?m
-            continue;               // 4. Quay l?i d?u vòng l?p hi?n l?i menu
-        }	
-        cin.ignore(1000, '\n');		
-			
+        string richChoice;
+        getline(cin, richChoice);
+        
+		try{
+			size_t pos;
+			choice = stoi(richChoice, &pos);
+			if(pos != richChoice.size()){
+				choice = -1;
+			}
+		}
+		catch(...){
+			choice = -1;
+		}
 			switch (choice){
 				case 1: addInvoice(); break;
 				case 2: displayAllInvoices(); break;
@@ -61,6 +65,8 @@ void InvoiceController::addInvoice(){
 	cout << "\n[XAC NHAN]: Hop dong hop le! Tien hanh nhap thong tin cuoc ..." << endl;
 	Invoice inv;
 	inv.setContractId(contractId);
+	internet* in = internetRepo.searchId(hd->getPackageId());
+	inv.setPackageFee(in->getPrice());
 	inv.inputFromKeyboard();
 	
 	//Buoc 3: Kiem tra khoa chinh 

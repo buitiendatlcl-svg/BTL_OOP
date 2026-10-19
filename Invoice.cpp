@@ -114,7 +114,7 @@ void Invoice::inputFromKeyboard() {
     cout << "\n--- Nhap chi tiet cuoc hoa don ---" << endl;
     cout << "Nhap thang cuoc (1-12): "; cin >> billingMonth;
     cout << "Nhap nam cuoc: "; cin >> billingYear;
-    cout << "Nhap cuoc goi goc (VND): "; cin >> packageFee;
+//    cout << "Nhap cuoc goi goc (VND): "; cin >> packageFee;
     cout << "Nhap chiet khau (VND): "; cin >> discount;
     cout << "Nhap phu phi (VND): "; cin >> surcharge;
     cin.ignore();

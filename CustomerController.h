@@ -14,7 +14,6 @@ private:
 	
 	void addCustomer();
 	void displayAllCustomer();
-	void searchCustomer();
 	void updateCustomer();
 	void deleteCustomer();
 	
