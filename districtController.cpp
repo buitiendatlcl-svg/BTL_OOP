@@ -372,8 +372,8 @@ void districtController::deleteFunction() {
 }}
 
 void districtController::run() {
-    int chon;
-    do {
+  		choice=-1;
+  		do{
         cout << "\n============= QUAN LY TUYEN CAP/KHU VUC =============" << endl;
         cout << "1. C - Them moi Khu vuc (Tu dong cap ma)" << endl;
         cout << "2. R - Xem danh sach & Chi tiet" << endl;
@@ -381,10 +381,14 @@ void districtController::run() {
         cout << "4. D - Xoa Khu vuc (Kiem tra an toan)" << endl;
         cout << "0. Thoat module" << endl;
         cout << "Chon: "; 
-        cin >> chon; 
-        cin.ignore(); 
-        
-        switch (chon) {
+       	string chon;
+       	getline(cin,chon);
+        try{
+        	size_t pos;
+        	choice=stoi(chon,&pos);
+        	if(pos!=chon.length()) choice=-1;
+        }catch(...) choice=-1;
+        switch (choice) {
             case 1: createFunction(); break;
             case 2: readFunction(); break;
             case 3: updateFunction(); break;
@@ -392,5 +396,5 @@ void districtController::run() {
             case 0: break;
             default: cout << "=> Sai lua chon!" << endl; break;
         }
-    } while (chon != 0);
+    } while (choice != 0);
 }
