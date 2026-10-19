@@ -17,6 +17,11 @@ private:
 public:
 
     employee();
+    
+    bool isValidName(string name);
+    bool isValidDate(string date);
+    bool isValidPhoneNumber (string phoneNumber);
+    bool isValidSalary (string salaryStr);
 
     void setFullName(string fullName);
     string getFullName();
