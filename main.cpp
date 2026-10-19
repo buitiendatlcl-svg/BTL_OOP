@@ -57,7 +57,7 @@ int main() {
         cout << "-------------------------------------------------------------------" << endl;
         cout << "0. Thoat chuong trinh" << endl;
         cout << "===================================================================" << endl;
-        cout << "Chon phan he (0-5): ";
+        cout << "Chon phan he (0-8): ";
         
         cin >> mainChoice;
         cin.ignore(); 

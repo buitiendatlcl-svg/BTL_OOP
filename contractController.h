@@ -11,7 +11,7 @@ using namespace std;
 class contractController{
 private:
 	Repository<contract> contractRepo{"data/contract.txt"};
-	Repository<customer> customerRepo{"data/customer.txt"};
+	Repository<Customer> customerRepo{"data/customer.txt"};
 	Repository<internet> internetRepo{"data/internet.txt"};
 	Repository<district> districtRepo{"data/data_khuvuc.txt"};
 	
