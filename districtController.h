@@ -33,6 +33,6 @@ private:
     
 public:
     // S?a l?i sai tên Constructor t? KhuVucController thành districtController
-    districtController(string fileName = "data/data_khuvuc.txt"); 
+    districtController(); 
     void run();
 };

@@ -35,7 +35,6 @@ int district::getMaxBandWidth() const {
 }
 
 void district::inputFromKeyboard() {
-  
 }
 
 void district::showToConsole() {
