@@ -336,11 +336,8 @@ void employeeController::deleteFunction() {
 
 
 void employeeController::run() {
-<<<<<<< HEAD:employeeController.cpp
-    int choice;
-=======
+
     int choice = -1;
->>>>>>> hai:EmployeeController.cpp
     do {
         cout << "\n=========== QUAN LY NHAN VIEN ===========" << endl;
         cout << "1. Them nhan vien" << endl;

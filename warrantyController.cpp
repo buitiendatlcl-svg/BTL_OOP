@@ -348,11 +348,7 @@ void warrantyController::deleteFunction() {
 }
 
 void warrantyController::run() {
-<<<<<<< HEAD
-    int choice;
-=======
     int choice = -1;
->>>>>>> hai
     do {
         cout << "\n====== QUAN LY PHIEU BAO HANH - SUA CHUA ======" << endl;
         cout << "1. Tao phieu bao hanh moi" << endl;
@@ -372,7 +368,6 @@ void warrantyController::run() {
         } catch (...) {
             choice = -1;
         }
-
         switch (choice) {
             case 1: createFunction(); break;
             case 2: readFunction(); break;

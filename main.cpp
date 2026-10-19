@@ -11,12 +11,11 @@
 #include "contract.h"
 #include "contractController.h"
 #include "repository.h"
-<<<<<<< HEAD
+
 #include "installation.h"
 
 
-=======
->>>>>>> hai
+
 #include "internetController.h" 
 #include "contractController.h" 
 #include "districtController.h" 

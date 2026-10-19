@@ -11,20 +11,12 @@ employee::employee (){
 	dateOfBirth = "";
 	phoneNumber = "";
 	specialization = "";
-<<<<<<< HEAD
 	specialization = ""; //chuyen mon
-=======
->>>>>>> hai
 	areaId = "";
 	salary = 0.0;
 }
 
-<<<<<<< HEAD
-string employee::standardizeName(string name){ //chuan hoa ten cho: ten nv, chuyen mon
-=======
-
 string employee :: standardizeName (string name) {
->>>>>>> hai
     string result = "";
     stringstream ss(name);
     string word;
@@ -39,9 +31,7 @@ string employee :: standardizeName (string name) {
     	result += word;	
 	}
     return result;
-<<<<<<< HEAD
-=======
-	}
+}
 	
 bool employee::isValidName(string name) { //check ten, chi duoc chua chu cai & khoang trang
     if (name.empty()) return false;
@@ -97,7 +87,6 @@ bool employee::isValidSalary(string salaryStr) {
         return false;
     }
     return false;        
->>>>>>> hai
 }
 
 void employee::setFullName(string fullName){
@@ -245,7 +234,4 @@ void employee::fromFileString(string &s){
 		salary = stod(tmp);
 	}
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> hai
