@@ -10,13 +10,14 @@ employeeController::employeeController()
 
 void employeeController::createFunction() {
     cout << "\n--- THEM NHAN VIEN MOI ---" << endl;
-    cout << "Them nhan vien moi (Enter de tiep tuc, nhan '0' de thoat): ";
-    string check;
-    getline (cin, check);
-    if (check == "0") return;
     
     employee newEmployee;
     newEmployee.inputFromKeyboard(); 
+    
+	if (newEmployee.getSalary() < 0) { 
+        cout << "=> Da huy thao tac them nhan vien, quay lai menu!" << endl;
+        return;
+    }
     
     cout << "DANH SACH KHU VUC HIEN CO: \n";
     vector<district> distList = districtRepo.getData();
@@ -31,8 +32,13 @@ void employeeController::createFunction() {
     bool validDistrict = false;
     string chosenDistrict;
     while (!validDistrict){
-        cout << "Nhap ma KV : ";
+        cout << "Nhap ma KV (nhap 0 de quay lai): ";
         getline(cin, chosenDistrict);
+        
+        if (chosenDistrict == "0") { 
+        	cout << "=> Da huy thao tac them nhan vien, quay lai menu!" << endl;
+        	return;
+		}
         
         for (int i = 0; i < chosenDistrict.size(); i++){
         	if (isalpha(chosenDistrict[i])){
