@@ -44,17 +44,17 @@ void installationController::docDanhSachModem(){//doc danh sach modem luu map ke
 	}
 	file.close();
 }
-	void installationController:: showTitle(){
-		cout << left << setw(18) << "Ma phieu lap dat" 
-         << setw(15) << "Ma hop dong" 
-         << setw(25) << "Ma nhan vien ky thuat" 
-         << setw(20) << "Loai modem" 
-         << setw(15) << "Ngay lap dat" 
-         << setw(15) << "Trang thai" << endl;
-    cout << string(108, '-') << endl;
-	}
+void installationController:: showTitle(){
+	cout << left << setw(18) << "Ma phieu lap dat" 
+     << setw(15) << "Ma hop dong" 
+     << setw(25) << "Ma nhan vien ky thuat" 
+     << setw(20) << "Loai modem" 
+     << setw(15) << "Ngay lap dat" 
+     << setw(15) << "Trang thai" << endl;
+cout << string(108, '-') << endl;
+}
 	
-	void installationController::capNhatNgayHen(installationForm* phieu) {
+void installationController::capNhatNgayHen(installationForm* phieu) {
     cout << "\n--- CAP NHAT NGAY HEN ---\n";
     cout << "Ngay hen hien tai: " << phieu->getDate() << "\n";
     cout << "Nhap ngay hen moi (VD: 25/10/2026) [Bo trong giu nguyen]: ";
@@ -469,9 +469,9 @@ void installationController::updateFunction(){
 		}
 	}
 void installationController::run(){
-		int choice;
+	int choice;
 	do{
-		cout << "\n============= QUAN LY HOP DONG =============" << endl;
+		cout << "\n============= QUAN LY PHIEU LAP DAT =============" << endl;
 		cout << "1. C - Them thong tin phieu lap dat moi" << endl;
         cout << "2. R - Xem danh sach cac phieu lap dat hien co" << endl;
         cout << "3. U - Thay doi cac phieu lap dat hien co" << endl;

@@ -125,7 +125,8 @@ string autoGenId(string productName){
 	}
 	return productName + to_string(maxIdNumber + 1);		
 }
-void reloadData() {
+
+void reloadData(){
 	data.clear();   
 	readFromFile(); 
 }	
