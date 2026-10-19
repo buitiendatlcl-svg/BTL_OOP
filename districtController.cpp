@@ -127,7 +127,12 @@ docDanhSachTram();
             getline(cin, chonTram);
             
             try {
-                chon = stoi(chonTram);
+            	size_t pos;
+            	
+                chon = stoi(chonTram,&pos);
+                if(pos!=chonTram.length()){
+                	throw runtime_error("Chuoi co chua chu cai hoac ky tu la");
+				}
                 if (chon == 0) {
                     break; 
                 }
