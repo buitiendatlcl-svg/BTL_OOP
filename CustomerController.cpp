@@ -9,7 +9,7 @@ using namespace std;
 	:customerRepo("data/customer.txt"), contractRepo("data/contract.txt)"){}
 	
 void CustomerController::run(){
-	int choice;
+	int choice = -1;
 	do{
 		cout << "\n==========QUAN LY KHACH HANG==========" << endl;
 		cout << "1. Them khach hang moi" << endl;
@@ -20,25 +20,33 @@ void CustomerController::run(){
 		cout << "0. Quay lai Menu chinh" << endl;
 		cout << "--------------------------------------------------------" << endl;
 		cout << "Lua chon: ";
-	if (!(cin >> choice)) {
-        cout << "\n[LOI]: Lua chon khong hop le! Vui long chi nhap so (0-3)." << endl;
-        cin.clear();            // 1. Xóa c? l?i c?a cin
-        cin.ignore(1000, '\n'); // 2. V?t b? chu?i ký t? rác (nhu KH002) ra kh?i b? d?m
-        choice = -1;            // 3. Ð?t giá tr? khác 0 d? không b? thoát nh?m
-        continue;               // 4. Quay l?i d?u vòng l?p hi?n l?i menu
-}
-    cin.ignore(1000, '\n');     // Xóa ký t? Enter th?a
+		
+        string choiceStr;
+        getline(cin, choiceStr);
+        
+        try {
+            size_t pos;
+            choice = stoi(choiceStr, &pos);
+            // Kiem tra neu nguoi dung nhap lan lon chu va so (vi du: 1abc)
+            if (pos != choiceStr.size()) {
+                choice = -1;
+            }
+        } 
+        catch (...) {
+            // Bat moi ngoai le (nhap chu, enter trong, so qua lon)
+            choice = -1;
+        }
 
-	switch (choice) {
-		case 1: addCustomer(); break;
-		case 2: displayAllCustomer(); break;
-		case 3: searchCustomer(); break;
-		case 4: updateCustomer(); break;
-		case 5: deleteCustomer(); break;
-		case 0: cout << "Dang quay ve man hinh chinh ..." << endl; break;
-		default: cout << "Lua chon khong hop le !" << endl; break;
-	}
-} 	while (choice != 0);
+		switch (choice) {
+			case 1: addCustomer(); break;
+			case 2: displayAllCustomer(); break;
+			case 3: searchCustomer(); break;
+			case 4: updateCustomer(); break;
+			case 5: deleteCustomer(); break;
+			case 0: cout << "\n[THONG BAO]: Dang quay ve man hinh chinh ..." << endl; break;
+			default: cout << "\n[LOI]: Lua chon khong hop le! Vui long nhap so nguyen tu 1 - 5!" << endl; break;
+		}
+	} 	while (choice != 0);
 }
 
 void CustomerController::addCustomer(){
@@ -85,9 +93,20 @@ void CustomerController::searchCustomer(){
 	cout << "1. Tim kiem theo ma Khach Hang (ID)" << endl;
 	cout << "2. Tim kiem theo CCCD (nationalId)" << endl;
 	cout << "Chon phuong thuc tim kiem: ";
-	int searchChoice;
-	cin >> searchChoice;
-	cin.ignore();
+	
+	int searchChoice = -1;
+    string choiceStr;
+    getline(cin, choiceStr);
+    try {
+        size_t pos;
+        searchChoice = stoi(choiceStr, &pos);
+        if (pos != choiceStr.size()) {
+            searchChoice = -1;
+        }
+    } 
+    catch (...) {
+        searchChoice = -1;
+    }
 	
 	if(searchChoice == 1){
 		//Tim theo ma ID (Co san trong Repo)
@@ -146,7 +165,7 @@ void CustomerController::searchCustomer(){
 	}
 	
 	else{
-		cout << "Lua chon khong hop le !" << endl;
+		cout << "\n[LOI]: Lua chon khong hop le ! Vui long nhap so nguyen tu 1 - 2 !" << endl;
 	}	
 }
 
