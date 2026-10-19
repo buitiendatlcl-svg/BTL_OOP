@@ -14,6 +14,9 @@ private:
 	
 public:
 	warranty ();
+	
+	bool isValidDate(string date);
+	
 	void setContractId(string contractId);
 	string getContractId();
 	

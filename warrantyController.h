@@ -13,6 +13,7 @@ private:
 	Repository <contract> contractRepo;
 	Repository <employee> employeeRepo;
 	
+<<<<<<< HEAD
 	void createFunction();
 	void readFunction();
 	void updateFunction();
@@ -22,4 +23,10 @@ public:
 	warrantyController();
 	
 	void run();
+=======
+	public:
+		warrantyController();
+		
+		void run();
+>>>>>>> hai
 };
