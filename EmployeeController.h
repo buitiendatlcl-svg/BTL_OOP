@@ -14,6 +14,7 @@ private:
     repository<employee> employeeRepo;
     repository<district> districtRepo;
     repository<warranty> warrantyRepo;
+//    repository<installationForm> installFormRepo;
 
     void createFunction();
     void readFunction();
@@ -24,5 +25,5 @@ public:
    
     employeeController();
     
-    void menu();
+    void run();
 };

@@ -21,5 +21,5 @@ class warrantyController {
 	public:
 		warrantyController();
 		
-		void menu();
+		void run();
 };
