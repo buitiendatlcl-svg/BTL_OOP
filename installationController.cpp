@@ -500,8 +500,9 @@ void installationController::updateFunction(){
 		}
 	}}
 void installationController::run(){
-		int choice;
+		int choice=-1;
 	do{
+	
 		cout << "\n============= QUAN LY HOP DONG =============" << endl;
 		cout << "1. C - Them thong tin phieu lap dat moi" << endl;
         cout << "2. R - Xem danh sach cac phieu lap dat hien co" << endl;
@@ -509,13 +510,20 @@ void installationController::run(){
         cout << "4. D - Xoa phieu lap dat hien co" << endl;
         cout << "0. Thoat chuong trinh quan ly phieu lap dat" << endl;
         cout << "Nhap lua chon cua ban: ";
-        cin >> choice; cin.ignore();
+        string chon;
+        getline(cin,chon);
+        try{
+			size_t pos;
+			chon=stoi(chon,&pos);
+			if(pos!=chon.length()) choice=-1;
+		}catch(...) choice=-1;
         switch(choice){
         	case 1: createFunction(); break;
         	case 2: readFunction(); break;
         	case 3: updateFunction(); break;
         	case 4: deleteFunction(); break;
         	case 0: break;
+        	default: cout<<"Lua chon khong hop le !\n";
 		}
 	} while(choice != 0);
 }
