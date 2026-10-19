@@ -238,26 +238,22 @@ void employeeController::updateFunction() {
                 }
                 
                 case 6: { 
-                    bool validSalary = false;
-                    while (!validSalary) {
-                        cout << "Nhap muc luong moi (VND/thang) (an Enter de huy thao tac sua): ";
-                        getline(cin, newInfo);
-                        
-                        if (newInfo.empty()) {
-                            validSalary = true; //huy thao tac sua luong
-                        } else {
-                            try {
-                                double newSalary = stod(newInfo);
-                                empPtr->setSalary(newSalary);
-                                validSalary = true;
-                                cout << "=> Da cap nhat Luong!\n";
-                            } catch (...) { 
-                                cout << "=> Loi: Vui long chi nhap bang so!\n";
-                            }
-                        }
+                bool validSalary = false;
+                while (!validSalary) {
+                    cout << "Nhap muc luong moi (VND/thang) (an Enter de giu nguyen): ";
+                    getline(cin, newInfo);
+                    
+                    if (newInfo.empty()) validSalary = true;
+                    if (empPtr->isValidSalary(newInfo)) {
+                        empPtr->setSalary(stod(newInfo));
+                        cout << "=> Da cap nhat Muc luong moi thanh cong!\n";
+                        validSalary = true;
+                    } else {
+                        cout << "=> Loi: Luong phai la so duong hop le (khong chua chu cai)!\n";
                     }
-                    break;
                 }
+                break;
+            }
 
                 case 0:
                     
