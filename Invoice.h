@@ -52,11 +52,13 @@ class Invoice : public entity{
 		string getPaymentStatus() ;
 		void setPaymentStatus(const string& paymentStatus); // ham Getter/Setter khi cap nhat thanh toan
 		
+
 		bool isValidBillingMonth(string billingMonthStr);
 		bool isValidBillingYear(string billingYearStr);
 		bool isValidDiscount(string discountStr);
 		bool isValidSurcharge(string surchargeStr);
 		
+
 		void inputFromKeyboard() override;
 		void showToConsole()override;
 		string toFileString() override;
