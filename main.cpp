@@ -2,7 +2,7 @@
 #include <string>
 
 
-// Include các file header c?a các Controller và Model tuong ?ng
+// Include c?c file header c?a c?c Controller v? Model tuong ?ng
 #include "Repository.h"
 #include "district.h"
 #include "districtController.h"
@@ -11,9 +11,9 @@
 #include "contract.h"
 #include "contractController.h"
 #include "repository.h"
-
 #include "installation.h"
-
+#include "Customer.h"
+#include "Invoice.h"
 
 
 #include "internetController.h" 
@@ -22,20 +22,25 @@
 #include "employeeController.h" 
 #include "warrantyController.h" 
 #include "installationController.h"
+#include "InvoiceController.h"
+#include "CustomerController.h"
+
 
 
 using namespace std;
 
 int main() {
 
-    // Kh?i t?o các d?i tu?ng Controller
-    // districtController có tham s? m?c d?nh là "data/data_khuvuc.txt" nên không c?n truy?n vào
+    // Kh?i t?o c?c d?i tu?ng Controller
+    // districtController c? tham s? m?c d?nh l? "data/data_khuvuc.txt" n?n kh?ng c?n truy?n v?o
     districtController dc;
     internetController ic;
     contractController cc;
     installationController inc;
     employeeController ec;
     warrantyController wc;
+    CustomerController cuc;
+    InvoiceController invc;
 
     int mainChoice;
 
@@ -47,10 +52,12 @@ int main() {
         cout << "4. Quan ly Hop dong thue bao" << endl;
         cout << "5. Quan ly Phieu bao hanh - sua chua" << endl;
         cout << "6. Quan ly Phieu lap dat" << endl;
+        cout << "7. Quan ly Khach hang" << endl;
+        cout << "8. Quan ly Hoa don cuoc" << endl;
         cout << "-------------------------------------------------------------------" << endl;
         cout << "0. Thoat chuong trinh" << endl;
         cout << "===================================================================" << endl;
-        cout << "Chon phan he (0-5): ";
+        cout << "Chon phan he (0-8): ";
         
         cin >> mainChoice;
         cin.ignore(); 
@@ -85,7 +92,14 @@ int main() {
 				inc.run();
 				break;
 			}
-			
+			case 7:{
+				cuc.run();
+				break;
+			}
+			case 8:{
+				invc.run();
+				break;
+			}
             case 0:
                 cout << "\nCam on ban da su dung he thong. Tam biet!" << endl;
                 break;

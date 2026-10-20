@@ -3,14 +3,14 @@
 using namespace std;
 
 contractController::contractController(){
-	Repository<customer> customerRepo{"data/customer.txt"};
+	Repository<Customer> customerRepo{"data/customer.txt"};
 	Repository<internet> internetRepo{"data/internet.txt"};
 	Repository<district> districtRepo{"data/data_khuvuc.txt"};
 }
 
 void contractController::createFunction(){
 	cout << "\n--- DANH SACH KHACH HANG HIEN CO ---" << endl;
-	vector<customer> listCustomer = customerRepo.getData();
+	vector<Customer> listCustomer = customerRepo.getData();
 	if(listCustomer.empty()){
 		cout << "Hien khong co khach hang nao!" << endl;
 	}	
