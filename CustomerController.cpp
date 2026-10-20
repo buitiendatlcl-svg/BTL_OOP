@@ -49,7 +49,22 @@ void CustomerController::run(){
 
 void CustomerController::addCustomer(){
 	cout << "\n==========DANH SACH KHACH HANG HIEN TAI=========" << endl;
-	
+	auto list = customerRepo.getData();
+	if(list.empty()){
+		cout << "\n[THONG BAO]: Hien tai chua co khach hang nao trong danh sach" << endl;
+		return;
+	}
+    cout << left 
+         << setw(10) << "Ma KH" 
+         << setw(25) << "Ho va Ten" 
+         << setw(20) << "So CCCD" 
+         << setw(20) << "So Dien Thoai" 
+         << setw(20) << "Dia Chi" 
+         << endl;
+    cout << string(95, '-') << endl;	
+	for(auto cus : list){
+		cus.showToConsole();
+	}
 	
 	cout << "\n==========THEM KHACH HANG MOI==========" << endl;
 	Customer cus;
@@ -75,7 +90,7 @@ void CustomerController::addCustomer(){
 }
 
 void CustomerController::displayAllCustomer(){
-	cout << "\n==========DANH SACH KHACH HANG==========" << endl;
+	cout << "\n==========DANH SACH KHACH HANG ==========" << endl;
 	
 	auto list = customerRepo.getData();
 	if(list.empty()){

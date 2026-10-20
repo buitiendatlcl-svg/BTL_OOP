@@ -47,18 +47,60 @@ using namespace std;
 	}
 
 void InvoiceController::addInvoice(){
+    contractRepo.reloadData();
+    internetRepo.reloadData();	
+	
+	cout << "\n========== DANH SACH HOA DON CUOC HIEN TAI ==========" << endl;
+    auto list = invoiceRepo.getData(); 
+    if (list.empty()) {
+        cout << "\n[THONG BAO]: Chua co hoa don nao trong he thong!" << endl;
+	}
+    cout << left 
+         << setw(30) << "Ma Hoa Don" 
+         << setw(20) << "Ma Hop Dong" 
+         << setw(20) << "Thang/Nam" 
+         << setw(15) << "Cuoc Goi" 
+         << setw(15) << "Chiet Khau" 
+         << setw(15) << "Phu Phi" 
+         << setw(15) << "Tong so tien"
+         << setw(15) << "Trang Thai" 
+         << endl;
+    cout << string(145, '-') << endl;
+
+    for (auto obj : list) {
+        obj.showToConsole(); 
+    }
+    
+    
 	cout << "\n==========LAP HOA DON CUOC MOI==========" << endl;
+	
 	string contractId;
-	cout << "Nhap ma hop dong can lap hoa don: ";
-	getline(cin, contractId);
+	contract* hd =nullptr;
+	while(true){
+		cout << "\nNhap ma hop dong can lap hoa don (Nhap '0' de quay tro lai): ";
+		getline(cin, contractId);
+		
+		//Kiem tra nhap 0
+		if(contractId == "0"){
+			cout << "\n[THONG BAO]: Quay tro lai thanh thanh cong !" << endl;
+			return;
+		}
+		
+		//Chuan hoa
+		for(char&c : contractId){
+			c = toupper(c);
+		}
 	
 	// BU?C 1: Kiem tra id hop dong
-	
-	contract* hd = contractRepo.searchId(contractId);
-	if(hd == nullptr){
-		cout << "\n[THONG BAO]: Ma hop dong " << contractId << " khong ton tai trong he thong. "
-			<< "Vui long kiem tra lai contract.txt!" << endl;
-		return;
+		hd = contractRepo.searchId(contractId);
+		if(hd == nullptr){
+			cout << "\n[THONG BAO]: Ma hop dong " << contractId << " khong ton tai trong he thong. "
+				<< "Vui long kiem tra lai contract.txt!" << endl;
+			continue;
+		}
+		
+		// tuc la ma HD ton tai trong he thong thi thoat vong lap
+		break; 
 	}
 	//Buoc 2 : Tao doi tuong Invoice
 	
@@ -77,7 +119,7 @@ void InvoiceController::addInvoice(){
 		cout << " \n[LOI TRUNG KHOA CHINH]: Hoa don '" << inv.getId() << "' da ton tai trong thang nay" << endl;
 		cout << "\n--> Hop dong '" << contractId << "' da duoc lap hoa don cho Thang " 
              << inv.getBillingMonth() << "/" << inv.getBillingYear() << " roi!" << endl;
-    }
+    }	
 }
     
     
@@ -96,10 +138,11 @@ void InvoiceController::displayAllInvoices() {
          << setw(30) << "Ma Hoa Don" 
          << setw(20) << "Ma Hop Dong" 
          << setw(20) << "Thang/Nam" 
-         << setw(20) << "Cuoc Goi" 
-         << setw(20) << "Chiet Khau" 
-         << setw(20) << "Phu Phi" 
-         << setw(20) << "Trang Thai" 
+         << setw(15) << "Cuoc Goi" 
+         << setw(15) << "Chiet Khau" 
+         << setw(15) << "Phu Phi" 
+         << setw(15) << "Tong so tien"
+         << setw(15) << "Trang Thai" 
          << endl;
     cout << string(140, '-') << endl;
 
@@ -117,16 +160,17 @@ void InvoiceController::searchInvoiceByContract(){
     auto list = invoiceRepo.getData();
     bool found = false;
     
-    cout << "\n" << left 
+    cout << left 
          << setw(30) << "Ma Hoa Don" 
          << setw(20) << "Ma Hop Dong" 
          << setw(20) << "Thang/Nam" 
-         << setw(20) << "Cuoc Goi" 
-         << setw(20) << "Chiet Khau" 
-         << setw(20) << "Phu Phi" 
-         << setw(20) << "Trang Thai" 
+         << setw(15) << "Cuoc Goi" 
+         << setw(15) << "Chiet Khau" 
+         << setw(15) << "Phu Phi" 
+         << setw(15) << "Tong so tien"
+         << setw(15) << "Trang Thai" 
          << endl;
-    cout << string(140, '-') << endl;
+    cout << string(145, '-') << endl;
 
     for (auto inv : list) {
         if (inv.getContractId() == contractId) {
@@ -142,17 +186,52 @@ void InvoiceController::searchInvoiceByContract(){
 
 
 void InvoiceController::updatePaymentStatus(){
+	cout << "\n========== DANH SACH HOA DON CUOC HIEN TAI ==========" << endl;
+    
+    auto list = invoiceRepo.getData(); 
+    
+    if (list.empty()) {
+        cout << "\n[THONG BAO]: Chua co hoa don nao trong he thong!" << endl;
+        return;
+    }
+
+    cout << left 
+         << setw(30) << "Ma Hoa Don" 
+         << setw(20) << "Ma Hop Dong" 
+         << setw(20) << "Thang/Nam" 
+         << setw(15) << "Cuoc Goi" 
+         << setw(15) << "Chiet Khau" 
+         << setw(15) << "Phu Phi" 
+         << setw(15) << "Tong so tien"
+         << setw(15) << "Trang Thai" 
+         << endl;
+    cout << string(140, '-') << endl;
+
+    for (auto obj : list) {
+        obj.showToConsole(); 
+    }
+    
 	cout << "\n==========CAP NHAT TRANG THAI THANH TOAN==========" << endl;
 	string invId;
-	cout << "Nhap ma hoa don can thanh toan: ";
-	getline(cin, invId);
-	
-	//B1: TIm hoa don, tra ve pointer 
 	Invoice* inv = invoiceRepo.searchId(invId);
 	
-	if(inv == nullptr){
-		cout << "\n[ERROR] Khong tim thay hoa don " << invId << "!" << endl;
-		return;
+	while(true){
+		cout << "\nNhap ma hoa don can thanh toan (Nhap '0' de quay lai): ";
+		getline(cin, invId);
+		
+		if(invId == "0"){
+			cout << "\n[THONG BAO]: Quay lai Menu thanh cong !" << endl;
+			return;
+		}
+	
+		for(char& c : invId){
+			c = toupper(c);
+		}	
+		if(inv == nullptr){
+			cout << "\n[ERROR] Khong tim thay hoa don '" << invId << "'. Vui long nhap lai" << endl;
+			continue;
+		}
+		break;
 	}
 	
 	//B2: Kiem tra trang thai hien tai
@@ -163,18 +242,25 @@ void InvoiceController::updatePaymentStatus(){
 	}
 	
 	//B3: Xac nhan va cap nhat 
-	cout << "Chuyen trang thai thanh 'Paid' (Y/N)? ";
-	char confirm;
-	cin >> confirm;
-	cin.ignore();
 	
-	if(confirm == 'y' || confirm == 'Y'){
+	string confirm;
+	while(true){
+		cout << "\nChuyen trang thai thanh 'Paid' (Y/N)? ";
+		getline(cin, confirm);
+		if(confirm != "y" || confirm != "Y" || confirm != "n"|| confirm != "N"){
+			cout << "\n[THONG BAO]: Vui long nhap lai !";
+			continue;
+		}
+		break;
+	}
+	
+	if(confirm == "y" || confirm == "Y"){
 		inv->setPaymentStatus("Paid");
 		invoiceRepo.saveToFile();
 		cout << "\n[THANH CONG]: Da cap nhat trang thai hoa don '" << invId << "' sang 'Paid'!" << endl;
 	}
 	else{
-		cout << "Da huy thao tac." << endl;
+		cout << "\nDa huy thao tac." << endl;
 	}
 }
 
@@ -192,66 +278,94 @@ void InvoiceController::deleteInvoiceByContractId(){
          << setw(30) << "Ma Hoa Don" 
          << setw(20) << "Ma Hop Dong" 
          << setw(20) << "Thang/Nam" 
-         << setw(20) << "Cuoc Goi" 
-         << setw(20) << "Chiet Khau" 
-         << setw(20) << "Phu Phi" 
-         << setw(20) << "Trang Thai" 
+         << setw(15) << "Cuoc Goi" 
+         << setw(15) << "Chiet Khau" 
+         << setw(15) << "Phu Phi" 
+         << setw(15) << "Tong so tien"
+         << setw(15) << "Trang Thai" 
          << endl;
-    cout << string(140, '-') << endl;
+    cout << string(145, '-') << endl;
 
     for (auto& obj : list) {
         obj.showToConsole(); 
     }
     
-    cout << "\nNhap ma hop dong de xoa toan bo hoa don chua hop dong do: ";
 	string conId;
-    getline(cin, conId);
     contractRepo.reloadData();
     contract* con = contractRepo.searchId(conId); 
+    auto list1 = invoiceRepo.getData();
     
-    //Kiem tra xem hop dong con han khong ? 
-    if(con != nullptr){
-    		cout << "[THONG BAO]: Hop dong '" << conId << "' hien tai van con han! Khong the thuc hien thao tac xoa hoa don" << endl;
+    while(true){
+    	cout << "\nNhap ma hop dong de xoa toan bo hoa don chua hop dong do (Nhap '0' de quay lai): ";
+    	getline(cin, conId);
+    	if(conId == "0"){
+			cout << "\n[THONG BAO]: Quay lai Menu thanh cong !" << endl;
     		return;
 		}
-	
-	//Kiem tra xem hop dong nay da co hoa don chua 
-	auto list1 = invoiceRepo.getData();
-	int check = 0;
-	for(auto& x : list1){
-		if(x.getContractId() == conId){
-			check = 1;
-			break;
+		
+		for(char& c : conId){
+			c = toupper(c);
+		}
+		
+		//Kiem tra hop dong con han khong (STRUGGLE TAI PHAI XOA HOA DON TRC)
+//		if(con != nullptr){
+//    		cout << "\n[THONG BAO]: Hop dong '" << conId << "' hien tai van con han! Khong the thuc hien thao tac xoa hoa don" << endl;
+//    		cout << "\nVui long nhap lai !" << endl;
+//    		continue;
+//		}
+
+		//Kiem tra xem hop dong nay da co hoa don chua 
+		int check = 0;
+		for(auto& x : list1){
+			if(x.getContractId() == conId){
+				check = 1;
+				break;
+			}
+		}
+		if(check == 1){
+			cout << "\n[XAC NHAN]: Hop dong hop le" << endl;
+		 	break; //Xac nhan hop dong co hoa don, thoat vong lap while(true)
+		 }
+		else{
+			cout << "\n[THONG BAO]: Hop dong '" << conId << "' chua co hoa don nao trong danh sach !" << endl;
+			cout << "\nVui long nhap lai !" << endl;
+			continue;
 		}
 	}
-	if(check == 0){
-		cout << "[THONG BAO]: Hop dong '" << conId << "' hien tai van chua co hoa don trong danh sach !" << endl;
-		return;
-	}
+	
+	
 	//Hien thi cac hoa don chua ma HD conId
 	cout << "\n---------- DANH SACH HOA DON CUA HOP DONG '" << conId << "' ----------" << endl;
 	cout << left 
-	         << setw(30) << "Ma Hoa Don" 
-	         << setw(20) << "Ma Hop Dong" 
-	         << setw(20) << "Thang/Nam" 
-	         << setw(20) << "Cuoc Goi" 
-	         << setw(20) << "Chiet Khau" 
-	         << setw(20) << "Phu Phi" 
-	         << setw(20) << "Trang Thai" 
-	         << endl;
-	    cout << string(140, '-') << endl;
+         << setw(30) << "Ma Hoa Don" 
+         << setw(20) << "Ma Hop Dong" 
+         << setw(20) << "Thang/Nam" 
+         << setw(15) << "Cuoc Goi" 
+         << setw(15) << "Chiet Khau" 
+         << setw(15) << "Phu Phi" 
+         << setw(15) << "Tong so tien"
+         << setw(15) << "Trang Thai" 
+         << endl;
+    cout << string(145, '-') << endl;
 	for(auto& x : list1){
 		if(x.getContractId() == conId){
 			x.showToConsole();
 		}
 	}
 	
-	cout << "\n[LUU Y]: Ban co chac chan muon xoa cac hoa don tren khong (y/n) ? ";
-	string choice;
-	getline(cin, choice);
+	string confirm;
+	while(true){
+		cout << "\nChuyen trang thai thanh 'Paid' (Y/N)? ";
+		getline(cin, confirm);
+		if(confirm != "y" || confirm != "Y" || confirm != "n"|| confirm != "N"){
+			cout << "\n[THONG BAO]: Vui long nhap lai !";
+			continue;
+		}
+		break;
+	}
 	
 	//Thao tac xoa hop dong
-	if(choice == "y" || choice == "Y"){
+	if(confirm == "y" || confirm == "Y"){
 		for(auto& x : list1){
 			if(x.getContractId() == conId){
 				if(invoiceRepo.remove(x.getId())){
@@ -265,15 +379,16 @@ void InvoiceController::deleteInvoiceByContractId(){
 		auto list3 = invoiceRepo.getData();
 	 
 	    cout << left 
-	         << setw(30) << "Ma Hoa Don" 
-	         << setw(20) << "Ma Hop Dong" 
-	         << setw(20) << "Thang/Nam" 
-	         << setw(20) << "Cuoc Goi" 
-	         << setw(20) << "Chiet Khau" 
-	         << setw(20) << "Phu Phi" 
-	         << setw(20) << "Trang Thai" 
-	         << endl;
-	    cout << string(140, '-') << endl;
+         << setw(30) << "Ma Hoa Don" 
+         << setw(20) << "Ma Hop Dong" 
+         << setw(20) << "Thang/Nam" 
+         << setw(15) << "Cuoc Goi" 
+         << setw(15) << "Chiet Khau" 
+         << setw(15) << "Phu Phi" 
+         << setw(15) << "Tong so tien"
+         << setw(15) << "Trang Thai" 
+         << endl;
+    cout << string(145, '-') << endl;
 
 	    for (auto obj : list3) {
 	        obj.showToConsole(); 
