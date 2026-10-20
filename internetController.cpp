@@ -148,25 +148,92 @@ void internetController::updateFunction(){
 							break;
 						}
 						case 3:{
-							cout << "Nhap tep khach hang ban muon thay doi (nhap 0 de quay lai): ";
-							string newCustomerType;
-							getline(cin, newCustomerType);
-							if(newCustomerType == "0"){
-								cout << "Quay lai lua chon chinh sua!" << endl;
-								break;
-							}
-							it->setCustomerType(newCustomerType);
-							internetRepo.saveToFile();
-							cout << "\nThay doi thanh cong!" << endl;
+							int option = -1;
+							
+							while(true){
+								cout << "Cac loai tep khach hang:" << endl;
+								cout << "1.Ca nhan" << endl;
+								cout << "2.Gia dinh" << endl;
+								cout << "3.Doanh nghiep" << endl;
+								cout << "0.Quay lai" << endl;
+								cout << "Nhap tep khach hang ban muon thay doi: ";
+								string optionStr;
+								getline(cin, optionStr);
+								if(optionStr == "0"){
+									cout << "Quay lai lua chon chinh sua!" << endl;
+									break;
+								}
+								try{
+									size_t pos;
+									option = stoi(optionStr, &pos);
+									if(optionStr.size() != pos || option < 0){
+										option = -1;
+									}
+								}catch(...){
+									option = -1;
+								}
+								bool check = false;
+								switch(option){
+									case 1:{
+										it->setCustomerType("Ca nhan");
+										internetRepo.saveToFile();
+										check = true;
+										break;
+									}
+									case 2:{
+										it->setCustomerType("Gia dinh");
+										internetRepo.saveToFile();
+										check = true;
+										break;
+									}
+									case 3:{
+										it->setCustomerType("Doanh nghiep");
+										internetRepo.saveToFile();
+										check = true;
+										break;
+									}
+									default:{
+										cout << "Vui long nhap lai!" << endl;
+										check = false;
+										break;
+									}		
+								}
+								if(check){
+									cout << "Thay doi thanh cong!" << endl;
+									break;
+								}
+						 	}
 							break;
 						}
 						case 4:{
 							cout << "Nhap gia cuoc ban muon thay doi (nhap 0 de quay lai): ";
 							double newPrice;
-							cin >> newPrice; cin.ignore();
-							if(newPrice == 0){
-								cout << "Quay lai lua chon chinh sua!" << endl;
-								break;
+							bool check = false;
+							while(true){
+								string newPriceStr;
+								getline(cin, newPriceStr);
+								if(newPriceStr == "0"){
+									cout << "Quay lai lua chon chinh sua!" << endl;
+									check = true;
+									break;
+								}
+								try{
+									size_t pos;
+									newPrice = stod(newPriceStr, &pos);
+									if(pos != newPriceStr.size() || newPrice < 0){
+										cout << "[Loi] Vui long nhap lai!" << endl;
+										cout << "Nhap gia cuoc ban muon thay doi (nhap 0 de quay lai): ";
+									}
+									else
+										break;
+								}catch(...){
+									cout << "[Loi] Vui long nhap lai!" << endl;
+									cout << "Nhap gia cuoc ban muon thay doi (nhap 0 de quay lai): ";
+								}
+								if(check){
+									cout << "Quay lai lua chon chinh sua!" << endl;
+									break;
+								}
 							}
 							it->setPrice(newPrice);
 							internetRepo.saveToFile();
@@ -193,6 +260,13 @@ void internetController::deleteFunction(){
 		cout << "Danh sach hien chua co goi mang" << endl;
 	}
 	else{
+		cout << left << setw(8)  << "Ma Goi" 
+			     << "| " << setw(20) << "Ten Goi Mang" 
+			     << "| " << setw(15) << "Toc Do (Mbps)" 
+			     << "| " << setw(20) << "Tep Khach Hang" 
+			     << "| " << "Gia Cuoc (VND)" << endl;
+			    
+		cout << string(85, '-') << endl;
 		for(auto x : list){
 			x.showToConsole();
 		}
