@@ -59,26 +59,37 @@ string Customer::getAddress() {
 }
 
 void Customer::inputFromKeyboard(){
-	cout << "Nhap ma khach hang: ";
-	getline(cin, id);
-	
-	cout << "Nhap Ho va Ten: ";
+	cout << "Nhap Ho va Ten (Nhap '0' de quay lai): ";
 	getline(cin, name);
-	setName(name);
+	if(name == "0"){
+		name = "";
+		return;
+	}
 	
-	cout << "Nhap so CCCD: ";
+	cout << "Nhap so CCCD (Nhap '0' de quay lai): ";
 	getline(cin, nationalId);
+	if(nationalId == "0"){
+		nationalId = "";
+		return;
+	}
 	
-	cout << "Nhap so dien thoai: ";
+	cout << "Nhap so dien thoai (Nhap '0' de quay lai):";
 	getline(cin, phoneNumber);
+	if(phoneNumber== "0"){
+		phoneNumber = "";
+		return;
+	}
 	
-	cout << "Nhap dia chi nha: ";
+	cout << "Nhap dia chi nha (Nhap '0' de quay lai): ";
 	getline(cin, address);
-	setAddress(address);
+	if(address== "0"){
+		address = "";
+		return;
+	}
 }
 
 void Customer::showToConsole() {
-	cout << left << setw(10) << id << setw(30) << name << setw(25) << nationalId << setw(25) << phoneNumber << setw(30) << address << endl;
+	cout << left << setw(10) << id << setw(25) << name << setw(20) << nationalId << setw(20) << phoneNumber << setw(20) << address << endl;
 }
 
 string Customer::toFileString() {
