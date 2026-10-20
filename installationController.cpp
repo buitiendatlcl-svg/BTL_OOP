@@ -517,7 +517,9 @@ void installationController::run(){
 			size_t pos;
 			chon=stoi(chon,&pos);
 			if(pos!=chon.length()) choice=-1;
-		}catch(...) choice=-1;
+		}catch(...) {
+			choice=-1;
+		}
         switch(choice){
         	case 1: createFunction(); break;
         	case 2: readFunction(); break;
@@ -528,4 +530,5 @@ void installationController::run(){
 		}
 	} while(choice != 0);
 }
+
 

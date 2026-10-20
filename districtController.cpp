@@ -372,7 +372,7 @@ void districtController::deleteFunction() {
 }}
 
 void districtController::run() {
-  		choice=-1;
+  		int choice=-1;
   		do{
         cout << "\n============= QUAN LY TUYEN CAP/KHU VUC =============" << endl;
         cout << "1. C - Them moi Khu vuc (Tu dong cap ma)" << endl;
@@ -387,7 +387,10 @@ void districtController::run() {
         	size_t pos;
         	choice=stoi(chon,&pos);
         	if(pos!=chon.length()) choice=-1;
-        }catch(...) choice=-1;
+        }catch(...){
+        	choice=-1;
+		}
+		
         switch (choice) {
             case 1: createFunction(); break;
             case 2: readFunction(); break;
