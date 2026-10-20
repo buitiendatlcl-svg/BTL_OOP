@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Entity.h"
 #include <string>
@@ -33,3 +34,4 @@ class installationForm : public entity{
     	void fromFileString(string &line) override;
 		
 };
+

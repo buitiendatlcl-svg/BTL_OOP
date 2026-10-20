@@ -43,18 +43,27 @@ double internet::getPrice(){
 void internet::inputFromKeyboard(){
 	string temp;
 	
-	cout << "Nhap ten goi moi: ";
+	cout << "Nhap ten goi moi (Nhap 0 de quay lai): ";
 	getline(cin, temp);
+	if(temp == "0"){
+		setId("");
+		return;
+	}
 	setPackageName(temp);
 	
 	int speed;
 	while(true){
-		cout << "Nhap toc do: ";
+		cout << "Nhap toc do (Nhap 0 de quay lai): ";
 		getline(cin, temp);
+		if(temp == "0"){
+			setId("");
+			return;
+		}
 		try{
-			speed = stoi(temp);
-			if(speed < 0){
-				cout << "[Loi]Vui long chi nhap lai!" << endl; 
+			size_t pos;
+			speed = stoi(temp, &pos);
+			if(pos != temp.size() || speed <= 0){
+				cout << "[Loi]Vui long nhap lai!" << endl;
 			}
 			else
 				break;
@@ -65,17 +74,60 @@ void internet::inputFromKeyboard(){
 	}
 	setSpeed(speed);
 	
-	cout << "Nhap tep khach hang: ";
-	getline(cin, temp);
-	setCustomerType(temp);
-	
+	int choice = -1;
+	do{
+		cout << "Cac tep khach hang:" << endl;
+		cout << "1. Ca nhan" << endl;
+		cout << "2. Gia dinh" << endl;
+		cout << "3. Doanh nghiep" << endl;
+		cout << "0. Quay lai" << endl;
+		cout << "Nhap lua chon cua ban: ";
+		string choiceStr;
+		getline(cin, choiceStr);
+		if(choiceStr == "0"){
+			setId("");
+			return;
+		}
+		try{
+			size_t pos;
+			choice = stoi(choiceStr, &pos);
+			if(pos != choiceStr.size())
+				choice = -1;
+		}catch(...){
+			choice = -1;
+		}
+		switch(choice){
+			case 1: {
+				setCustomerType("Ca nhan");
+				break;
+			}
+			case 2: {
+				setCustomerType("Gia dinh");
+				break;
+			}
+			case 3: {
+				setCustomerType("Doanh nghiep");
+				break;
+			}
+			default:{
+				cout << "[LOI] Vui long nhap lai!" << endl;
+				break;
+			}
+		}
+	}while(choice < 1 || choice > 3);
+
 	double price;
 	while(true){
-		cout << "Nhap gia dich vu(VND): ";
+		cout << "Nhap gia dich vu(VND/Thang) (Nhap 0 de quay lai): ";
 		getline(cin, temp);
+		if(temp == "0"){
+			setId("");
+			return;
+		}
 		try{
-			price = stod(temp);
-			if(price < 0){
+			size_t pos;
+			price = stod(temp, &pos);
+			if(price < 0 || pos != temp.size()){
 				cout << "[Loi]Vui long chi nhap lai!" << endl; 
 			}
 			else
@@ -86,11 +138,14 @@ void internet::inputFromKeyboard(){
 		}
 	}
 	setPrice(price);
-
 }
 
 void internet::showToConsole(){
-	cout << getId() << "|" << packageName << "|" << speed << "|" << customerType << "|" << price << endl;
+	cout << left << setw(8)  << getId() 
+	     << "| " << setw(20) << packageName 
+	     << "| " << setw(15) << speed 
+	     << "| " << setw(20) << customerType 
+	     << "| " << (long long)price << endl;
 }
 
 string internet::toFileString(){

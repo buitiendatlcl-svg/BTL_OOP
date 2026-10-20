@@ -1,3 +1,4 @@
+
 #include "installation.h"
 #include<sstream>
 #include<iostream>
@@ -84,6 +85,4 @@ void installationForm::fromFileString(string &line){
 	if(!tmp.empty()) state=stoi(tmp);
 	
 }
-		
-		
 
