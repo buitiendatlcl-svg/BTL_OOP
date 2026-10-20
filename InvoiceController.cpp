@@ -12,9 +12,8 @@ using namespace std;
 			cout << "\n==========QUAN LY HOA DON CUOC==========" << endl;
 			cout << "1. Lap hoa don cuoc moi" << endl;
 			cout << "2. Hien thi danh sach toan bo hoa don" << endl;
-			cout << "3. Tim kiem hoa don theo ma hop dong" << endl;
-			cout << "4. Cap nhat trang thai thanh toan " << endl;
-			cout << "5. Xoa hoa don" << endl;
+			cout << "3. Cap nhat trang thai thanh toan " << endl;
+			cout << "4. Xoa hoa don" << endl;
 			cout << "0. Quay lai Menu chinh" << endl;
 			cout << "--------------------------------------------------------" << endl;			
 			cout << "Lua chon cua ban: ";
@@ -36,9 +35,8 @@ using namespace std;
 			switch (choice){
 				case 1: addInvoice(); break;
 				case 2: displayAllInvoices(); break;
-				case 3: searchInvoiceByContract(); break;
-				case 4: updatePaymentStatus(); break;
-				case 5: deleteInvoiceByContractId(); break;
+				case 3: updatePaymentStatus(); break;
+				case 4: deleteInvoiceByContractId(); break;
 				case 0: cout << "Dang quay lai Menu chinh ..." << endl; break;
 				default: cout << "Lua chon khong hop le! Vui long quay lai." << endl; break;
 			}
@@ -50,22 +48,22 @@ void InvoiceController::addInvoice(){
     contractRepo.reloadData();
     internetRepo.reloadData();	
 	
-	cout << "\n========== DANH SACH HOA DON CUOC HIEN TAI ==========" << endl;
-    auto list = invoiceRepo.getData(); 
+	cout << "\n========== DANH SACH HOP DONG HIEN TAI ==========" << endl;
+    auto list = contractRepo.getData(); 
     if (list.empty()) {
-        cout << "\n[THONG BAO]: Chua co hoa don nao trong he thong!" << endl;
+        cout << "\n[THONG BAO]: Chua co hop dong nao trong he thong!" << endl;
 	}
-    cout << left 
-         << setw(30) << "Ma Hoa Don" 
-         << setw(20) << "Ma Hop Dong" 
-         << setw(20) << "Thang/Nam" 
-         << setw(15) << "Cuoc Goi" 
-         << setw(15) << "Chiet Khau" 
-         << setw(15) << "Phu Phi" 
-         << setw(15) << "Tong so tien"
-         << setw(15) << "Trang Thai" 
-         << endl;
-    cout << string(145, '-') << endl;
+//    cout << left 
+//         << setw(30) << "Ma Hoa Don" 
+//         << setw(20) << "Ma Hop Dong" 
+//         << setw(20) << "Thang/Nam" 
+//         << setw(15) << "Cuoc Goi" 
+//         << setw(15) << "Chiet Khau" 
+//         << setw(15) << "Phu Phi" 
+//         << setw(15) << "Tong so tien"
+//         << setw(15) << "Trang Thai" 
+//         << endl;
+//    cout << string(145, '-') << endl;
 
     for (auto obj : list) {
         obj.showToConsole(); 
@@ -151,40 +149,6 @@ void InvoiceController::displayAllInvoices() {
     }
 }
 
-void InvoiceController::searchInvoiceByContract(){
-    cout << "\n==========TIM KIEM HOA DON THEO MA HOP DONG==========" << endl;
-    string contractId;
-    cout << "Nhap ma hop dong can tim: ";
-    getline(cin, contractId);
-    
-    auto list = invoiceRepo.getData();
-    bool found = false;
-    
-    cout << left 
-         << setw(30) << "Ma Hoa Don" 
-         << setw(20) << "Ma Hop Dong" 
-         << setw(20) << "Thang/Nam" 
-         << setw(15) << "Cuoc Goi" 
-         << setw(15) << "Chiet Khau" 
-         << setw(15) << "Phu Phi" 
-         << setw(15) << "Tong so tien"
-         << setw(15) << "Trang Thai" 
-         << endl;
-    cout << string(145, '-') << endl;
-
-    for (auto inv : list) {
-        if (inv.getContractId() == contractId) {
-            inv.showToConsole(); // Neu lop Invoice dung hienThi() thi doi thanh inv.hienThi();
-            found = true;
-        }
-    }
-    
-    if (!found) {
-        cout << "\n[THONG BAO]: Khong tim thay hoa don nao cho ma hop dong '" << contractId << "'!" << endl;
-    }
-}
-
-
 void InvoiceController::updatePaymentStatus(){
 	cout << "\n========== DANH SACH HOA DON CUOC HIEN TAI ==========" << endl;
     
@@ -213,7 +177,7 @@ void InvoiceController::updatePaymentStatus(){
     
 	cout << "\n==========CAP NHAT TRANG THAI THANH TOAN==========" << endl;
 	string invId;
-	Invoice* inv = invoiceRepo.searchId(invId);
+	Invoice* inv = nullptr;
 	
 	while(true){
 		cout << "\nNhap ma hoa don can thanh toan (Nhap '0' de quay lai): ";
@@ -227,6 +191,8 @@ void InvoiceController::updatePaymentStatus(){
 		for(char& c : invId){
 			c = toupper(c);
 		}	
+		
+		inv = invoiceRepo.searchId(invId);
 		if(inv == nullptr){
 			cout << "\n[ERROR] Khong tim thay hoa don '" << invId << "'. Vui long nhap lai" << endl;
 			continue;
