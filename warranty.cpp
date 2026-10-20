@@ -75,8 +75,11 @@ void warranty :: inputFromKeyboard(){
 	string temp;		
 
 	while (true){
-		cout << "Nhap ngay tiep nhan : ";
+		cout << "Nhap ngay tiep nhan (nhap 0 de quay lai): ";
 		getline (cin, temp);
+		
+		if (temp == "0") return;
+		
 		if (isValidDate(temp)){
 			setReceivedDate(temp);
 			break;
@@ -91,9 +94,12 @@ void warranty :: inputFromKeyboard(){
     cout << "  2. Mang cham, chap chon (Suy hao tin hieu)\n";
     cout << "  3. Loi thiet bi Modem/Wifi (Hong nguon, loi phat song)\n";
     cout << "  4. Van de khac\n";
-    cout << "Chon (1-4): ";
+    cout << "  0. Quay lai\n";
+    cout << "Chon (0-4): ";
     
     getline(cin, temp);
+    
+    if (temp == "0") return;
 
     if (temp == "1") {
         setIssueDescribe("Mat ket noi Internet");
@@ -119,9 +125,12 @@ void warranty :: inputFromKeyboard(){
     cout << "2. Dang sua chua\n";
     cout << "3. Da hoan thanh\n";
     cout << "4. Da huy\n";
-    cout << "Chon (1-4): ";
+    cout << "0. Quay lai\n";
+    cout << "Chon (0-4): ";
     
     getline(cin, temp);
+    
+    if (temp == "0") return;
 
     if (temp == "1") {
         setStatus("Cho xu ly");

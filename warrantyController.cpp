@@ -21,7 +21,7 @@ void warrantyController::createFunction() {
     }
 
     warranty newWarranty; 
-
+	
     cout << "\nDANH SACH HOP DONG:\n";
     //bo sung them phan in ra cac thuoc tinh hop dong cout << setw ...
     for (auto c : contractList) {
@@ -36,7 +36,10 @@ void warrantyController::createFunction() {
         cout << "\nNhap ID hop dong can bao hanh (nhap '0' de quay lai): ";
         getline(cin, chosenContract);
         
-        if (chosenContract == "0") return;
+        if (chosenContract == "0") {
+        	cout << "=> Da huy thao tac them phieu bao hanh, quay lai menu!" << endl;
+			return;
+		}
         
         for (int i = 0; i < (int)chosenContract.size(); i++) {
             if (isalpha(chosenContract[i])) {
@@ -72,7 +75,10 @@ void warrantyController::createFunction() {
         cout << "\nNhap ID nhan vien phu trach (nhap '0' de quay lai): "; 
         getline(cin, chosenEmployee);
         
-        if (chosenEmployee == "0") return;
+        if (chosenEmployee == "0") {
+        	cout << "=> Da huy thao tac them phieu bao hanh, quay lai menu!" << endl;
+			return;
+		}
 
         for (int i = 0; i < (int)chosenEmployee.size(); i++) {
             if (isalpha(chosenEmployee[i])) {
@@ -88,7 +94,13 @@ void warrantyController::createFunction() {
         }
     }
     
+    
     newWarranty.inputFromKeyboard();
+    
+    if (newWarranty.getStatus().empty()){
+    	cout << "=> Da huy thao tac them phieu bao hanh, quay lai menu!" << endl;
+		return;
+	}
     
     string newId = warrantyRepo.autoGenId("BH");
     newWarranty.setId(newId);

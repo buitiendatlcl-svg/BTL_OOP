@@ -13,7 +13,7 @@ employee::employee (){
 	specialization = "";
 	specialization = ""; //chuyen mon
 	areaId = "";
-	salary = 0.0;
+	salary = -1.0;
 }
 
 string employee :: standardizeName (string name) {
@@ -80,7 +80,7 @@ bool employee::isValidSalary(string salaryStr) {
     try {
         size_t pos;
         double sal = stod(salaryStr, &pos);
-        if (pos == salaryStr.size() && sal > 0) {
+        if (pos == salaryStr.size() && sal >= 0) {
             return true;
         }
     } catch (...) {
@@ -134,9 +134,12 @@ double employee :: getSalary(){
 void employee::inputFromKeyboard(){	
 	string temp;
 	while (true) {
-        cout << "Nhap ho va ten nhan vien: ";
+        cout << "Nhap ho va ten nhan vien (nhap 0 de quay lai): ";
         getline(cin, temp);
-        if (isValidName(temp)){
+        
+		if (temp == "0") return;
+        
+		if (isValidName(temp)){
             setFullName(temp);
             break;
         }
@@ -144,8 +147,11 @@ void employee::inputFromKeyboard(){
     }
 	
 	while (true){
-		cout << "Nhap ngay sinh (dd/mm/yyyy): ";
+		cout << "Nhap ngay sinh (dd/mm/yyyy)(nhap 0 de quay lai): ";
 		getline(cin, temp);
+		
+		if (temp == "0") return;
+		
 		if (isValidDate(temp)){
 			setDateOfBirth(temp);
 			break;
@@ -154,8 +160,11 @@ void employee::inputFromKeyboard(){
 	}
 
 	while (true){
-		cout << "Nhap sdt (10 so, bat dau bang 0): ";
+		cout << "Nhap sdt (10 so, bat dau bang 0)(nhap 0 de quay lai): ";
 		getline(cin, temp);
+		
+		if (temp == "0") return;
+		
 		if (isValidPhoneNumber(temp)){
 			setPhoneNumber(temp);
 			break;
@@ -169,9 +178,12 @@ void employee::inputFromKeyboard(){
         cout << "  1. Ky thuat thiet bi (Lap dat, sua chua & bao tri thiet bi cua khach hang)\n";
         cout << "  2. Quan ly truc cap (Quan ly cap quang, bao tri tu cap)\n";
         cout << "  3. Quan tri mang (Van hanh he thong)\n";
-        cout << "Chon (1-3): ";
+        cout << "  0. Quay lai\n";
+        cout << "Chon (0-3): ";
         getline(cin, temp);
-
+		
+		if (temp == "0") return;
+		
         if (temp == "1") {
             setSpecialization("Ky thuat thiet bi");
             validSpec = true;
@@ -187,15 +199,17 @@ void employee::inputFromKeyboard(){
     }
 	
 	while (true) {
-        cout << "Nhap muc luong (VND): ";
+        cout << "Nhap muc luong (VND) (nhap '-1' de quay lai): ";
         getline(cin, temp);
+        
+        if (temp == "-1") return;
+        
         if (isValidSalary(temp)) {
             setSalary(stod(temp)); 
             break;
         }
         cout << "=> Loi! Sai dinh dang, vui long nhap lai!" << endl;
-    }
-	
+    }	
 }
 
 void employee::showToConsole() {
