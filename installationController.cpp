@@ -503,7 +503,6 @@ void installationController::updateFunction(){
 void installationController::run(){
 	int choice=-1;
 	do{
-	
 		cout << "\n============= QUAN LY PHIEU LAP DAT =============" << endl;
 		cout << "1. C - Them thong tin phieu lap dat moi" << endl;
         cout << "2. R - Xem danh sach cac phieu lap dat hien co" << endl;
