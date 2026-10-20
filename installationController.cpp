@@ -504,7 +504,7 @@ void installationController::run(){
 	int choice=-1;
 	do{
 	
-		cout << "\n============= QUAN LY HOP DONG =============" << endl;
+		cout << "\n============= QUAN LY PHIEU LAP DAT =============" << endl;
 		cout << "1. C - Them thong tin phieu lap dat moi" << endl;
         cout << "2. R - Xem danh sach cac phieu lap dat hien co" << endl;
         cout << "3. U - Thay doi cac phieu lap dat hien co" << endl;
@@ -515,7 +515,7 @@ void installationController::run(){
         getline(cin,chon);
         try{
 			size_t pos;
-			chon=stoi(chon,&pos);
+			choice=stoi(chon,&pos);
 			if(pos!=chon.length()) choice=-1;
 		}catch(...) {
 			choice=-1;
