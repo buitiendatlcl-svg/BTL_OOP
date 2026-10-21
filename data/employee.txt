@@ -1,15 +1,8 @@
-<<<<<<< Updated upstream
 NV1|Ngu|04/12/2006|0981364828|Keo Cap|KV02|2000000.000000
-NV2|Phung Thanh Do|12/09/1989|0931333222|Streamer|KV02|7000000.000000
-=======
 NV2|Phung Xa Lo|04/12/2006|0981364828|Quan tri mang|KV04|999.000000
 NV5|Can Lo Lo|04/12/2006|0981364828|Quan tri mang|KV04|999.000000
->>>>>>> Stashed changes
 NV3|Phung Xa Loz|04/12/2006|0981364828|Quan tri mang|KV04|999.000000
 NV6|Tran Hoang Hai|04/12/2006|0981364828|Ky thuat thiet bi|KV06|999.000000
-<<<<<<< Updated upstream
-NV7|Truong Tuan Tu|03/06/1996|0936633636|Quan tri mang|KV01|36.000000
-=======
 NV7|Truong Tuan Tu|03/06/1996|0936633636|Quan tri mang|KV01|999999.000000
 NV8|Nguyen Quoc Anh|19/11/1999|0973283182|Ky thuat thiet bi|KV01|3600000.000000
->>>>>>> Stashed changes
+
