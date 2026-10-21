@@ -121,9 +121,14 @@ void installationController::capNhatTrangThai(installationForm* phieu) {
 	            for (int i = 0; i < dsModem.size(); i++) {
 	                cout << i + 1 << "." << dsModem[i] << "\n";
 	            }
-	            cout << "Chon Modem thay the (1-" << dsModem.size() << ") hoac '0' de huy: ";
+	            while(true){
+	            cout << "Chon Modem thay the (1-" << dsModem.size() << ") [Bo trong de giu nguyen]: ";
 	            string choose;
 	            getline(cin,choose);
+	            if(choose.empty()){
+	            	cout<< "=> Khong co thay doi nao duoc luu." << endl;
+	            	break;
+				}
 	            try{
 	            	size_t pos;
                     int in = stoi(choose, &pos);
@@ -132,18 +137,17 @@ void installationController::capNhatTrangThai(installationForm* phieu) {
                     if (pos != choose.length()) {
                         throw runtime_error("Loi ky tu la");
                     }
-	            	if(in==0){
-	            		return;
-					}
-	            	else if (in >= 1 && in <= dsModem.size()) {
+	            	if (in >= 1 && in <= dsModem.size()) {
 	                phieu->setModem(dsModem[in - 1]);
 	                cout << "=> Tinh trang: Da thay doi Modem thanh cong.\n";
+	                break;
 	            }
-	            else  cout<< "=> Khong co thay doi nao duoc luu." << endl;
+	            else  cout<< "=> Vui long chi nhap cac so trong khoang (1-" <<dsModem.size()<<")"<< endl;
 				}
 	            catch(...){
 	            	cout<<"[LOI] Vui long chi nhap so nguyen !\n";
-				}  
+				}
+				}
 	        }
 	    }
 	}
@@ -410,6 +414,7 @@ void installationController::updateFunction(){
     cout << "=> [LOI]: Khong tim thay Phieu Lap Dat co ma: " << ma << " Moi nhap lai !"<<"\n";
 	}
 		else{
+		while(true){
         cout << "\n--- THONG TIN PHIEU HIEN TAI ---\n";
         showTitle();
         timThay->showToConsole();
@@ -443,7 +448,7 @@ void installationController::updateFunction(){
         }
     }catch(...){
     	cout<<"[LOI] Vui long chi nhap so\n";
-	} }
+	}}}
 }}
     void installationController::deleteFunction(){
     	cout << "\n--- DANH SACH PHIEU LAP DAT HIEN CO TRONG HE THONG ---" << endl;
