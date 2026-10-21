@@ -1,5 +1,6 @@
 #include "contractController.h"
-
+#include <cctype>
+#include <iomanip>
 using namespace std;
 
 contractController::contractController(){
@@ -114,6 +115,13 @@ void contractController::readFunction(){
 		cout << "Danh sach chua co hop dong nao" << endl;
 	}
 	else{
+		cout << left << setw(20) << "Ma hop dong"
+		 	 << "| " << setw(15) << "Ma khach hang"
+		 	 << "| " << setw(15) << "Ma goi"
+			 << "| " << setw(15) << "Ma khu vuc" 
+			 << "| " << setw(15) << "Ngay ky" << endl;
+		cout << string(85, '-') << endl;
+		
 		for(auto x : listContract){
 			x.showToConsole();
 		}
@@ -159,7 +167,7 @@ void contractController::deleteFunction(){
 }
 
 void contractController::run(){
-	int choice;
+	int choice = -1;
 	do{
 		cout << "\n============= QUAN LY HOP DONG =============" << endl;
 		cout << "1. C - Them thong tin hop dong moi" << endl;
@@ -168,7 +176,17 @@ void contractController::run(){
         cout << "4. D - Xoa hop dong hien co" << endl;
         cout << "0. Thoat chuong trinh quan ly goi mang" << endl;
         cout << "Nhap lua chon cua ban: ";
-        cin >> choice; cin.ignore();
+        string choiceStr;
+        getline(cin, choiceStr);
+        try{
+        	size_t pos;
+        	choice = stoi(choiceStr, &pos);
+        	if(pos != choiceStr.size() || choice < 0){
+        		choice = -1;
+			}
+		}catch(...){
+			choice = -1;
+		}
         switch(choice){
         	case 1: createFunction(); break;
         	case 2: readFunction(); break;

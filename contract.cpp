@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -32,8 +33,11 @@ void contract::setAreaId(string areaId){
 string contract::getAreaId(){
 	return areaId;
 }
-
 void contract::setSignDate(string signDate){
+	string temp = signDate;
+	if(signDate[1] == '/') temp = "0" + signDate;
+	if(temp[4] == '/') temp = temp.insert(3, 1, '0');
+	signDate = temp;
 	this->signDate = signDate;
 }
 string contract::getSignDate(){
@@ -48,7 +52,11 @@ void contract::inputFromKeyboard(){
 }
 
 void contract::showToConsole(){
-	cout << getId() << "|" << getCustomerId() << "|" << getPackageId() << "|" << getAreaId() << "|" << signDate	<< endl;
+	cout << left << setw(20) << getId()
+		 << "| " << setw(15) << customerId
+		 << "| " << setw(15) << packageId
+		 << "| " << setw(15) << areaId 
+		 << "| " << setw(15) << signDate << endl;
 }
 
 string contract::toFileString(){
