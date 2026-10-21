@@ -1,4 +1,3 @@
-
 #include "installationController.h"
 using namespace std;
 // check lai ai xem co sai code ko
@@ -151,6 +150,7 @@ void installationController::capNhatTrangThai(installationForm* phieu) {
 //chuc nang them
 void installationController::createFunction(){
 	docDanhSachModem();
+	repoHopDong.reloadData();
 	vector<contract> dsHD=repoHopDong.getData();
 	vector<installationForm> dsPhieu=repoPhieuLapDat.getData();
 	string maHD;
@@ -158,7 +158,6 @@ void installationController::createFunction(){
 	string ngayHen;
 	string loaiModem;
 	cout << "\n----THEM MOI PHIEU LAP DAT----" << endl;
-	repoHopDong.reloadData();
 	cout << "\n* DANH SACH HOP DONG DANG CHO THI CONG:\n";
 	int dem=0;
 	for(auto& hd : dsHD){//tra ma hop dong trung voi ma hd da có trong phieu lap dat
@@ -385,10 +384,19 @@ void installationController::updateFunction(){
 	cout << "\n--- CAP NHAT THONG TIN PHIEU LAP DAT ---" << endl;
 	cout << "--- DANH SACH CAC PHIEU LAP DAT DANG CO TRONG HE THONG---"<<endl;
 	vector<installationForm> dsPLD=repoPhieuLapDat.getData();
+	 if (dsPLD.empty()) {
+        cout << "=> Danh sach hien dang trong!" << endl;
+        return;
+    } 
 	showTitle();
     for (auto& ph : dsPLD) {
         ph.showToConsole();
     }
+	
+    
+        string chon;
+   	
+    while(true){
 	cout << "Nhap ma PLD can cap nhat(hoac '0' de thoat): ";
     string ma;
     getline(cin, ma);
@@ -396,16 +404,12 @@ void installationController::updateFunction(){
     if (ma == "0") {
     cout << "=> Da thoat chuc nang cap nhat.\n";
     return; 
-}
+	}
     installationForm* timThay=repoPhieuLapDat.searchId(ma);
     if (timThay == nullptr) {
-        cout << "=> [LOI]: Khong tim thay Phieu Lap Dat co ma: " << ma << "\n";
-        return;     
-		}
-        string chon;
-   	
-    	while(true){
-        
+    cout << "=> [LOI]: Khong tim thay Phieu Lap Dat co ma: " << ma << " Moi nhap lai !"<<"\n";
+	}
+		else{
         cout << "\n--- THONG TIN PHIEU HIEN TAI ---\n";
         showTitle();
         timThay->showToConsole();
@@ -440,7 +444,7 @@ void installationController::updateFunction(){
     }catch(...){
     	cout<<"[LOI] Vui long chi nhap so\n";
 	} }
-}
+}}
     void installationController::deleteFunction(){
     	cout << "\n--- DANH SACH PHIEU LAP DAT HIEN CO TRONG HE THONG ---" << endl;
     	vector<installationForm> ds=repoPhieuLapDat.getData();
@@ -501,24 +505,23 @@ void installationController::updateFunction(){
 		}
 	}}
 void installationController::run(){
-	int choice=-1;
+		int choice=-1;
 	do{
-	
-		cout << "\n============= QUAN LY HOP DONG =============" << endl;
+		cout << "\n============= QUAN LY PHIEU LAP DAT =============" << endl;
 		cout << "1. C - Them thong tin phieu lap dat moi" << endl;
         cout << "2. R - Xem danh sach cac phieu lap dat hien co" << endl;
         cout << "3. U - Thay doi cac phieu lap dat hien co" << endl;
         cout << "4. D - Xoa phieu lap dat hien co" << endl;
         cout << "0. Thoat chuong trinh quan ly phieu lap dat" << endl;
         cout << "Nhap lua chon cua ban: ";
-        string chon;
-        getline(cin,chon);
-        try{
-			size_t pos;
-			chon=stoi(chon,&pos);
-			if(pos!=chon.length()) choice=-1;
-		}catch(...) {
-			choice=-1;
+       	string chon;
+       	getline(cin,chon);
+       	try{	
+		   	size_t pos;
+	    	choice=stoi(chon,&pos);
+	    	if(pos!=chon.length()) choice=-1;
+        }catch(...){
+        	choice=-1;
 		}
         switch(choice){
         	case 1: createFunction(); break;
@@ -526,8 +529,6 @@ void installationController::run(){
         	case 3: updateFunction(); break;
         	case 4: deleteFunction(); break;
         	case 0: break;
-        	default: cout<<"Lua chon khong hop le !\n";
 		}
 	} while(choice != 0);
 }
-
