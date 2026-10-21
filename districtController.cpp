@@ -136,7 +136,7 @@ docDanhSachTram();
                 if (chon == 0) {
                     break; 
                 }
-                if (chon < 1 || chon > dsTramCuaTinh.size()) {
+                if (chon < 0 || chon > dsTramCuaTinh.size()) {
                     cout << "=> Lua chon sai. Vui long chon lai!\n";
                 } else {
                     break; // Phá vòng l?p Tr?m d? di ti?p xu?ng ki?m tra trùng
@@ -291,9 +291,20 @@ void districtController::updateFunction() {
  		cout<<"Thong tin khu vuc hien tai:\n";
         showTitle(); // S?a l?i thi?u ch?m ph?y
         timThay->showToConsole();
+        int inUse=tinhTongBangThong(timThay->getId());//tinh toan bang thong theo khu vuc
+            int maxBand=timThay->getMaxBandWidth();
+            int remain=maxBand-inUse;//so sanh voi mã bang thong cap
+            cout << "\n--- TINH TRANG BANG THONG ---" << endl;
+            cout << "Tong bang thong tram: " << maxBand << " Mbps\n";
+		    cout << "Da cap cho khach hang: " << inUse << " Mbps\n";
+		    cout << "Bang thong con trong: " << remain << " Mbps\n";
+		    if(remain<=0){
+		    	cout << "=> CANH BAO: Tram dang bi qua tai! Can cap nhat lai bang thong\n";
+			}
+			else cout<< "=> THONG BAO: Bang thong cua tram o muc an toan !\n";
         string input;
        
-        cout << "\nSua bang thong (" << timThay->getMaxBandWidth() << ") [Bo trong giu nguyen]: ";
+        cout << "Sua bang thong (" << timThay->getMaxBandWidth() << ") [Bo trong giu nguyen]: ";
         getline(cin, input);
           if(input.empty()) {
             cout << "=> Khong co thay doi nao duoc luu." << endl;
@@ -312,12 +323,14 @@ void districtController::updateFunction() {
             } else {
                 timThay->setMaxBandWidth(stoi(input));
                 cout<<"Da cap nhat thanh cong!";
+                repo.saveChange();
                 break;
             }
         } catch(...) {
             cout << "=> [LOI] Vui long chi nhap so nguyen hop le (khong dinh chu cai hay ky tu la)!\n";
         }
     }}
+
 
 void districtController::deleteFunction() {
     cout << "\n--- XOA KHU VUC ---" << endl;

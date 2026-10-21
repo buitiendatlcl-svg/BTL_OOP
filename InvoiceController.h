@@ -19,7 +19,6 @@ private:
 	void addInvoice();
 	void displayAllInvoices();
 	void updatePaymentStatus();
-	void searchInvoiceByContract();
 	void deleteInvoiceByContractId();
 public: 
 	//Ham khoi tao

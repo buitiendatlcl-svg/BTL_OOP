@@ -7,7 +7,6 @@ using namespace std;
 class contract : public entity{
 private:
 	string customerId, packageId, areaId, signDate;
-	bool status;
 public:
 	contract();
 	
@@ -23,9 +22,6 @@ public:
 	void setSignDate(string signDate);
 	string getSignDate();
 	
-	void setStatus(bool status);
-	bool getStatus();
-
 	void inputFromKeyboard();
 	
 	void showToConsole();

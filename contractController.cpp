@@ -134,7 +134,7 @@ void contractController::updateFunction(){
 	if(itContract != NULL){
 		cout << "\nNhap thanh phan ban muon thay doi" << endl;
 		cout << "1. Ngay ky hop dong" << endl;
-		cout << "2. Trang thai hoat dong" << endl;
+		cout << "0. Quay lai" << endl;
 		cout << "Nhap lua chon cua ban: ";
 		int option; cin >> option;
 		cin.ignore();
@@ -144,14 +144,6 @@ void contractController::updateFunction(){
 				string newSignDate;
 				getline(cin, newSignDate);
 				itContract->setSignDate(newSignDate);
-				contractRepo.saveToFile();
-				break;
-			}
-			case 2: {
-				cout << "Nhap trang thai hop dong thay doi: ";
-				bool newStatus;
-				cin >> newStatus; cin.ignore();
-				itContract->setStatus(newStatus);
 				contractRepo.saveToFile();
 				break;
 			}
