@@ -1,6 +1,21 @@
 #include <iostream>
 #include <string>
+<<<<<<< Updated upstream
 #include "repository.h"
+=======
+#include "Repository.h"
+#include "district.h"
+#include "districtController.h"
+#include "internet.h"
+#include "internetController.h"
+#include "contract.h"
+#include "contractController.h"
+#include "repository.h"
+#include "installation.h"
+#include "Customer.h"
+#include "Invoice.h"
+
+>>>>>>> Stashed changes
 #include "internetController.h" 
 #include "contractController.h" 
 #include "districtController.h" 
@@ -10,6 +25,20 @@
 using namespace std;
 
 int main() {
+<<<<<<< Updated upstream
+=======
+
+
+    districtController dc;
+    internetController ic;
+    contractController cc;
+    installationController inc;
+    employeeController ec;
+    warrantyController wc;
+    CustomerController cuc;
+    InvoiceController invc;
+
+>>>>>>> Stashed changes
     int mainChoice;
 
     do {

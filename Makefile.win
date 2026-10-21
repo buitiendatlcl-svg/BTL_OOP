@@ -1,0 +1,76 @@
+# Project: FTTH
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = contract.o contractController.o Customer.o CustomerController.o district.o districtController.o employee.o employeeController.o installation.o installationController.o internet.o internetController.o Invoice.o InvoiceController.o main.o warranty.o warrantyController.o
+LINKOBJ  = contract.o contractController.o Customer.o CustomerController.o district.o districtController.o employee.o employeeController.o installation.o installationController.o internet.o internetController.o Invoice.o InvoiceController.o main.o warranty.o warrantyController.o
+LIBS     = -L"E:/app/Dev-Cpp/MinGW64/lib" -L"E:/app/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+INCS     = -I"E:/app/Dev-Cpp/MinGW64/include" -I"E:/app/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"E:/app/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"E:/app/Dev-Cpp/MinGW64/include" -I"E:/app/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"E:/app/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"E:/app/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = FTTH.exe
+CXXFLAGS = $(CXXINCS) -std=gnu++11
+CFLAGS   = $(INCS) -std=gnu++11
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+contract.o: contract.cpp
+	$(CPP) -c contract.cpp -o contract.o $(CXXFLAGS)
+
+contractController.o: contractController.cpp
+	$(CPP) -c contractController.cpp -o contractController.o $(CXXFLAGS)
+
+Customer.o: Customer.cpp
+	$(CPP) -c Customer.cpp -o Customer.o $(CXXFLAGS)
+
+CustomerController.o: CustomerController.cpp
+	$(CPP) -c CustomerController.cpp -o CustomerController.o $(CXXFLAGS)
+
+district.o: district.cpp
+	$(CPP) -c district.cpp -o district.o $(CXXFLAGS)
+
+districtController.o: districtController.cpp
+	$(CPP) -c districtController.cpp -o districtController.o $(CXXFLAGS)
+
+employee.o: employee.cpp
+	$(CPP) -c employee.cpp -o employee.o $(CXXFLAGS)
+
+employeeController.o: employeeController.cpp
+	$(CPP) -c employeeController.cpp -o employeeController.o $(CXXFLAGS)
+
+installation.o: installation.cpp
+	$(CPP) -c installation.cpp -o installation.o $(CXXFLAGS)
+
+installationController.o: installationController.cpp
+	$(CPP) -c installationController.cpp -o installationController.o $(CXXFLAGS)
+
+internet.o: internet.cpp
+	$(CPP) -c internet.cpp -o internet.o $(CXXFLAGS)
+
+internetController.o: internetController.cpp
+	$(CPP) -c internetController.cpp -o internetController.o $(CXXFLAGS)
+
+Invoice.o: Invoice.cpp
+	$(CPP) -c Invoice.cpp -o Invoice.o $(CXXFLAGS)
+
+InvoiceController.o: InvoiceController.cpp
+	$(CPP) -c InvoiceController.cpp -o InvoiceController.o $(CXXFLAGS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+warranty.o: warranty.cpp
+	$(CPP) -c warranty.cpp -o warranty.o $(CXXFLAGS)
+
+warrantyController.o: warrantyController.cpp
+	$(CPP) -c warrantyController.cpp -o warrantyController.o $(CXXFLAGS)

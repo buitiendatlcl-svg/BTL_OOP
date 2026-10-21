@@ -360,6 +360,11 @@ void warrantyController::deleteFunction() {
 }
 
 void warrantyController::run() {
+	warrantyRepo.reloadData();
+    contractRepo.reloadData();
+    employeeRepo.reloadData();
+    
+    
     int choice = -1;
     do {
         cout << "\n====== QUAN LY PHIEU BAO HANH - SUA CHUA ======" << endl;
