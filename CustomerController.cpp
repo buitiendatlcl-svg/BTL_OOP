@@ -272,39 +272,42 @@ void CustomerController::deleteCustomer(){
 	while(true){
 		cout << "\n[LUU Y]: Ban co chac chan muon xoa khach hang '" << cus->getName() << "' (" << cus->getId() << ") khong (y/n) ? ";
 		getline(cin, choice);
-		if(choice != "y" || choice != "y" || choice != "n" || choice != "N"){
-			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
-			continue;
-		}
-		break;
-	}
-	
-	if(choice == "y" || choice == "Y"){
-		if(customerRepo.remove(cusId)){
-			cout << "[THANH CONG]: Da xoa khach hang co ma '" << cusId << "' trong danh sach" << endl;
-			customerRepo.reloadData();
 		
-			cout << "\n----------DANH SACH KHACH HANG SAU KHI XOA----------" << endl;
-			cout << left 
-		         << setw(10) << "Ma KH" 
-		         << setw(25) << "Ho va Ten" 
-		         << setw(20) << "So CCCD" 
-		         << setw(20) << "So Dien Thoai" 
-		         << setw(20) << "Dia Chi" 
-		         << endl;
-		    cout << string(95, '-') << endl;
-			auto list3 = customerRepo.getData();
-			for(auto x : list3){
-				x.showToConsole();
-			}			
+		if(choice == "y" || choice == "Y" || choice == "n" || choice == "N"){
+			if(choice == "y" || choice == "Y"){
+				if(customerRepo.remove(cusId)){
+					cout << "[THANH CONG]: Da xoa khach hang co ma '" << cusId << "' trong danh sach" << endl;
+					customerRepo.reloadData();
+				
+					cout << "\n----------DANH SACH KHACH HANG SAU KHI XOA----------" << endl;
+					cout << left 
+				         << setw(10) << "Ma KH" 
+				         << setw(25) << "Ho va Ten" 
+				         << setw(20) << "So CCCD" 
+				         << setw(20) << "So Dien Thoai" 
+				         << setw(20) << "Dia Chi" 
+				         << endl;
+				    cout << string(95, '-') << endl;
+					auto list3 = customerRepo.getData();
+					for(auto x : list3){
+						x.showToConsole();
+					}			
+				}
+				else{
+					cout << "\n[LOI]: Loi he thong !!!" << endl;
+					break;
+				}
+			}
+			else{
+				cout << "\n[HUY THAO TAC]: Da huy lenh xoa khach hang!" << endl;
+				break;
+			}
 		}
 		else{
-			cout << "\n[LOI]: Loi he thong !!!" << endl;
-		}
+			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
+			continue;
+		}	
 	}
-	else{
-		cout << "\n[HUY THAO TAC]: Da huy lenh xoa khach hang!" << endl;
-	}	
 }
 	
 	
