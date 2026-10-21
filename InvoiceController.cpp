@@ -214,23 +214,24 @@ void InvoiceController::updatePaymentStatus(){
 	while(true){
 		cout << "\nChuyen trang thai thanh 'Paid' (Y/N)? ";
 		getline(cin, confirm);
-		if(confirm != "y" || confirm != "Y" || confirm != "n"|| confirm != "N"){
-			cout << "\n[THONG BAO]: Vui long nhap lai !";
+		if(confirm == "y" || confirm == "Y" || confirm == "n"|| confirm == "N"){
+			if(confirm == "y" || confirm == "Y"){
+				inv->setPaymentStatus("Paid");
+				invoiceRepo.saveToFile();
+				cout << "\n[THANH CONG]: Da cap nhat trang thai hoa don '" << invId << "' sang 'Paid'!" << endl;
+				break;
+			}
+			else{
+				cout << "\nDa huy thao tac." << endl;
+				break;
+			}
+		}
+		else{
+			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
 			continue;
 		}
-		break;
-	}
-	
-	if(confirm == "y" || confirm == "Y"){
-		inv->setPaymentStatus("Paid");
-		invoiceRepo.saveToFile();
-		cout << "\n[THANH CONG]: Da cap nhat trang thai hoa don '" << invId << "' sang 'Paid'!" << endl;
-	}
-	else{
-		cout << "\nDa huy thao tac." << endl;
 	}
 }
-
 void InvoiceController::deleteInvoiceByContractId(){
 	cout << "\n---------- DANH SACH HOA DON CUOC HIEN TAI ----------" << endl;
     auto list = invoiceRepo.getData(); 
