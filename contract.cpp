@@ -45,10 +45,6 @@ string contract::getSignDate(){
 }
 
 void contract::inputFromKeyboard(){
-	string tmp;
-	cout << "Nhap ngay ky hop dong(dd/mm/yy): ";
-	getline(cin, tmp);
-	setSignDate(tmp);
 }
 
 void contract::showToConsole(){

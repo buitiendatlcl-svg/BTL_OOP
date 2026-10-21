@@ -16,29 +16,49 @@ void contractController::createFunction(){
 		cout << "Hien khong co khach hang nao!" << endl;
 	}	
 	else{
+		cout << left 
+         << setw(10) << "Ma KH" 
+         << setw(25) << "Ho va Ten" 
+         << setw(20) << "So CCCD" 
+         << setw(20) << "So Dien Thoai" 
+         << setw(20) << "Dia Chi" 
+         << endl;
+    	cout << string(95, '-') << endl;
+    	
 		for(auto x : listCustomer){
 			x.showToConsole();
 		}
 	}
 	
-	cout << "Chon ID khach hang ban muon them vao hop dong: ";
-	string idCustomer;
-	getline(cin, idCustomer);
+	contract newContract;
 	
-	for(int i = 0; i < idCustomer.length(); i++){
-		if(isalpha(idCustomer[i])){
-			idCustomer[i] = toupper(idCustomer[i]); 
+	bool check1 = false;
+	while(true){
+		cout << "Chon ID khach hang ban muon them vao hop dong(nhan '0' de quay lai): ";
+		string idCustomer;
+		getline(cin, idCustomer);
+		if(idCustomer == "0"){
+			check1 = true;
+			break;
+		}
+		
+		for(int i = 0; i < idCustomer.length(); i++){
+			if(isalpha(idCustomer[i])){
+				idCustomer[i] = toupper(idCustomer[i]); 
+			}
+		}
+		
+		auto itCustomer = customerRepo.searchId(idCustomer);
+		if(itCustomer != NULL){
+			newContract.setCustomerId(idCustomer);
+			break;
+		}
+		else{
+			cout << "Khong tim thay ID khach hang" << endl;
+			continue;
 		}
 	}
-	
-	contract newContract;
-	auto itCustomer = customerRepo.searchId(idCustomer);
-	if(itCustomer != NULL){
-		newContract.setCustomerId(idCustomer);
-	}
-	else{
-		cout << "Khong tim thay ID khach hang" << endl;
-	}
+	if(check1) return;
 	
 	cout << "\n--- DANH SACH CAC GOI MANG HIEN CO ---" << endl;
 	vector<internet> listInternet = internetRepo.getData();
@@ -46,27 +66,45 @@ void contractController::createFunction(){
 		cout << "Hien khong co goi mang nao!" << endl;
 	}	
 	else{
+		cout << left << setw(8)  << "Ma Goi" 
+			     << "| " << setw(20) << "Ten Goi Mang" 
+			     << "| " << setw(15) << "Toc Do (Mbps)" 
+			     << "| " << setw(20) << "Tep Khach Hang" 
+			     << "| " << "Gia Cuoc (VND)" << endl;
+		cout << string(85, '-') << endl;
+		
 		for(auto x : listInternet){
 			x.showToConsole();
 		}
 	}
-	cout << "Chon ID goi mang ban muon them vao hop dong: ";
-	string idInternet;
-	getline(cin, idInternet);
 	
-	for(int i = 0; i < idInternet.length(); i++){
-		if(isalpha(idInternet[i])){
-			idInternet[i] = toupper(idInternet[i]); 
+	bool check2 = false;
+	while(true){
+		cout << "Chon ID goi mang ban muon them vao hop dong(nhan '0' de quay lai): ";
+		string idInternet;
+		getline(cin, idInternet);
+		if(idInternet == "0"){
+			check2 = true;
+			break;
+		}
+		
+		for(int i = 0; i < idInternet.length(); i++){
+			if(isalpha(idInternet[i])){
+				idInternet[i] = toupper(idInternet[i]); 
+			}
+		}
+		
+		auto itInternet = internetRepo.searchId(idInternet);
+		if(itInternet != NULL){
+			newContract.setPackageId(idInternet);
+			break;
+		}
+		else{
+			cout << "Khong tim thay ID goi mang" << endl;
+			continue;
 		}
 	}
-	
-	auto itInternet = internetRepo.searchId(idInternet);
-	if(itInternet != NULL){
-		newContract.setPackageId(idInternet);
-	}
-	else{
-		cout << "Khong tim thay ID goi mang" << endl;
-	}
+	if(check2) return;
 	
 	cout << "\n--- DANH SACH CAC KHU VUC HIEN CO ---" << endl;
 	vector<district> listDistrict = districtRepo.getData();
@@ -74,32 +112,54 @@ void contractController::createFunction(){
 		cout << "Hien khong co khu vuc nao!" << endl;
 	}	
 	else{
+		cout << left << setw(10) << "Ma KV" 
+         	 << setw(25) << "Ten Tinh/Thanh" 
+         	 << setw(25) << "Tram Quan Ly" 
+         	 << setw(15) << "Bang Thong" << endl;
+    	cout << string(75, '-') << endl;
+    	
 		for(auto x : listDistrict){
 			x.showToConsole();
 		}
 	}
-	cout << "Chon ID khu vuc ban muon them vao hop dong: ";
-	string idDistrict;
-	getline(cin, idDistrict);
 	
-	for(int i = 0; i < idDistrict.length(); i++){
-		if(isalpha(idDistrict[i])){
-			idDistrict[i] = toupper(idDistrict[i]); 
+	bool check3 = false;
+	while(true){
+		cout << "Chon ID khu vuc ban muon them vao hop dong(nhan '0' de quay lai): ";
+		string idDistrict;
+		getline(cin, idDistrict);
+		if(idDistrict == "0"){
+			check3 = true;
+			break;
+		}
+		
+		for(int i = 0; i < idDistrict.length(); i++){
+			if(isalpha(idDistrict[i])){
+				idDistrict[i] = toupper(idDistrict[i]); 
+			}
+		}
+		
+		auto itDistrict = districtRepo.searchId(idDistrict);
+		if(itDistrict != NULL){
+			newContract.setAreaId(idDistrict);
+			break;
+		}
+		else{
+			cout << "Khong tim thay ID khu vuc" << endl;
+			continue;
 		}
 	}
-	
-	auto itDistrict = districtRepo.searchId(idDistrict);
-	if(itDistrict != NULL){
-		newContract.setAreaId(idDistrict);
-	}
-	else{
-		cout << "Khong tim thay ID khu vuc" << endl;
-	}
+	if(check3) return;
 	
 	string newContractId = contractRepo.autoGenId("HD");
 	newContract.setId(newContractId);
 	
-	newContract.inputFromKeyboard();
+	cout << "Nhap ngay ky hop dong(dd/mm/yyyy)(nhap '0' de quay lai): ";
+	string date;
+	getline(cin, date);
+	if(date == "0") return;
+	else
+		newContract.setSignDate(date);
 	if(contractRepo.create(newContract)){
 		cout << "Them moi hop dong thanh cong!" << endl;
 	}
@@ -130,36 +190,63 @@ void contractController::readFunction(){
 
 void contractController::updateFunction(){
 	readFunction();
-	cout << "Chon ID hop dong ban muon chinh sua: ";
-	string search;
-	getline(cin, search);
-	for(int i = 0; i < search.length(); i++){
-		if(isalpha(search[i])){
-			search[i] = toupper(search[i]); 
+	bool check = false;
+	while(true){
+		cout << "Chon ID hop dong ban muon chinh sua(nhap '0' de quay lai): ";
+		string search;
+		getline(cin, search);
+		if(search == "0"){
+			check = true;
+			break;
 		}
-	}
-	auto itContract = contractRepo.searchId(search);
-	if(itContract != NULL){
-		cout << "\nNhap thanh phan ban muon thay doi" << endl;
-		cout << "1. Ngay ky hop dong" << endl;
-		cout << "0. Quay lai" << endl;
-		cout << "Nhap lua chon cua ban: ";
-		int option; cin >> option;
-		cin.ignore();
-		switch(option){
-			case 1: {
-				cout << "Nhap ngay ky hop dong thay doi: ";
-				string newSignDate;
-				getline(cin, newSignDate);
-				itContract->setSignDate(newSignDate);
-				contractRepo.saveToFile();
-				break;
+		for(int i = 0; i < search.length(); i++){
+			if(isalpha(search[i])){
+				search[i] = toupper(search[i]); 
 			}
 		}
+		auto itContract = contractRepo.searchId(search);
+		int option = -1;
+		if(itContract != NULL){
+			do{
+				cout << "\nNhap thanh phan ban muon thay doi" << endl;
+				cout << "1. Ngay ky hop dong" << endl;
+				cout << "0. Quay lai" << endl;
+				cout << "Nhap lua chon cua ban: ";
+				string optionStr;
+				getline(cin, optionStr);
+				try{
+					size_t pos;
+					option = stoi(optionStr, &pos);
+					if(pos != optionStr.size() || option < 0)
+						option = -1;
+				}catch(...){
+					option = -1;
+				}
+				switch(option){
+					case 1: {
+						cout << "Nhap ngay ky hop dong thay doi(nhap '0' de quay lai): ";
+						string newSignDate;
+						getline(cin, newSignDate);
+						if(newSignDate == "0"){
+							option = -1;
+							break;
+						}
+						itContract->setSignDate(newSignDate);
+						contractRepo.saveToFile();
+						break;
+					}
+					default:{
+						break;
+					}
+				}
+			}while(option != 0);
+		}
+		else{
+			cout << "Khong tim thay hop dong nao" << endl;
+			continue;
+		}
 	}
-	else{
-		cout << "Khong tim thay hop dong nao" << endl;
-	}
+	if(check) return;	
 }
 
 void contractController::deleteFunction(){
