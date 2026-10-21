@@ -7,6 +7,9 @@ contractController::contractController(){
 	Repository<Customer> customerRepo{"data/customer.txt"};
 	Repository<internet> internetRepo{"data/internet.txt"};
 	Repository<district> districtRepo{"data/data_khuvuc.txt"};
+	Repository<installationForm> installationRepo{"data/data_phieulapdat.txt"};
+	Repository<warranty> warrantyRepo{"data/warranty.txt"};
+	Repository<Invoice> invoiceRepo{"data/invoice.txt"};
 }
 
 void contractController::createFunction(){
@@ -250,7 +253,69 @@ void contractController::updateFunction(){
 }
 
 void contractController::deleteFunction(){
-	
+	readFunction();
+	bool check = false;
+	while(true){
+		cout << "Lua chon ID hop dong can xoa(nhap '0' de quay lai): ";
+		string search;
+		getline(cin, search);
+		if(search == "0"){
+			check = true;
+			break;
+		}
+		for(int i = 0; i < search.length(); i++){
+			if(isalpha(search[i])){
+				search[i] = toupper(search[i]); 
+			}
+		}
+		auto itContract = contractRepo.searchId(search);
+		bool ok = false;
+		if(itContract != NULL){
+			installationRepo.reloadData();
+			vector<installationForm> listInstallation = installationRepo.getData();
+			for(auto x : listInstallation){
+				if(x.getIdContract() == search){
+					cout << "Hop dong dang co trong danh sach phieu lap dat" << endl;
+					ok = true;
+					break;
+				}
+			}
+			
+			warrantyRepo.reloadData();
+			vector<warranty> listWarranty = warrantyRepo.getData();
+			for(auto x : listWarranty){
+				if(x.getContractId() == search){
+					cout << "Hop dong dang co trong danh sach phieu bao hanh" << endl;
+					ok = true;
+					break;
+				}
+			}
+			
+			invoiceRepo.reloadData();
+			vector<Invoice> listInvoice = invoiceRepo.getData();
+			for(auto x : listInvoice){
+				if(x.getContractId() == search){
+					cout << "Hop dong dang co trong danh sach hoa don" << endl;
+					ok = true;
+					break;
+				}
+			}
+			if(!ok){
+				if(contractRepo.remove(search)){
+					cout << "Xoa hop dong thanh cong!" << endl;
+					break;
+				}
+			}
+			else{
+				continue;
+			}
+		}
+		else{
+			cout << "Khong tim thay hop dong nao" << endl;
+			continue;
+		}
+	}
+	if(check) return;
 }
 
 void contractController::run(){
