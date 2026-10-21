@@ -136,7 +136,7 @@ docDanhSachTram();
                 if (chon == 0) {
                     break; 
                 }
-                if (chon < 1 || chon > dsTramCuaTinh.size()) {
+                if (chon < 0 || chon > dsTramCuaTinh.size()) {
                     cout << "=> Lua chon sai. Vui long chon lai!\n";
                 } else {
                     break; // Phá vòng l?p Tr?m d? di ti?p xu?ng ki?m tra trùng
@@ -312,6 +312,7 @@ void districtController::updateFunction() {
             } else {
                 timThay->setMaxBandWidth(stoi(input));
                 cout<<"Da cap nhat thanh cong!";
+                repo.saveChange();
                 break;
             }
         } catch(...) {
