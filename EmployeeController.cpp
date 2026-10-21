@@ -337,14 +337,13 @@ void employeeController::deleteFunction() {
 
 
 void employeeController::run() {
-<<<<<<< Updated upstream:EmployeeController.cpp
-=======
+
 	warrantyRepo.reloadData();
     districtRepo.reloadData();
     employeeRepo.reloadData();
     installFormRepo.reloadData();
 
->>>>>>> Stashed changes:employeeController.cpp
+
     int choice = -1;
     do {
         cout << "\n=========== QUAN LY NHAN VIEN ===========" << endl;
