@@ -254,6 +254,7 @@ void internetController::updateFunction(){
 }
 
 void internetController::deleteFunction(){
+	contractRepo.reloadData();
 	cout << "\n--- DANH SACH CAC GOI MANG ---" << endl;
 	vector<internet> list = internetRepo.getData();
 	if(list.empty()){
@@ -270,6 +271,7 @@ void internetController::deleteFunction(){
 		for(auto x : list){
 			x.showToConsole();
 		}
+		
 		cout << "Chon ID goi mang ban muon xoa (nhap 0 de quay lai): ";
 		string search;
 		getline(cin, search);
@@ -281,6 +283,13 @@ void internetController::deleteFunction(){
 		}
 		auto it = internetRepo.searchId(search);
 		if(it != NULL){
+			vector<contract> list = contractRepo.getData();
+			for(auto x : list){
+				if(x.getPackageId() == search){
+					cout << "Goi internet hien tai dang trong danh sach hop dong" << endl;
+					return;
+ 				}
+			}
 			if(internetRepo.remove(search)){
 				cout << "Xoa thanh cong!" << endl;
 			}

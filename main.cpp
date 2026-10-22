@@ -42,7 +42,7 @@ int main() {
     CustomerController cuc;
     InvoiceController invc;
 
-    int mainChoice;
+    int mainChoice = -1;
 
     do {
         cout << "\n================ HE THONG QUAN LY DICH VU INTERNET ================" << endl;
@@ -59,8 +59,16 @@ int main() {
         cout << "===================================================================" << endl;
         cout << "Chon phan he (0-8): ";
         
-        cin >> mainChoice;
-        cin.ignore(); 
+        string mainChoiceStr;
+        getline(cin, mainChoiceStr);
+        try{
+        	size_t pos;
+        	mainChoice = stoi(mainChoiceStr, &pos);
+        	if(pos != mainChoiceStr.size() || mainChoice < 0)
+        		mainChoice = -1;
+		}catch(...){
+			mainChoice = -1;
+		}
 
         switch (mainChoice) {
             case 1: {

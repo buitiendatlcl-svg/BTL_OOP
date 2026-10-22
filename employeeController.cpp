@@ -3,8 +3,7 @@
 
 employeeController::employeeController() 
     : employeeRepo("data/employee.txt"), districtRepo("data/district.txt"), warrantyRepo("data/warranty.txt")
-	//, installFormRepo("data/installationForm.txt")
-	{
+	, installFormRepo("data/data_phieulapdat.txt"){
 }
 
 
@@ -312,18 +311,18 @@ void employeeController::deleteFunction() {
         }
     }
     
-//    bool isInstalling = false;
-//    vector<installationForm> formList = installFormRepo.getData();
-//    for (auto i : fromList){
-//    	
-//    	if (i.getEmployeeId() == delId){
-//    		isIntalling = true;
-//    		
-//    		cout << "=> KHONG THE XOA! Nhan vien dang phu trach Phieu lap dat ma: " << i.getId() << endl;
-//		}
-//	}
+    bool isInstalling = false;
+    vector<installationForm> formList = installFormRepo.getData();
+    for (auto i : formList){
+    	
+    	if (i.getIdEmployee() == delId){
+    		isInstalling = true;
+    		
+    		cout << "=> KHONG THE XOA! Nhan vien dang phu trach Phieu lap dat ma: " << i.getId() << endl;
+		}
+	}
 
-    if (isWorking ) { //bo sung them || isInstalling neu co usecase phieu lap dat
+    if (isWorking || isInstalling) { 
         cout << "=> Vui long chuyen giao cac Phieu tren cho nhan vien khac truoc khi xoa nhan vien nay!" << endl;
         return; 
     }
@@ -338,6 +337,10 @@ void employeeController::deleteFunction() {
 
 
 void employeeController::run() {
+	warrantyRepo.reloadData();
+    districtRepo.reloadData();
+    employeeRepo.reloadData();
+    installFormRepo.reloadData();
 
     int choice = -1;
     do {

@@ -14,10 +14,25 @@ string installationController::chuanHoaTen(string s){//chuan hoa ten de lay tron
 	for(auto &c : s) c=toupper(c);
 	return s;
 }
-string installationController::chuanHoaNgay(string s){//Chuan hoa ngay sinh dang dd/mm/yyyy
-	if(s[1]=='/') s="0"+s;
-	if(s[4]=='/') s.insert(3,"0");
-	return s;
+bool installationController::chuanHoaNgay(string date){
+	//check dinh dang dd/mm/yyyy
+	if (date.size() != 10 || date[2] != '/' || date[5] != '/') return false;
+	for (int i = 0; i < date.size(); i++){
+		if (i == 2 || i == 5) continue; // neu la dau "/" thi bo qua
+		if (!isdigit(date[i])) return false;
+	}
+	
+	int d = stoi(date.substr(0, 2)); 
+	int m = stoi(date.substr(3, 2));
+	int y = stoi(date.substr(6, 4));
+	
+	if ( d < 1 || m < 1 || m > 12 || y < 1900 || y < 2025 ) return false;
+	
+	int daysInMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) {
+        daysInMonth[2] = 29; // nam nhuan
+    }
+    return d <= daysInMonth[m]; // so sanh ngay nhap & ngay toi da cua thang do, neu dung tra ve true	
 }
 void installationController::docDanhSachModem(){//doc danh sach modem luu map key-value
 	mapModem.clear();
@@ -47,26 +62,33 @@ void installationController::docDanhSachModem(){//doc danh sach modem luu map ke
 		cout << left << setw(18) << "Ma phieu lap dat" 
          << setw(15) << "Ma hop dong" 
          << setw(25) << "Ma nhan vien ky thuat" 
-         << setw(20) << "Loai modem" 
-         << setw(15) << "Ngay lap dat" 
+         << setw(25) << "Loai modem" 
+         << setw(20) << "Ngay lap dat" 
          << setw(15) << "Trang thai" << endl;
-    cout << string(108, '-') << endl;
+    cout << string(113, '-') << endl;
 	}
 	
 	void installationController::capNhatNgayHen(installationForm* phieu) {
     cout << "\n--- CAP NHAT NGAY HEN ---\n";
     cout << "Ngay hen hien tai: " << phieu->getDate() << "\n";
-    cout << "Nhap ngay hen moi (VD: 25/10/2026) [Bo trong giu nguyen]: ";
     
+    while(true){
+    cout << "Nhap ngay hen moi (VD: 25/10/2026) [Bo trong giu nguyen]: ";
     string ngayMoi;
     getline(cin, ngayMoi);
-    ngayMoi=chuanHoaNgay(ngayMoi);
-    if (!ngayMoi.empty()) {
+    if(!chuanHoaNgay(ngayMoi)){
+    	cout<<"[LOI] vui long nhap ngay thang hop le\n";
+	}
+    if (!ngayMoi.empty()&&chuanHoaNgay(ngayMoi)) {
         phieu->setDate(ngayMoi);
         cout << "=> Tinh trang: Da cap nhat ngay hen tren he thong tam thoi.\n";
+        break;
     }
-    else cout <<  "=> Khong co thay doi nao duoc luu." << endl;
-}
+    if(ngayMoi.empty()){
+    	cout <<  "=> Khong co thay doi nao duoc luu." << endl;
+    	break;
+	} 
+}}
 
 void installationController::capNhatTrangThai(installationForm* phieu) {
     cout << "\n--- CAP NHAT TRANG THAI ---\n";
@@ -304,14 +326,18 @@ void installationController::createFunction(){
 	
 	
 	
-	
+while(true){
 cout << "-> Nhap ngay hen lap dat (VD: 20/10/2026) hoac('0' de thoat): ";
 getline(cin, ngayHen);
  	if(ngayHen=="0"){
 		cout<<"Da thoat chuc nang them phieu !\n";
 		return;
 	}
-ngayHen = chuanHoaNgay(ngayHen);
+if(!chuanHoaNgay(ngayHen)){
+	cout<<"[LOI] Vui long nhap ngay thang hop le (VD: 20/10/2026) !\n";
+}
+else break;
+}
 	//sinh mã tu don
 	int maxId=0;
 	for(auto& ph : dsPhieu){
@@ -343,8 +369,7 @@ ngayHen = chuanHoaNgay(ngayHen);
 	phieuMoi.setState(0);// them 1 phieu thi phai dang trong trang thai cho xu ly
 	
 	if(repoPhieuLapDat.create(phieuMoi)){
-		cout << "\n=> [THANH CONG] Da tao Phieu Lap Dat!\n";
-		
+		cout << "\n=> [THANH CONG] Da tao Phieu Lap Dat ! He thong tu cap ma " <<maPhieuMoi<<"!\n";
 	}}
 void installationController::readFunction() {
     cout << "\n--- DANH SACH PHIEU LAP DAT ---" << endl;
@@ -527,7 +552,6 @@ void installationController::run(){
 	    	if(pos!=chon.length()) choice=-1;
         }catch(...){
         	choice=-1;
-
 		}
         switch(choice){
         	case 1: createFunction(); break;
@@ -538,4 +562,3 @@ void installationController::run(){
 		}
 	} while(choice != 0);
 }
-
