@@ -5,6 +5,9 @@
 #include "customer.h"
 #include "internet.h"
 #include "district.h"
+#include "installation.h"
+#include "warranty.h"
+#include "invoice.h"
 
 using namespace std;
 
@@ -14,6 +17,9 @@ private:
 	Repository<Customer> customerRepo{"data/customer.txt"};
 	Repository<internet> internetRepo{"data/internet.txt"};
 	Repository<district> districtRepo{"data/data_khuvuc.txt"};
+	Repository<installationForm> installationRepo{"data/data_phieulapdat.txt"};
+	Repository<warranty> warrantyRepo{"data/warranty.txt"};
+	Repository<Invoice> invoiceRepo{"data/invoice.txt"};
 	
 	void createFunction();
 	void readFunction();

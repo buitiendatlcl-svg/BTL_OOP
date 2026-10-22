@@ -1,3 +1,4 @@
 KH1|Bui Tien Dat|21/01/2006|Ninh Binh|0865201776
 KH2|Pham quoc dat|037206005222|0123456789|Binh Duong
 KH3|Tran HOANG hai|00000|1331|ha nam
+KH4|Pham Minh Anh|5235|34634|Ninh Binh

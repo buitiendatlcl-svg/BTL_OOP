@@ -60,7 +60,9 @@ string Customer::getAddress() {
 
 void Customer::inputFromKeyboard(){
 	cout << "Nhap Ho va Ten (Nhap '0' de quay lai): ";
-	getline(cin, name);
+	string tmp;
+	getline(cin, tmp);
+	setName(tmp);
 	if(name == "0"){
 		name = "";
 		return;

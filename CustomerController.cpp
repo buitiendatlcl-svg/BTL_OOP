@@ -182,7 +182,7 @@ void CustomerController::updateCustomer(){
 	string input;
 		
 	// Sua ten
-    cout << "+ Nhap Ho va Ten moi (Hien tai: " << cus->getName() << ") (Nhap '0' de quay tro lai): ";
+    cout << "\n+ Nhap Ho va Ten moi (Hien tai: " << cus->getName() << ") (Nhap '0' de quay tro lai): ";
     getline(cin, input);
     if(input == "0") return;
     if (input != ""){
@@ -291,7 +291,8 @@ void CustomerController::deleteCustomer(){
 					auto list3 = customerRepo.getData();
 					for(auto x : list3){
 						x.showToConsole();
-					}			
+					}
+					break;			
 				}
 				else{
 					cout << "\n[LOI]: Loi he thong !!!" << endl;

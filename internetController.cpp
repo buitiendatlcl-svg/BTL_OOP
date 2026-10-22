@@ -264,9 +264,9 @@ void internetController::deleteFunction(){
 			     << "| " << setw(20) << "Ten Goi Mang" 
 			     << "| " << setw(15) << "Toc Do (Mbps)" 
 			     << "| " << setw(20) << "Tep Khach Hang" 
-			     << "| " << "Gia Cuoc (VND)" << endl;
-			    
+			     << "| " << "Gia Cuoc (VND)" << endl;	    
 		cout << string(85, '-') << endl;
+		
 		for(auto x : list){
 			x.showToConsole();
 		}
