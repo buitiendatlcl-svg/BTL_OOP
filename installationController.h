@@ -24,7 +24,7 @@ private:
 	
 	void docDanhSachModem();
 	string chuanHoaTen(string s);
-	string chuanHoaNgay(string s);
+	bool chuanHoaNgay(string s);
 	void showTitle();
 	void capNhatModem(installationForm* phieu);
 	void capNhatNgayHen(installationForm* phieu);
