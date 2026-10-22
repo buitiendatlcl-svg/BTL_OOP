@@ -13,6 +13,9 @@ contractController::contractController(){
 }
 
 void contractController::createFunction(){
+	installationRepo.reloadData();
+	warrantyRepo.reloadData();
+	invoiceRepo.reloadData();
 	cout << "\n--- DANH SACH KHACH HANG HIEN CO ---" << endl;
 	vector<Customer> listCustomer = customerRepo.getData();
 	if(listCustomer.empty()){
@@ -192,6 +195,9 @@ void contractController::readFunction(){
 }
 
 void contractController::updateFunction(){
+	installationRepo.reloadData();
+	warrantyRepo.reloadData();
+	invoiceRepo.reloadData();
 	readFunction();
 	bool check = false;
 	while(true){
@@ -272,6 +278,8 @@ void contractController::deleteFunction(){
 		bool ok = false;
 		if(itContract != NULL){
 			installationRepo.reloadData();
+			warrantyRepo.reloadData();
+			invoiceRepo.reloadData();
 			vector<installationForm> listInstallation = installationRepo.getData();
 			for(auto x : listInstallation){
 				if(x.getIdContract() == search){
@@ -281,7 +289,7 @@ void contractController::deleteFunction(){
 				}
 			}
 			
-			warrantyRepo.reloadData();
+			
 			vector<warranty> listWarranty = warrantyRepo.getData();
 			for(auto x : listWarranty){
 				if(x.getContractId() == search){
@@ -291,7 +299,7 @@ void contractController::deleteFunction(){
 				}
 			}
 			
-			invoiceRepo.reloadData();
+			
 			vector<Invoice> listInvoice = invoiceRepo.getData();
 			for(auto x : listInvoice){
 				if(x.getContractId() == search){
