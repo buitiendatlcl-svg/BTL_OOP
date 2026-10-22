@@ -185,6 +185,12 @@ void installationController::createFunction(){
 	string loaiModem;
 	cout << "\n----THEM MOI PHIEU LAP DAT----" << endl;
 	cout << "\n* DANH SACH HOP DONG DANG CHO THI CONG:\n";
+		cout << left << setw(20) << "Ma hop dong"
+		 	 << "| " << setw(15) << "Ma khach hang"
+		 	 << "| " << setw(15) << "Ma goi"
+			 << "| " << setw(15) << "Ma khu vuc" 
+			 << "| " << setw(15) << "Ngay ky" << endl;
+		cout << string(85, '-') << endl;
 	int dem=0;
 	for(auto& hd : dsHD){//tra ma hop dong trung voi ma hd da có trong phieu lap dat
 		bool check=false;
@@ -233,14 +239,22 @@ void installationController::createFunction(){
 	//nhan vien lap dat 
 	contract* check=repoHopDong.searchId(maHD);
 	string k=check->getAreaId();
-	cout << "\n* DANH SACH MA NHAN VIEN QUAN LY "<<k<<" DANG CO TRONG HE THONG:\n";
+	cout << "\n* DANH SACH NHAN VIEN QUAN LY "<<k<<" DANG CO TRONG HE THONG:\n";
+	cout << left << setw(8)  << "Ma NV" << "| "
+             << left << setw(20) << "Ho va Ten" << "| "
+             << left << setw(12) << "Ngay Sinh" << "| "
+             << left << setw(12) << "SDT" << "| "
+             << left << setw(20) << "Chuyen Mon" << "| "
+             << left << setw(8)  << "Ma KV" << "| "
+             << "Luong (VND)" << endl;
+        cout << "----------------------------------------------------------------------------------------------------" << endl;
 		repoNhanVien.reloadData();
 		vector<employee> dsNV=repoNhanVien.getData();
 		bool kt=false;
 	for(auto& nv : dsNV){
 		if(nv.getAreaId()==k){
-			kt=true;
-		cout<<nv.getId()<<" - "<<nv.getFullName()<<"\n";
+		kt=true;
+		nv.showToConsole();
 	}}
 	cout << "\n" << string(40, '-') << "\n";
 	if(!kt){
