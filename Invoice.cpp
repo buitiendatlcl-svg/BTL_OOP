@@ -131,7 +131,7 @@ bool Invoice::isValidBillingYear(string billingYearStr){
 	try{
 		size_t pos;
 		int year = stoi(billingYearStr, &pos);
-		if(pos == billingYearStr.size() && year > 0 ){
+		if(pos == billingYearStr.size() && year > 2025 ){
 			return true;
 		}
 	}

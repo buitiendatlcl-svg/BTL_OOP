@@ -17,7 +17,7 @@ public:
 	}
 	
 	void readFromFile(){
-	ifstream ifs; // khai bao ifstream giup doc file.txt ma khong xoa hay sua
+		ifstream ifs; // khai bao ifstream giup doc file.txt ma khong xoa hay sua
 		ifs.open(fileName);
 		if(!ifs.is_open())
 			return;
@@ -79,56 +79,56 @@ public:
 	}
 	
 	// sau khi lay pointer va sua thi can goi them ham saveToFile de update thong tin
-void saveChange(){
-	saveToFile();
-}
-int remove(string id){
-	auto it = remove_if(data.begin(), data.end(), [&](T obj){
-		if(obj.getId() == id)
-			return 1;
-		else
-			return 0;	
-	});
-	if(it != data.end()){
-		data.erase(it, data.end());
+	void saveChange(){
 		saveToFile();
-		return 1;
 	}
-	else{
-		return 0;
+	int remove(string id){
+		auto it = remove_if(data.begin(), data.end(), [&](T obj){
+			if(obj.getId() == id)
+				return 1;
+			else
+				return 0;	
+		});
+		if(it != data.end()){
+			data.erase(it, data.end());
+			saveToFile();
+			return 1;
+		}
+		else{
+			return 0;
+		}
 	}
-}
 	
-string autoGenId(string productName){
-	if(data.empty()){
-		return productName + "1";
+	string autoGenId(string productName){
+		if(data.empty()){
+			return productName + "1";
+		}
+	
+		int maxIdNumber = 0;
+		for(auto obj : data){
+			string currentId = obj.getId();
+	        
+	        // 1. Ki?m tra mã ID có d? dài l?n hon ti?n t? (VD: "G1" dài hon "G") 
+	        // và ph?i b?t d?u b?ng ti?n t? dó
+	        if (currentId.length() > productName.length() && currentId.find(productName) == 0) {
+			    string numStr = currentId.substr(productName.length());
+	            // 2. B?c try-catch khi ép ki?u
+	            try {
+			        int num = stoi(numStr);
+			        if(num > maxIdNumber){
+				        maxIdNumber = num;
+			        }
+	            } catch(...) {
+	                // N?u g?p mã l?i (nhu Gabc), h? th?ng s? ph?t l? và không b? crash
+	            }
+	        }
+		}
+		return productName + to_string(maxIdNumber + 1);		
 	}
 
-	int maxIdNumber = 0;
-	for(auto obj : data){
-		string currentId = obj.getId();
-        
-        // 1. Ki?m tra mã ID có d? dài l?n hon ti?n t? (VD: "G1" dài hon "G") 
-        // và ph?i b?t d?u b?ng ti?n t? dó
-        if (currentId.length() > productName.length() && currentId.find(productName) == 0) {
-		    string numStr = currentId.substr(productName.length());
-            // 2. B?c try-catch khi ép ki?u
-            try {
-		        int num = stoi(numStr);
-		        if(num > maxIdNumber){
-			        maxIdNumber = num;
-		        }
-            } catch(...) {
-                // N?u g?p mã l?i (nhu Gabc), h? th?ng s? ph?t l? và không b? crash
-            }
-        }
-	}
-	return productName + to_string(maxIdNumber + 1);		
-}
-
-void reloadData(){
-	data.clear();   
-	readFromFile(); 
-}	
+	void reloadData(){
+		data.clear();   
+		readFromFile(); 
+	}	
 	
 };
