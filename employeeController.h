@@ -6,6 +6,7 @@
 #include "district.h"
 #include "warranty.h"
 #include "repository.h"
+#include "installation.h"
 
 using namespace std;
 
@@ -14,8 +15,8 @@ private:
     Repository<employee> employeeRepo;
     Repository<district> districtRepo;
     Repository<warranty> warrantyRepo;
-    
-//    repository<installationForm> installFormRepo;
+    Repository<installationForm> installFormRepo;
+
 
     void createFunction();
     void readFunction();
@@ -23,6 +24,8 @@ private:
     void deleteFunction();
 
 public:
+   
     employeeController();
+    
     void run();
 };
