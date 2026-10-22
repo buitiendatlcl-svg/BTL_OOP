@@ -10,7 +10,6 @@ employee::employee (){
 	fullName = "";
 	dateOfBirth = "";
 	phoneNumber = "";
-	specialization = "";
 	specialization = ""; //chuyen mon
 	areaId = "";
 	salary = -1.0;

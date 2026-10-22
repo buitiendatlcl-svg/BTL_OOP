@@ -58,32 +58,84 @@ string Customer::getAddress() {
 	return address;
 }
 
+bool Customer::isValidName(string s){
+	for(auto& c : s){
+		if(!isalpha(c)) return false;
+	}
+	return true;
+}
+
+bool Customer::isValidPhoneNumber(string s){
+	if(s[0] != '0' || s.size() != 10 || s.size() != 11) return false;
+	for(auto& c : s){
+		if(!isdigit(c)) return false;
+	}
+	return true;
+}
+
+bool Customer::isValidNationalId(string s){
+	if(s[0] != '0' || s[1] != '0') return false;
+	for(auto& c : s){
+		if(!isdigit(c)) return false;
+	}
+	return true;
+}
+
 void Customer::inputFromKeyboard(){
-	cout << "Nhap Ho va Ten (Nhap '0' de quay lai): ";
-	string tmp;
-	getline(cin, tmp);
-	setName(tmp);
-	if(name == "0"){
-		name = "";
-		return;
+	while(true){
+		cout << "Nhap Ho va Ten (Nhap '0' de quay lai): ";
+		getline(cin, name);
+		if(name == "0"){
+			name = "";
+			return;
+		}
+		if(isValidName(name)){
+			setName(name);
+			break;
+		}
+		else{
+			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
+			continue;
+		}
+	}
+		
+	
+	while(true){
+		cout << "Nhap so CCCD (Nhap '0' de quay lai): ";
+		getline(cin, nationalId);
+		if(nationalId == "0"){
+			nationalId = "";
+			return;
+		}
+		if(isValidNationalId(nationalId)){
+			setNationalId(nationalId);
+			break;
+		} 
+		else{
+			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
+			continue;
+		}
 	}
 	
-	cout << "Nhap so CCCD (Nhap '0' de quay lai): ";
-	getline(cin, nationalId);
-	if(nationalId == "0"){
-		nationalId = "";
-		return;
-	}
-	
-	cout << "Nhap so dien thoai (Nhap '0' de quay lai):";
-	getline(cin, phoneNumber);
-	if(phoneNumber== "0"){
-		phoneNumber = "";
-		return;
+	while(true){
+		cout << "Nhap so dien thoai (Nhap '0' de quay lai):";
+		getline(cin, phoneNumber);
+		if(phoneNumber== "0"){
+			phoneNumber = "";
+			return;
+		}
+		if(isValidPhoneNumber(phoneNumber)){
+			setPhoneNumber(phoneNumber);
+		}
+		else{
+			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
+			continue;
+		}
 	}
 	
 	cout << "Nhap dia chi nha (Nhap '0' de quay lai): ";
 	getline(cin, address);
+	setAddress(address);
 	if(address== "0"){
 		address = "";
 		return;

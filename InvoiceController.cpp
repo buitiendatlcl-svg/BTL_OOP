@@ -53,13 +53,7 @@ void InvoiceController::addInvoice(){
     if (list.empty()) {
         cout << "\n[THONG BAO]: Chua co hop dong nao trong he thong!" << endl;
 	}
-	cout << left << setw(20) << "Ma hop dong"
-		 	 << "| " << setw(15) << "Ma khach hang"
-		 	 << "| " << setw(15) << "Ma goi"
-			 << "| " << setw(15) << "Ma khu vuc" 
-			 << "| " << setw(15) << "Ngay ky" << endl;
-	cout << string(85, '-') << endl;
-		
+
     for (auto obj : list) {
         obj.showToConsole(); 
     }
@@ -265,9 +259,6 @@ void InvoiceController::deleteInvoiceByContractId(){
     	
 	cout << "\n========== XOA HOA DON THEO MA HOP DONG ==========" << endl;
 	string conId;
-    contractRepo.reloadData();
-    contract* con = contractRepo.searchId(conId); 
-    auto list1 = invoiceRepo.getData();
     
     while(true){
     	cout << "\nNhap ma hop dong de xoa toan bo hoa don chua hop dong do (Nhap '0' de quay lai): ";
@@ -285,10 +276,10 @@ void InvoiceController::deleteInvoiceByContractId(){
  		
  		//Kiem tra trong danh sach hoa don co chua hop dong 'conId' khong
 		int check = 0;
-		for(auto& x : list1){
+		for(auto& x : list){
 			if(x.getContractId() == conId){
-				check = 1;
-				break;
+					check = 1;
+					break;
 			}
 		}
 		
@@ -317,8 +308,8 @@ void InvoiceController::deleteInvoiceByContractId(){
          << setw(15) << "Trang Thai" 
          << endl;
     cout << string(145, '-') << endl;
-	for(auto& x : list1){
-		if(x.getContractId() == conId){
+	for(auto& x : list){
+		if(x.getContractId() == conId && x.getPaymentStatus() == "Paid"){
 			x.showToConsole();
 		}
 	}
@@ -329,8 +320,8 @@ void InvoiceController::deleteInvoiceByContractId(){
 		getline(cin, confirm);
 		if(confirm == "y" || confirm == "Y" || confirm == "n" || confirm == "N"){
 			if(confirm == "y" || confirm == "Y"){
-				for(auto& x : list1){
-					if(x.getContractId() == conId){
+				for(auto& x : list){
+					if(x.getContractId() == conId && x.getPaymentStatus() == "Paid"){
 						if(invoiceRepo.remove(x.getId())){
 							continue;
 						}

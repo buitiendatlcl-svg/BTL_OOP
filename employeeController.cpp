@@ -112,7 +112,7 @@ void employeeController::updateFunction() {
     }
 
     if (empPtr != nullptr) {
-        int editChoice;
+        int editChoice = -1;
         do {
             cout << "\n--- THONG TIN HIEN TAI cua nhan vien [" << empPtr->getId() << "] ---" << endl;
 
@@ -128,8 +128,15 @@ void employeeController::updateFunction() {
             cout << "0. HOAN TAT VA LUU" << endl;
             cout << "Chon (0-6):";
             
-            cin >> editChoice;
-            cin.ignore(); 
+            string choiceStr;
+			getline (cin, choiceStr);
+			try{
+			size_t pos;
+			editChoice = stoi(choiceStr, &pos);
+			if (pos != choiceStr.size()) editChoice = -1;
+			} catch(...){
+			editChoice = -1;
+			}
 
             string newInfo;
             switch (editChoice) {

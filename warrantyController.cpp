@@ -21,12 +21,15 @@ void warrantyController::createFunction() {
     }
 
     warranty newWarranty; 
-	
-    cout << "\nDANH SACH HOP DONG:\n";
-    //bo sung them phan in ra cac thuoc tinh hop dong cout << setw ...
+	cout << "DANH SACH HOP DONG HIEN CO: \n";
+    cout << left << setw(20) << "Ma hop dong"
+		 	 << "| " << setw(15) << "Ma khach hang"
+		 	 << "| " << setw(15) << "Ma goi"
+			 << "| " << setw(15) << "Ma khu vuc" 
+			 << "| " << setw(15) << "Ngay ky" << endl;
+		cout << string(85, '-') << endl;
     for (auto c : contractList) {
         c.showToConsole();
-        cout << endl;
     }
 	
 	bool validContract = false;
@@ -55,7 +58,7 @@ void warrantyController::createFunction() {
         }
     }
     
-    cout << "\nDANH SACH NHAN VIEN:\n";
+    cout << "\nDANH SACH NHAN VIEN HIEN CO:\n";
     cout << left << setw(8)  << "Ma NV" << "| "
          << left << setw(20) << "Ho va Ten" << "| "
          << left << setw(12) << "Ngay Sinh" << "| "
@@ -191,10 +194,18 @@ void warrantyController::updateFunction() {
             case 1: {
                 cout << "\n--- DANH SACH NHAN VIEN HIEN CO ---" << endl;
                 vector<employee> employeeList = employeeRepo.getData();
-                for (auto e : employeeList) {
-                    cout << "Ma NV: " << e.getId() << " | Ten: " << e.getFullName() 
-                         << " | Khu vuc: " << e.getAreaId() << endl;
-                }
+                cout << "\nDANH SACH NHAN VIEN HIEN CO:\n";
+    			cout << left << setw(8)  << "Ma NV" << "| "
+         		<< left << setw(20) << "Ho va Ten" << "| "
+         		<< left << setw(12) << "Ngay Sinh" << "| "
+         		<< left << setw(12) << "SDT" << "| "
+         		<< left << setw(20) << "Chuyen Mon" << "| "
+         		<< left << setw(8)  << "Ma KV" << "| "
+         		<< "Luong (VND)" << endl;
+    			cout << "----------------------------------------------------------------------------------------------------" << endl;
+    		for (auto emp : employeeList) {
+       		 emp.showToConsole();
+   			}    
                 
                 while (true) {
                     cout << "Nhap ID nhan vien phu trach moi (Enter de huy): ";

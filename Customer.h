@@ -28,6 +28,10 @@ public :
 	void setAddress(string Address);
 	string getAddress();
 	
+	bool isValidName(string s);
+	bool isValidPhoneNumber(string s);
+	bool isValidNationalId(string s);
+	
 	void inputFromKeyboard() override;
 	void showToConsole() override;
 	string toFileString() override;
