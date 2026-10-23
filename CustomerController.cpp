@@ -6,7 +6,7 @@
 using namespace std;
 
 	CustomerController::CustomerController()
-	:customerRepo("data/customer.txt"), contractRepo("data/contract.txt)"){}
+	:customerRepo("data/customer.txt"), contractRepo("data/contract.txt"){}
 	
 void CustomerController::run(){
 	int choice = -1;
@@ -48,24 +48,6 @@ void CustomerController::run(){
 }
 
 void CustomerController::addCustomer(){
-	cout << "\n==========DANH SACH KHACH HANG HIEN TAI=========" << endl;
-	auto list = customerRepo.getData();
-	if(list.empty()){
-		cout << "\n[THONG BAO]: Hien tai chua co khach hang nao trong danh sach" << endl;
-		return;
-	}
-    cout << left 
-         << setw(10) << "Ma KH" 
-         << setw(25) << "Ho va Ten" 
-         << setw(20) << "So CCCD" 
-         << setw(20) << "So Dien Thoai" 
-         << setw(20) << "Dia Chi" 
-         << endl;
-    cout << string(95, '-') << endl;	
-	for(auto cus : list){
-		cus.showToConsole();
-	}
-	
 	cout << "\n==========THEM KHACH HANG MOI==========" << endl;
 	Customer cus;
 	cus.inputFromKeyboard();
@@ -215,7 +197,7 @@ void CustomerController::updateCustomer(){
 }
 
 void CustomerController::deleteCustomer(){
-	cout << "\n----------DANH SACH KHACH HANG HIEN TAI----------" << endl;
+	cout << "\n----------DANH SACH KHACH HANG HIEN TAI1----------" << endl;
 	cout << left 
          << setw(10) << "Ma KH" 
          << setw(25) << "Ho va Ten" 
@@ -247,7 +229,7 @@ void CustomerController::deleteCustomer(){
 		//Chuyen kh thanh KH
 		for(char &c : cusId){ // c bat buoc phai co tham chieu de cusId co the thay doi gia tri theo C
 				c = toupper(c);
-			}
+		}
 		
 		cus = customerRepo.searchId(cusId);	
 		// Kiem tra xem ma KH con trong danh sach KH khong ?
@@ -255,19 +237,23 @@ void CustomerController::deleteCustomer(){
 			cout << "\n[LOI]: Khong tim thay ma khach hang '" << cusId <<"' trong danh sach. Vui long nhap lai ! " << endl;
 			continue;
 		}
-		
 		//Kiem tra khach hang nay con hop dong khong
 		contractRepo.reloadData();
 		auto list2 = contractRepo.getData();
+		int check = 0;
 		for(auto& x : list2){
 			if(x.getCustomerId() == cusId){
 				cout << "\n[THONG BAO]: Hien tai khach hang '" << cusId << "' van con hop dong '" << x.getId() <<"', khong the thuc hien thao tac xoa!" << endl;
-				continue;
+				check = 1;
+				break;
 			}
 		}
-		
-		break;
-	}
+		if(check==1) continue;
+		else{
+			break;
+		}
+}
+	
 	string choice; 
 	while(true){
 		cout << "\n[LUU Y]: Ban co chac chan muon xoa khach hang '" << cus->getName() << "' (" << cus->getId() << ") khong (y/n) ? ";
