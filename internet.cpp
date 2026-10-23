@@ -40,15 +40,39 @@ double internet::getPrice(){
 	return price;
 }
 
-void internet::inputFromKeyboard(){
+void internet::inputFromKeyboard(){	
+}
+
+void internet::inputFromKeyboard(vector<internet> list){
 	string temp;
 	
-	cout << "Nhap ten goi moi (Nhap 0 de quay lai): ";
-	getline(cin, temp);
-	if(temp == "0"){
-		setId("");
-		return;
+	while(true){
+		cout << "Nhap ten goi moi (Nhap 0 de quay lai): ";
+		getline(cin, temp);
+		if(temp == "0"){
+			setId("");
+			return;
+		}
+		for(auto &c : temp){
+			if(isalpha(c))
+				c = toupper(c);
+		}
+		bool isDuplicate = false;
+		for(auto x : list){
+			if(x.getPackageName() == temp){
+				isDuplicate = true;
+				break;
+			}
+		}
+		if(isDuplicate){
+			cout << "[Loi] Ten goi mang nay da ton tai. Vui long nhap ten khac!" << endl;
+		}
+		else{
+			setPackageName(temp);
+			break;
+		}
 	}
+	
 	setPackageName(temp);
 	
 	int speed;

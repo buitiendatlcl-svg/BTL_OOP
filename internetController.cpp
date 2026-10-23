@@ -7,13 +7,15 @@ internetController::internetController(){
 }
 
 void internetController::createFunction(){
+	internetRepo.reloadData();
+	vector<internet> list = internetRepo.getData();
 	cout << "\n--- NHAP THONG TIN GOI MANG MOI ---" << endl;
 	internet newInternet;
 	
 	string newInternetId = internetRepo.autoGenId("G");
 	newInternet.setId(newInternetId);
 	
-	newInternet.inputFromKeyboard();
+	newInternet.inputFromKeyboard(list);
 	
 	if(newInternet.getId() == ""){
 		cout << "Quay lai menu!" << endl;
@@ -79,14 +81,33 @@ void internetController::updateFunction(){
 			}
 			auto it = internetRepo.searchId(search);
 			if(it != NULL){
+				contractRepo.reloadData();
+				bool isRented = false;
+				vector<contract> contractList = contractRepo.getData();
+				for(auto c : contractList){
+					if(c.getPackageId() == search){
+						isRented = true;
+						break;
+					}
+				}
 				int option = -1;
 				do{
-					cout << "\nNhap thanh phan ban muon thay doi:" << endl;
-					cout << "1.Ten goi mang" << endl;
-					cout << "2.Toc do" << endl;
-					cout << "3.Tep khach hang" << endl;
-					cout << "4.Gia cuoc" << endl;
-					cout << "0.Quay lai" << endl;
+					if(isRented){
+						cout << "(!) Goi mang nay da duoc khach hang thue." << endl;
+						cout << "(!) He thong chi cho phep sua Ten va Tep khach hang de bao toan lich su doanh thu." << endl;
+					}
+					cout << "Nhap thanh phan ban muon thay doi:" << endl;
+					cout << "1. Ten goi mang" << endl;
+					if (isRented) 
+						cout << "2. Toc do (Khoa)" << endl;
+					else 
+						cout << "2. Toc do" << endl;
+					cout << "3. Tep khach hang" << endl;
+					if(isRented) 
+						cout << "4. Gia cuoc (Khoa)" << endl;
+					else
+						cout << "4. Gia cuoc" << endl;
+					cout << "0. Quay lai chon ID" << endl;
 					cout << "Nhap lua chon cua ban: ";
 					string optionStr;
 					getline(cin, optionStr);
@@ -114,6 +135,10 @@ void internetController::updateFunction(){
 							break;
 						}
 						case 2:{
+							if(isRented){
+								cout << "[LOI] Goi mang dang co hop dong hoat dong. Khong the sua toc do!" << endl;
+								break;
+							}
 							cout << "Nhap toc do ban muon thay doi (nhap 0 de quay lai): ";
 							int newSpeed;
 							bool check = false;
@@ -206,10 +231,14 @@ void internetController::updateFunction(){
 							break;
 						}
 						case 4:{
-							cout << "Nhap gia cuoc ban muon thay doi (nhap 0 de quay lai): ";
+							if (isRented) {
+								cout << "[LOI] Goi mang dang co hop dong hoat dong. Neu muon doi gia, vui long tao goi mang moi!" << endl;
+								break;
+							}
 							double newPrice;
 							bool check = false;
 							while(true){
+								cout << "Nhap gia cuoc ban muon thay doi (nhap 0 de quay lai): ";
 								string newPriceStr;
 								getline(cin, newPriceStr);
 								if(newPriceStr == "0"){

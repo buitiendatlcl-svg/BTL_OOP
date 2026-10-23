@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -26,6 +27,7 @@ public:
 	double getPrice();
 	
 	void inputFromKeyboard();
+	void inputFromKeyboard(vector<internet> list);
 	
 	void showToConsole();
 	
