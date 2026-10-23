@@ -39,9 +39,9 @@ void district::inputFromKeyboard() {
 
 void district::showToConsole() {
     cout << left << setw(10) << id 
-         << setw(25) << nameDistrict
-         << setw(25) << station 
-         << setw(15) << maxBandWidth << endl;	
+         << "| " << setw(25) << nameDistrict
+         << "| " << setw(25) << station 
+         << "| " << setw(15) << maxBandWidth << endl;	
 }
 
 string district::toFileString() {

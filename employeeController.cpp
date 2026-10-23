@@ -2,7 +2,7 @@
 #include <iomanip>
 
 employeeController::employeeController() 
-    : employeeRepo("data/employee.txt"), districtRepo("data/district.txt"), warrantyRepo("data/warranty.txt")
+    : employeeRepo("data/employee.txt"), districtRepo("data/data_khuvuc.txt"), warrantyRepo("data/warranty.txt")
 	, installFormRepo("data/data_phieulapdat.txt"){
 }
 
@@ -17,15 +17,16 @@ void employeeController::createFunction() {
         cout << "=> Da huy thao tac them nhan vien, quay lai menu!" << endl;
         return;
     }
-    
+    districtRepo.reloadData();
     cout << "DANH SACH KHU VUC HIEN CO: \n";
     vector<district> distList = districtRepo.getData();
     if (distList.empty()){
         cout << "Chua co khu vuc nao! Vui long tao khu vuc truoc.\n";
         return; 
     }
+    
     for (auto d : distList){
-        cout << "Ma KV: " << d.getId() << " - Ten KV: " << d.getDistrict() << endl;
+        cout << "Ma KV: " << d.getId() << " - Ten KV: " << d.getDistrict() << " - Ten Tram: " << d.getStation() << endl;
     }
     
     bool validDistrict = false;
@@ -222,7 +223,7 @@ void employeeController::updateFunction() {
                     cout << "\nDANH SACH KHU VUC HIEN CO: \n";
                     vector<district> distList = districtRepo.getData();
                     for (auto d : distList){
-                        cout << "Ma KV: " << d.getId() << " - Ten KV: " << d.getDistrict() << endl;
+                        cout << "Ma KV: " << d.getId() << " - Ten KV: " << d.getDistrict() << " - Ten Tram: " << d.getStation() << endl;
                     }
                     
                     bool validDistrict = false;
