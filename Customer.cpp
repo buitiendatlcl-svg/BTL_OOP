@@ -60,21 +60,25 @@ string Customer::getAddress() {
 
 bool Customer::isValidName(string s){
 	for(auto& c : s){
+		if(isspace(c))
+			continue;
 		if(!isalpha(c)) return false;
 	}
 	return true;
 }
 
 bool Customer::isValidPhoneNumber(string s){
-	if(s[0] != '0' || s.size() != 10 || s.size() != 11) return false;
 	for(auto& c : s){
 		if(!isdigit(c)) return false;
 	}
-	return true;
+	if(s[0] == '0' && s.size() == 10)
+		return true;
+	else
+		return false;
 }
 
 bool Customer::isValidNationalId(string s){
-	if(s[0] != '0' || s[1] != '0') return false;
+	if(s[0] != '0') return false;
 	for(auto& c : s){
 		if(!isdigit(c)) return false;
 	}
@@ -126,6 +130,7 @@ void Customer::inputFromKeyboard(){
 		}
 		if(isValidPhoneNumber(phoneNumber)){
 			setPhoneNumber(phoneNumber);
+			break;
 		}
 		else{
 			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
@@ -158,5 +163,3 @@ void Customer::fromFileString( string& line){
 	getline(ss, phoneNumber, '|');
 	getline(ss, address, '|');
 }
-
-

@@ -131,7 +131,7 @@ bool Invoice::isValidBillingYear(string billingYearStr){
 	try{
 		size_t pos;
 		int year = stoi(billingYearStr, &pos);
-		if(pos == billingYearStr.size() && year > 2025 ){
+		if(pos == billingYearStr.size() && year > 2025){
 			return true;
 		}
 	}
@@ -263,14 +263,14 @@ void Invoice::inputFromKeyboard() {
 
 void Invoice::showToConsole(){
 	cout << left
-		<< setw(30) << id
-		<< setw(20) << contractId
-		<< setw(20) << (to_string(billingMonth) + "/" + to_string(billingYear))
-		<< setw(15) << packageFee
-		<< setw(15) << discount
-		<< setw(15) << surcharge
-		<< setw(15) << totalAmount
-		<< setw(15) << paymentStatus
+		<< "| "	<< setw(30) << id
+		<< "| " << setw(20) << contractId
+		<< "| " << setw(20) << (to_string(billingMonth) + "/" + to_string(billingYear))
+		<< "| " << setw(15) << packageFee
+		<< "| " << setw(15) << discount
+		<< "| " << setw(15) << surcharge
+		<< "| " << setw(15) << totalAmount
+		<< "| " << setw(15) << paymentStatus
 		<< endl;
 }
 

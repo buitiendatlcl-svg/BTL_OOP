@@ -134,16 +134,16 @@ void InvoiceController::displayAllInvoices() {
     }
 
     cout << left 
-         << setw(30) << "Ma Hoa Don" 
-         << setw(20) << "Ma Hop Dong" 
-         << setw(20) << "Thang/Nam" 
-         << setw(15) << "Cuoc Goi" 
-         << setw(15) << "Chiet Khau" 
-         << setw(15) << "Phu Phi" 
-         << setw(15) << "Tong so tien"
-         << setw(15) << "Trang Thai" 
-         << endl;
-    cout << string(140, '-') << endl;
+		        << "| " << setw(30) << "Ma Hoa Don" 
+		        << "| "  << setw(20) << "Ma Hop Dong" 
+		        << "| "  << setw(20) << "Thang/Nam" 
+		        << "| "  << setw(15) << "Cuoc Goi" 
+		        << "| "  << setw(15) << "Chiet Khau" 
+		        << "| "  << setw(15) << "Phu Phi" 
+		        << "| "  << setw(15) << "Tong so tien"
+		        << "| "  << setw(15) << "Trang Thai" 
+		         << endl;
+		    	cout << string(155, '-') << endl;
 
     for (auto obj : list) {
         obj.showToConsole(); 
@@ -161,16 +161,16 @@ void InvoiceController::updatePaymentStatus(){
     }
 
     cout << left 
-         << setw(30) << "Ma Hoa Don" 
-         << setw(20) << "Ma Hop Dong" 
-         << setw(20) << "Thang/Nam" 
-         << setw(15) << "Cuoc Goi" 
-         << setw(15) << "Chiet Khau" 
-         << setw(15) << "Phu Phi" 
-         << setw(15) << "Tong so tien"
-         << setw(15) << "Trang Thai" 
-         << endl;
-    cout << string(140, '-') << endl;
+		        << "| " << setw(30) << "Ma Hoa Don" 
+		        << "| "  << setw(20) << "Ma Hop Dong" 
+		        << "| "  << setw(20) << "Thang/Nam" 
+		        << "| "  << setw(15) << "Cuoc Goi" 
+		        << "| "  << setw(15) << "Chiet Khau" 
+		        << "| "  << setw(15) << "Phu Phi" 
+		        << "| "  << setw(15) << "Tong so tien"
+		        << "| "  << setw(15) << "Trang Thai" 
+		         << endl;
+		    	cout << string(155, '-') << endl;
 
     for (auto obj : list) {
         obj.showToConsole(); 
@@ -242,16 +242,16 @@ void InvoiceController::deleteInvoiceByContractId(){
     }
 
     cout << left 
-         << setw(30) << "Ma Hoa Don" 
-         << setw(20) << "Ma Hop Dong" 
-         << setw(20) << "Thang/Nam" 
-         << setw(15) << "Cuoc Goi" 
-         << setw(15) << "Chiet Khau" 
-         << setw(15) << "Phu Phi" 
-         << setw(15) << "Tong so tien"
-         << setw(15) << "Trang Thai" 
-         << endl;
-    cout << string(145, '-') << endl;
+		        << "| " << setw(30) << "Ma Hoa Don" 
+		        << "| "  << setw(20) << "Ma Hop Dong" 
+		        << "| "  << setw(20) << "Thang/Nam" 
+		        << "| "  << setw(15) << "Cuoc Goi" 
+		        << "| "  << setw(15) << "Chiet Khau" 
+		        << "| "  << setw(15) << "Phu Phi" 
+		        << "| "  << setw(15) << "Tong so tien"
+		        << "| "  << setw(15) << "Trang Thai" 
+		         << endl;
+		    	cout << string(155, '-') << endl;
 
     for (auto& obj : list) {
         obj.showToConsole(); 
@@ -298,16 +298,17 @@ void InvoiceController::deleteInvoiceByContractId(){
 	//Hien thi cac hoa don chua ma HD conId
 	cout << "\n---------- DANH SACH HOA DON CUA HOP DONG '" << conId << "' ----------" << endl;
 	cout << left 
-         << setw(30) << "Ma Hoa Don" 
-         << setw(20) << "Ma Hop Dong" 
-         << setw(20) << "Thang/Nam" 
-         << setw(15) << "Cuoc Goi" 
-         << setw(15) << "Chiet Khau" 
-         << setw(15) << "Phu Phi" 
-         << setw(15) << "Tong so tien"
-         << setw(15) << "Trang Thai" 
+        << "| " << setw(30) << "Ma Hoa Don" 
+        << "| "  << setw(20) << "Ma Hop Dong" 
+        << "| "  << setw(20) << "Thang/Nam" 
+        << "| "  << setw(15) << "Cuoc Goi" 
+        << "| "  << setw(15) << "Chiet Khau" 
+        << "| "  << setw(15) << "Phu Phi" 
+        << "| "  << setw(15) << "Tong so tien"
+        << "| "  << setw(15) << "Trang Thai" 
          << endl;
-    cout << string(145, '-') << endl;
+    	cout << string(155, '-') << endl;
+
 	for(auto& x : list){
 		if(x.getContractId() == conId && x.getPaymentStatus() == "Paid"){
 			x.showToConsole();
@@ -333,16 +334,16 @@ void InvoiceController::deleteInvoiceByContractId(){
 				auto list3 = invoiceRepo.getData();
 			 
 			    cout << left 
-		         << setw(30) << "Ma Hoa Don" 
-		         << setw(20) << "Ma Hop Dong" 
-		         << setw(20) << "Thang/Nam" 
-		         << setw(15) << "Cuoc Goi" 
-		         << setw(15) << "Chiet Khau" 
-		         << setw(15) << "Phu Phi" 
-		         << setw(15) << "Tong so tien"
-		         << setw(15) << "Trang Thai" 
+		        << "| " << setw(30) << "Ma Hoa Don" 
+		        << "| "  << setw(20) << "Ma Hop Dong" 
+		        << "| "  << setw(20) << "Thang/Nam" 
+		        << "| "  << setw(15) << "Cuoc Goi" 
+		        << "| "  << setw(15) << "Chiet Khau" 
+		        << "| "  << setw(15) << "Phu Phi" 
+		        << "| "  << setw(15) << "Tong so tien"
+		        << "| "  << setw(15) << "Trang Thai" 
 		         << endl;
-		    	cout << string(145, '-') << endl;
+		    	cout << string(155, '-') << endl;
 		
 			    for (auto obj : list3) {
 			        obj.showToConsole(); 
@@ -362,8 +363,3 @@ void InvoiceController::deleteInvoiceByContractId(){
 		}
 	}	
 }
-
-
-
-
-
