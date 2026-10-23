@@ -16,12 +16,12 @@ void contractController::createFunction(){
 	installationRepo.reloadData();
 	warrantyRepo.reloadData();
 	invoiceRepo.reloadData();
-	cout << "\n--- DANH SACH KHACH HANG HIEN CO ---" << endl;
 	vector<Customer> listCustomer = customerRepo.getData();
 	if(listCustomer.empty()){
 		cout << "Hien khong co khach hang nao!" << endl;
 	}	
 	else{
+		cout << "\n--- DANH SACH KHACH HANG HIEN CO ---" << endl;
 		cout << left 
          << setw(10) << "Ma KH" 
          << setw(25) << "Ho va Ten" 

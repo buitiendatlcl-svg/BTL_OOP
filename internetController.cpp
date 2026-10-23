@@ -241,7 +241,7 @@ void internetController::updateFunction(){
 							break;
 						}
 						default:
-							cout << "Lua chon khong hop le!" << endl;
+							
 							break;	
 					}
 				}while(option != 0);		
@@ -302,6 +302,8 @@ void internetController::deleteFunction(){
 		}
 	}
 }
+
+
 
 void internetController::run(){
 	int choice = -1;

@@ -13,6 +13,9 @@ private :
 	string address;
 	
 	string chuanHoa(string s);
+	bool isValidName(string s);
+	bool isValidNationalId(string s);
+	bool isValidPhoneNumber(string s);
 public : 
 	Customer();
 	

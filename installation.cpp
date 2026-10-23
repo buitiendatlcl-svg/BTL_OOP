@@ -60,11 +60,11 @@ installationForm::installationForm(){
 	        default: trangThai = "Khong xac dinh"; break;
 			}
 			cout << left << setw(18) << id
-         << setw(15) << idContract
-         << setw(25) << idEmployee
-         << setw(25) << modem
-         << setw(20) << date
-         << setw(15) << trangThai << endl;
+         << "| " << setw(15) << idContract
+         << "| " << setw(25) << idEmployee
+         << "| " << setw(25) << modem
+         << "| " << setw(20) << date
+         << "| " << setw(15) << trangThai << endl;
     		
     		
 		}

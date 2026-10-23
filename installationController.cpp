@@ -60,12 +60,12 @@ void installationController::docDanhSachModem(){//doc danh sach modem luu map ke
 }
 	void installationController:: showTitle(){
 		cout << left << setw(18) << "Ma phieu lap dat" 
-         << setw(15) << "Ma hop dong" 
-         << setw(25) << "Ma nhan vien ky thuat" 
-         << setw(25) << "Loai modem" 
-         << setw(20) << "Ngay lap dat" 
-         << setw(15) << "Trang thai" << endl;
-    cout << string(113, '-') << endl;
+         << "| " << setw(15) << "Ma hop dong" 
+         << "| " << setw(25) << "Ma nhan vien ky thuat" 
+         << "| " << setw(25) << "Loai modem" 
+         << "| " << setw(20) << "Ngay lap dat" 
+         << "| " << setw(15) << "Trang thai" << endl;
+    cout << string(125, '-') << endl;
 	}
 	
 	void installationController::capNhatNgayHen(installationForm* phieu) {

@@ -48,9 +48,9 @@ void districtController::docDanhSachTram() {
 
 void districtController::showTitle() {
     cout << left << setw(10) << "Ma KV" 
-         << setw(25) << "Ten Tinh/Thanh" 
-         << setw(25) << "Tram Quan Ly" 
-         << setw(15) << "Bang Thong" << endl;
+         << "| " << setw(25) << "Ten Tinh/Thanh" 
+         << "| " << setw(25) << "Tram Quan Ly" 
+         << "| " << setw(15) << "Bang Thong" << endl;
     cout << string(75, '-') << endl;
 }
 int districtController::tinhTongBangThong(string maKV){//ham tinh tong bang thon trong 1 khu vuc trong hop dong
