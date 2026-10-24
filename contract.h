@@ -42,3 +42,4 @@ public:
 	
 	void fromFileString(string &line);
 };
+
