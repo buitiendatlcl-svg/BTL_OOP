@@ -169,14 +169,14 @@ void InvoiceController::addInvoice(){
 	// RANG BUOC 2 (RANG BUOC NGHIEM THU): Chi xuat hoa don neu da co phieu lap dat state = 2 (Hoan thanh)
 	bool daNghiemThu = false;
 	for (auto& pld : installationRepo.getData()) {
-		if (pld.getIdContract() == contractId && pld.getStatus() == 2) {
+		if (pld.getIdContract() == contractId && pld.getStatus() == 1) {
 			daNghiemThu = true;
 			break;
 		}
 	}
 	if (!daNghiemThu) {
 		cout << "\n[TU CHOI XUAT HOA DON]: Hop dong '" << contractId 
-		     << "' chua co Phieu lap dat o trang thai 'Hoan thanh' (state = 2)!" << endl;
+		     << "' chua co Phieu lap dat o trang thai 'Hoan thanh' (state = 1)!" << endl;
 		cout << "=> He thong chi xuat hoa don sau khi da nghiem thu lap dat thanh cong." << endl;
 		return;
 	}
