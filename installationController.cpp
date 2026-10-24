@@ -86,12 +86,12 @@ void installationController::docDanhSachModem(){//doc danh sach modem luu map ke
 }
 	void installationController:: showTitle(){
 		cout << left << setw(18) << "Ma phieu lap dat" 
-         << setw(15) << "Ma hop dong" 
-         << setw(25) << "Ma nhan vien ky thuat" 
-         << setw(25) << "Loai modem" 
-         << setw(20) << "Ngay lap dat" 
-         << setw(15) << "Trang thai" << endl;
-    cout << string(113, '-') << endl;
+          <<"| " << setw(15) << "Ma hop dong" 
+          <<"| " << setw(25) << "Ma nhan vien ky thuat" 
+          <<"| " << setw(25) << "Loai modem" 
+          <<"| " << setw(20) << "Ngay lap dat" 
+          <<"| " << setw(15) << "Trang thai" << endl;
+    cout << string(125, '-') << endl;
 	}
 	
 	void installationController::capNhatNgayHen(installationForm* phieu) {
@@ -349,22 +349,26 @@ void installationController::createFunction(){
 	//nhan vien lap dat 
 	contract* check=repoHopDong.searchId(maHD);
 	string k=check->getAreaId();
+	district* timKiem=repoKhuVuc.searchId(k);
 	cout << "\n* DANH SACH NHAN VIEN QUAN LY "<<k<<" DANG CO TRONG HE THONG:\n";
-	cout << left << setw(8)  << "Ma NV" << "| "
+ cout << left << setw(8)  << "Ma NV" << "| "
              << left << setw(20) << "Ho va Ten" << "| "
              << left << setw(12) << "Ngay Sinh" << "| "
              << left << setw(12) << "SDT" << "| "
              << left << setw(20) << "Chuyen Mon" << "| "
              << left << setw(8)  << "Ma KV" << "| "
+             << left << setw(15) << "Ten KV" << "| "
+             << left << setw(15) << "Ten Tram" << "| "
+             << left << setw(8)  << "Cap Bac" << "| "
              << "Luong (VND)" << endl;
-        cout << "----------------------------------------------------------------------------------------------------" << endl;
+        cout << string(144, '-') << endl;
 		repoNhanVien.reloadData();
 		vector<employee> dsNV=repoNhanVien.getData();
 		bool kt=false;
 	for(auto& nv : dsNV){
 		if(nv.getAreaId()==k){
 		kt=true;
-		nv.showToConsole();
+		nv.showToConsole(timKiem->getDistrict(),timKiem->getStation());
 	}}
 	cout << "\n" << string(40, '-') << "\n";
 	if(!kt){
@@ -573,6 +577,12 @@ void installationController::updateFunction(){
     if (timThay == nullptr) {
     cout << "=> [LOI]: Khong tim thay Phieu Lap Dat co ma: " << ma << " Moi nhap lai !"<<"\n";
 	}
+	
+	else{
+		if(timThay->getStatus()==1){
+			cout<<"Phieu lap dat da hoan thanh vui long ko sua thong tin !\n";
+			continue;
+		}
 		else{
 		while(true){
         cout << "\n--- THONG TIN PHIEU HIEN TAI ---\n";
@@ -613,7 +623,7 @@ void installationController::updateFunction(){
     }catch(...){
     	cout<<"[LOI] Vui long chi nhap so\n";
 	}}}
-}}
+}}}
     void installationController::deleteFunction(){
     	cout << "\n--- DANH SACH PHIEU LAP DAT HIEN CO TRONG HE THONG ---" << endl;
     	vector<installationForm> ds=repoPhieuLapDat.getData();
