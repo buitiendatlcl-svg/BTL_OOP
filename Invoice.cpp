@@ -15,24 +15,28 @@ Invoice::Invoice(){
 	surcharge = 0.0;
 	totalAmount = 0.0;
 	paymentStatus = "Unpaid";
-	
+	invoiceDate = "";
+	dueDate = "";
+	paymentDate = "none";	
 }
 
 Invoice::Invoice(string contractId, int billingMonth, int billingYear, double packageFee, double discount, double surcharge, double totalAmount,
-				string paymentStatus){
-		this->contractId = contractId;
-		this->billingMonth = billingMonth;
-		this->billingYear = billingYear;
-		this->packageFee = packageFee;
-		this->discount = discount;
-		this->surcharge = surcharge;
-		this->totalAmount = totalAmount;
-		this->paymentStatus = paymentStatus;
-		
-		generateInvoiceId();
-		calculateTotalAmount();
-		
-	}
+				string paymentStatus, string invoiceDate, string dueDate, string paymentDate){
+	this->contractId = contractId;
+	this->billingMonth = billingMonth;
+	this->billingYear = billingYear;
+	this->packageFee = packageFee;
+	this->discount = discount;
+	this->surcharge = surcharge;
+	this->totalAmount = totalAmount;
+	this->paymentStatus = paymentStatus;
+	this->invoiceDate = invoiceDate;
+	this->dueDate = dueDate;
+	this->paymentDate = paymentDate;
+	
+	generateInvoiceId();
+	calculateTotalAmount();
+}
 	
 //Ham sinh Id hoa don
 
@@ -110,6 +114,27 @@ void Invoice::setPaymentStatus(const string& paymentStatus){
 	this->paymentStatus = paymentStatus;
 }
 
+string Invoice::getInvoiceDate() {
+	return invoiceDate;
+}
+void Invoice::setInvoiceDate(string invoiceDate) {
+	this->invoiceDate = invoiceDate;
+}
+
+string Invoice::getDueDate() {
+	return dueDate;
+}
+void Invoice::setDueDate(string dueDate) {
+	this->dueDate = dueDate;
+}
+
+string Invoice::getPaymentDate() {
+	return paymentDate;
+}
+void Invoice::setPaymentDate(string paymentDate) {
+	this->paymentDate = paymentDate;
+}
+
 //Kiem tra thang phai la so > 0, < 13
 bool Invoice::isValidBillingMonth(string billingMonthStr){
 	if(billingMonthStr.empty()) return false;
@@ -131,7 +156,7 @@ bool Invoice::isValidBillingYear(string billingYearStr){
 	try{
 		size_t pos;
 		int year = stoi(billingYearStr, &pos);
-		if(pos == billingYearStr.size() && year > 2025){
+		if(pos == billingYearStr.size() && year > 2025 ){
 			return true;
 		}
 	}
@@ -139,33 +164,50 @@ bool Invoice::isValidBillingYear(string billingYearStr){
 		return false;
 	}
 }
-		
+// Kiem tra chiet khau (cho phep >= 0 de nhap 0 VND khi khong co giam gia)
 bool Invoice::isValidDiscount(string discountStr){
 	if(discountStr.empty()) return false;
 	try{
 		size_t pos;
 		double dis = stod(discountStr, &pos);
-		if(pos == discountStr.size() && dis > 0){
+		if(pos == discountStr.size() && dis >= 0){
 			return true;
 		}
 	}
 	catch(...){
 		return false;
 	}
+	return false;
 }
 
+// Kiem tra phu phi (cho phep >= 0 de nhap 0 VND khi khong co phat/no)
 bool Invoice::isValidSurcharge(string surchargeStr){
 	if(surchargeStr.empty()) return false;
 	try{
 		size_t pos;
 		double surcharge = stod(surchargeStr, &pos);
-		if(pos == surchargeStr.size() && surcharge > 0){
+		if(pos == surchargeStr.size() && surcharge >= 0){
 			return true;
 		}
 	}
 	catch(...){
 		return false;
 	}
+	return false;
+}
+
+// Kiem tra dinh dang ngay dd/mm/yyyy
+bool Invoice::isValidDate(string dateStr){
+	if(dateStr.empty()) return false;
+	stringstream ss(dateStr);
+	int d, m, y;
+	char c1, c2;
+	if (ss >> d >> c1 >> m >> c2 >> y) {
+		if (c1 == '/' && c2 == '/' && d >= 1 && d <= 31 && m >= 1 && m <= 12 && y >= 2000) {
+			return true;
+		}
+	}
+	return false;
 }
 
 void Invoice::inputFromKeyboard() {
@@ -239,49 +281,55 @@ void Invoice::inputFromKeyboard() {
 		cout << "\[LUU Y]: Vui long nhap lai phu phi !" << endl;
 	}
 	
-	//Unpaid / paid
-	while(true){
-    cout << "\n[CAC LUA CHON DE CAP NHAT TRANG THAI THANH TOAN]";
-    cout << "\n'1' - Paid";
-    cout << "\n'2' - Unpaid";
-    cout << "\n'0' - Quay tro lai menu";
-    cout << "\nNhap lua chon cua ban: ";
-    string choice;
-    getline(cin, choice);
-    if(choice == "1"){ setPaymentStatus("Paid"); break; }
-    else if(choice == "2"){setPaymentStatus("Unpaid"); break; }
-    else if(choice == "0"){paymentStatus = ""; return; }
-    else{
-    	cout << "[LOI]: Vui long chi chon 0, 1 hoac 2!" << endl;
+// Tu dong thiet lap ngay lap hoa don va han thanh toan theo thang/nam cuoc
+	string mStr = (billingMonth < 10) ? ("0" + to_string(billingMonth)) : to_string(billingMonth);
+	cout << "\nNhap ngay lap hoa don (Nhan Enter lay mac dinh '01/" << mStr << "/" << billingYear << "'): ";
+	getline(cin, temp);
+	if (temp.empty() || !isValidDate(temp)) {
+		setInvoiceDate("01/" + mStr + "/" + to_string(billingYear));
+	} else {
+		setInvoiceDate(temp);
 	}
-}
-    
-    // T? Ð?NG TÍNH TOÁN & SINH MÃ NGAY T?I ÐÂY:
-    generateInvoiceId();   // T? sinh mã: INV-HD001-M10-Y2026
-    calculateTotalAmount(); 
+	cout << "Nhap han thanh toan (Nhan Enter lay mac dinh '15/" << mStr << "/" << billingYear << "'): ";
+	getline(cin, temp);
+	if (temp.empty() || !isValidDate(temp)) {
+		setDueDate("15/" + mStr + "/" + to_string(billingYear));
+	} else {
+		setDueDate(temp);
+	}
+	
+	// Mac dinh hoa don moi lap luon o trang thai chua thanh toan (Unpaid)
+	setPaymentStatus("Unpaid");
+	setPaymentDate("none");	
+	// Tu dong tinh toan ma va tong tien
+	generateInvoiceId();
+	calculateTotalAmount(); 
 }
 
 void Invoice::showToConsole(){
 	cout << left
-		<< "| "	<< setw(30) << id
-		<< "| " << setw(20) << contractId
-		<< "| " << setw(20) << (to_string(billingMonth) + "/" + to_string(billingYear))
-		<< "| " << setw(15) << packageFee
-		<< "| " << setw(15) << discount
-		<< "| " << setw(15) << surcharge
-		<< "| " << setw(15) << totalAmount
-		<< "| " << setw(15) << paymentStatus
+		<< setw(21) << id
+		<< "| " << setw(7)  << contractId
+		<< "| " << setw(9)  << (to_string(billingMonth) + "/" + to_string(billingYear))
+		<< "| " << setw(11) << fixed << setprecision(0) << packageFee
+		<< "| " << setw(11) << fixed << setprecision(0) << discount
+		<< "| " << setw(10) << fixed << setprecision(0) << surcharge
+		<< "| " << setw(12) << fixed << setprecision(0) << totalAmount
+		<< "| " << setw(10) << paymentStatus
+		<< "| " << setw(12) << invoiceDate
+		<< "| " << setw(12) << dueDate
+		<< "| " << setw(12) << paymentDate
 		<< endl;
 }
-
-// Ghi file
+// Ghi 13 cot ra file
 string Invoice::toFileString()  {
     return id + "|" + contractId + "|" + to_string(billingMonth) + "|" + to_string(billingYear) + "|" 
          + to_string(packageFee) + "|" + to_string(discount) + "|" + to_string(surcharge) + "|" 
-         + to_string(totalAmount) + "|" + paymentStatus;
+         + to_string(totalAmount) + "|" + paymentStatus + "|" + invoiceDate + "|" + dueDate + "|"
+         + paymentDate;
 }
-// 9 Doc file
-void Invoice::fromFileString( string& line) {
+// Doc 13 cot tu file va tu dong xu ly tuong thich du lieu cu
+void Invoice::fromFileString(string& line) {
     if (line.empty()) return;
     stringstream ss(line);
     string item;
@@ -296,8 +344,16 @@ void Invoice::fromFileString( string& line) {
     getline(ss, item, '|'); if (!item.empty()) totalAmount = stod(item);
     
     getline(ss, paymentStatus, '|');
+    getline(ss, invoiceDate, '|');
+    getline(ss, dueDate, '|');
+    getline(ss, paymentDate, '|');
+	if (!paymentStatus.empty() && paymentStatus.back() == '\r') paymentStatus.pop_back();
+	// Tu dong gan mac dinh neu doc file cu (khi chua co 4 cot moi)
+	string mStr = (billingMonth < 10) ? ("0" + to_string(billingMonth)) : to_string(billingMonth);
+	if (invoiceDate.empty()) invoiceDate = "01/" + mStr + "/" + to_string(billingYear);
+	if (dueDate.empty()) dueDate = "15/" + mStr + "/" + to_string(billingYear);
+	if (paymentDate.empty()) paymentDate = (paymentStatus == "Paid") ? invoiceDate : "none";
 }
-
 
 
 

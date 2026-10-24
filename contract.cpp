@@ -111,14 +111,14 @@ void contract::calculateExpiryDate(string installDate){
 
 void contract::showToConsole(){
 	string statusText = (status == 1) ? "Hoat dong" : "Khong hoat dong";
-	cout << left << setw(20) << getId()
+	cout << left << setw(15) << getId()
 		 << "| " << setw(15) << customerId
-		 << "| " << setw(15) << packageId
-		 << "| " << setw(15) << areaId 
-		 << "| " << setw(15) << signDate
+		 << "| " << setw(10) << packageId
+		 << "| " << setw(12) << areaId 
+		 << "| " << setw(12) << signDate
 		 << "| " << setw(10) << (to_string(term) + " thang")
 		 << "| " << setw(15) << expiryDate
-		 << "| " << setw(18) << statusText << endl;
+		 << "| " << setw(16) << statusText << endl;
 }
 
 string contract::toFileString(){
