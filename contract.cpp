@@ -12,6 +12,7 @@ contract::contract(){
 	areaId = "";
 	signDate = "";
 	term = 0;
+	status = 2;
 }
 
 void contract::setCustomerId(string customerId){
@@ -51,21 +52,29 @@ void contract::setTerm(int term){
 int contract::getTerm(){
 	return term;
 }
+void contract::setStatus(int status){
+	this->status = status;
+}
+int contract::getStatus(){
+	return status;
+}
 
 void contract::inputFromKeyboard(){
 }
 
 void contract::showToConsole(){
+	string statusText = (status == 1) ? "Hoat dong" : "Khong hoat dong";
 	cout << left << setw(20) << getId()
 		 << "| " << setw(15) << customerId
 		 << "| " << setw(15) << packageId
 		 << "| " << setw(15) << areaId 
 		 << "| " << setw(15) << signDate
-		 << "| " << setw(10) << (to_string(term) + " thang") << endl;
+		 << "| " << setw(10) << (to_string(term) + " thang")
+		 << "| " << setw(18) << statusText << endl;
 }
 
 string contract::toFileString(){
-	return getId() + "|" + getCustomerId() + "|" + getPackageId() + "|" + getAreaId() + "|" +signDate + "|" + to_string(term);
+	return getId() + "|" + getCustomerId() + "|" + getPackageId() + "|" + getAreaId() + "|" +signDate + "|" + to_string(term) + "|" + to_string(status);
 }
 
 void contract::fromFileString(string &s){
@@ -88,6 +97,14 @@ void contract::fromFileString(string &s){
 		term = stoi(termStr);
 	} catch(...) {
 		term = 0;
+	}
+	string statusStr;
+	getline(ss, statusStr, '|');
+	try {
+		status = stoi(statusStr);
+		if(status != 1 && status != 2) status = 2;
+	} catch(...) {
+		status = 2;
 	}
 }
 

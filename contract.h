@@ -8,6 +8,7 @@ class contract : public entity{
 private:
 	string customerId, packageId, areaId, signDate;
 	int term;
+	int status;
 public:
 	contract();
 	
@@ -25,6 +26,9 @@ public:
 	
 	void setTerm(int term);
 	int getTerm();
+	
+	void setStatus(int status);
+	int getStatus();
 	
 	void inputFromKeyboard();
 	

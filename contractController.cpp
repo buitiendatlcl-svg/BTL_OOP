@@ -186,6 +186,7 @@ void contractController::createFunction(){
 		}
 	}
 	newContract.setTerm(termValue);
+	newContract.setStatus(2);
 	
 	if(contractRepo.create(newContract)){
 		cout << "Them moi hop dong thanh cong!" << endl;
@@ -209,8 +210,9 @@ void contractController::readFunction(){
 		 	 << "| " << setw(15) << "Ma goi"
 			 << "| " << setw(15) << "Ma khu vuc" 
 			 << "| " << setw(15) << "Ngay ky" 
-			 << "| " << setw(10) << "Ky han" << endl;
-		cout << string(100, '-') << endl;
+			 << "| " << setw(10) << "Ky han"
+			 << "| " << setw(18) << "Trang thai" << endl;
+		cout << string(120, '-') << endl;
 		
 		for(auto x : listContract){
 			x.showToConsole();
