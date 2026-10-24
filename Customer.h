@@ -12,6 +12,7 @@ private :
 	string phoneNumber;
 	string address;
 	
+	
 	string chuanHoa(string s);
 public : 
 	Customer();
@@ -27,6 +28,7 @@ public :
 	
 	void setAddress(string Address);
 	string getAddress();
+	
 	
 	bool isValidName(string s);
 	bool isValidPhoneNumber(string s);

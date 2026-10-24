@@ -17,12 +17,14 @@ class Invoice : public entity{
 		double totalAmount; // tong chi phi
 		string paymentStatus;
 		
+		string invoiceDate;   // Ngay lap hoa don (dd/mm/yyyy)
+		string dueDate;       // Han thanh toan (dd/mm/yyyy)
+		string paymentDate;   // Ngay khach tra tien thuc te (dd/mm/yyyy hoac "none")		
 	public : 
 		// Ham khoi tao
 		
-		//Neu theo cach Invoice2 khong can truyen tham so cua string Id;
-		Invoice(string contractId, int billingMonth, int billingYear, double packageFee, double discount, double surcharge, double totalAmount
-		,string paymentStatus);	
+		Invoice(string contractId, int billingMonth, int billingYear, double packageFee, double discount, double surcharge, double totalAmount,
+        	string paymentStatus, string invoiceDate = "", string dueDate = "", string paymentDate = "none");
 
 		Invoice(); 
 		void generateInvoiceId();
@@ -50,12 +52,22 @@ class Invoice : public entity{
 		void calculateTotalAmount(); // Cong thuc totalAmount = packageFee - discount(%)*packageFee + surcharge
 		
 		string getPaymentStatus() ;
-		void setPaymentStatus(const string& paymentStatus); // ham Getter/Setter khi cap nhat thanh toan
+		void setPaymentStatus(const string& paymentStatus); // ham Getter/Setter khi cap nhat thanh toan 
+		
+		string getInvoiceDate();
+		void setInvoiceDate(string invoiceDate);
+		
+		string getDueDate();
+		void setDueDate(string dueDate);
+		
+		string getPaymentDate();
+		void setPaymentDate(string paymentDate);
 		
 		bool isValidBillingMonth(string billingMonthStr);
 		bool isValidBillingYear(string billingYearStr);
 		bool isValidDiscount(string discountStr);
 		bool isValidSurcharge(string surchargeStr);
+		bool isValidDate(string dateStr); 
 		
 		void inputFromKeyboard() override;
 		void showToConsole()override;

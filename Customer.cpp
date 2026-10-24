@@ -28,6 +28,7 @@ Customer::Customer(){
 	nationalId = "";
 	phoneNumber = "";
 	address = "";
+	
 }
 
 void Customer::setName(string name){
@@ -59,26 +60,29 @@ string Customer::getAddress() {
 }
 
 bool Customer::isValidName(string s){
+    if (s.empty()) return false;
+    bool hasLetter = false;
+    for (char c : s) {
+        if (isalpha(static_cast<unsigned char>(c))) {
+            hasLetter = true; // Kiem tra it nhat phai co 1 chu cai
+        } 
+        else if (!isspace(static_cast<unsigned char>(c))) { // Neu khong phai chu cai va dau cach -> khong hop le
+            return false; 
+        }
+    }
+    return hasLetter;
+}
+
+bool Customer::isValidPhoneNumber(string s){
+	if(s[0] != '0' || s.size() != 10) return false;
 	for(auto& c : s){
-		if(isspace(c))
-			continue;
-		if(!isalpha(c)) return false;
+		if(!isdigit(c)) return false;
 	}
 	return true;
 }
 
-bool Customer::isValidPhoneNumber(string s){
-	for(auto& c : s){
-		if(!isdigit(c)) return false;
-	}
-	if(s[0] == '0' && s.size() == 10)
-		return true;
-	else
-		return false;
-}
-
 bool Customer::isValidNationalId(string s){
-	if(s[0] != '0') return false;
+	if(s[0] != '0' || s[1] != '0') return false;
 	for(auto& c : s){
 		if(!isdigit(c)) return false;
 	}
@@ -86,33 +90,31 @@ bool Customer::isValidNationalId(string s){
 }
 
 void Customer::inputFromKeyboard(){
+	string temp;
 	while(true){
 		cout << "Nhap Ho va Ten (Nhap '0' de quay lai): ";
-		getline(cin, name);
-		if(name == "0"){
-			name = "";
+		getline(cin, temp);
+		if(temp == "0"){
+			temp = "";
 			return;
 		}
-		if(isValidName(name)){
-			setName(name);
+		if(isValidName(temp)){
+			setName(temp);
 			break;
 		}
-		else{
-			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
-			continue;
-		}
+		cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
 	}
 		
 	
 	while(true){
-		cout << "Nhap so CCCD (Nhap '0' de quay lai): ";
-		getline(cin, nationalId);
-		if(nationalId == "0"){
-			nationalId = "";
+		cout << "Nhap so CCCD (CCCD hai chu so dau la '0') (Nhap '0' de quay lai) : ";
+		getline(cin, temp);
+		if(temp == "0"){
+			temp = "";
 			return;
 		}
-		if(isValidNationalId(nationalId)){
-			setNationalId(nationalId);
+		if(isValidNationalId(temp)){
+			setNationalId(temp);
 			break;
 		} 
 		else{
@@ -122,28 +124,20 @@ void Customer::inputFromKeyboard(){
 	}
 	
 	while(true){
-		cout << "Nhap so dien thoai (Nhap '0' de quay lai):";
-		getline(cin, phoneNumber);
-		if(phoneNumber== "0"){
-			phoneNumber = "";
+		cout << "Nhap so dien thoai (SDT gom 10 so va bat dau tu 0) (Nhap '0' de quay lai):";
+		getline(cin, temp);
+		if(temp== "0"){
+			temp = "";
 			return;
 		}
-		if(isValidPhoneNumber(phoneNumber)){
-			setPhoneNumber(phoneNumber);
+		if(isValidPhoneNumber(temp)){
+			setPhoneNumber(temp);
 			break;
 		}
 		else{
 			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
 			continue;
 		}
-	}
-	
-	cout << "Nhap dia chi nha (Nhap '0' de quay lai): ";
-	getline(cin, address);
-	setAddress(address);
-	if(address== "0"){
-		address = "";
-		return;
 	}
 }
 
@@ -163,3 +157,5 @@ void Customer::fromFileString( string& line){
 	getline(ss, phoneNumber, '|');
 	getline(ss, address, '|');
 }
+
+
