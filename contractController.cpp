@@ -166,6 +166,27 @@ void contractController::createFunction(){
 	if(date == "0") return;
 	else
 		newContract.setSignDate(date);
+		
+	int termValue;
+	while(true){
+		cout << "Nhap ky han hop dong (thang) (nhap '0' de quay lai): ";
+		string termStr;
+		getline(cin, termStr);
+		if(termStr == "0") return;
+		try{
+			size_t pos;
+			termValue = stoi(termStr, &pos);
+			if(pos != termStr.size() || termValue <= 0){
+				cout << "[Loi] Vui long nhap so nguyen duong!" << endl;
+			} else {
+				break;
+			}
+		}catch(...){
+			cout << "[Loi] Vui long nhap lai!" << endl;
+		}
+	}
+	newContract.setTerm(termValue);
+	
 	if(contractRepo.create(newContract)){
 		cout << "Them moi hop dong thanh cong!" << endl;
 	}
@@ -175,18 +196,21 @@ void contractController::createFunction(){
 }
 
 void contractController::readFunction(){
-	cout << "\n--- DANH SACH HOP DONG HIEN CO ---" << endl;
+	
 	vector<contract> listContract = contractRepo.getData();
 	if(listContract.empty()){
 		cout << "Danh sach chua co hop dong nao" << endl;
 	}
 	else{
+		cout << "\n--- DANH SACH HOP DONG HIEN CO ---" << endl;
+		
 		cout << left << setw(20) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
 		 	 << "| " << setw(15) << "Ma goi"
 			 << "| " << setw(15) << "Ma khu vuc" 
-			 << "| " << setw(15) << "Ngay ky" << endl;
-		cout << string(85, '-') << endl;
+			 << "| " << setw(15) << "Ngay ky" 
+			 << "| " << setw(10) << "Ky han" << endl;
+		cout << string(100, '-') << endl;
 		
 		for(auto x : listContract){
 			x.showToConsole();

@@ -11,6 +11,7 @@ contract::contract(){
 	packageId = "";
 	areaId = "";
 	signDate = "";
+	term = 0;
 }
 
 void contract::setCustomerId(string customerId){
@@ -44,6 +45,13 @@ string contract::getSignDate(){
 	return signDate;
 }
 
+void contract::setTerm(int term){
+	this->term = term;
+}
+int contract::getTerm(){
+	return term;
+}
+
 void contract::inputFromKeyboard(){
 }
 
@@ -52,11 +60,12 @@ void contract::showToConsole(){
 		 << "| " << setw(15) << customerId
 		 << "| " << setw(15) << packageId
 		 << "| " << setw(15) << areaId 
-		 << "| " << setw(15) << signDate << endl;
+		 << "| " << setw(15) << signDate
+		 << "| " << setw(10) << (to_string(term) + " thang") << endl;
 }
 
 string contract::toFileString(){
-	return getId() + "|" + getCustomerId() + "|" + getPackageId() + "|" + getAreaId() + "|" +signDate + "|";
+	return getId() + "|" + getCustomerId() + "|" + getPackageId() + "|" + getAreaId() + "|" +signDate + "|" + to_string(term);
 }
 
 void contract::fromFileString(string &s){
@@ -72,6 +81,14 @@ void contract::fromFileString(string &s){
 	getline(ss, areaId, '|');
 	
 	getline(ss, signDate, '|');
+	
+	string termStr;
+	getline(ss, termStr, '|');
+	try {
+		term = stoi(termStr);
+	} catch(...) {
+		term = 0;
+	}
 }
 
 
