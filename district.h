@@ -9,6 +9,7 @@ private :
     string nameDistrict;
     string station;
     int maxBandWidth;
+    int status;
 public:
     district();
     
@@ -22,6 +23,8 @@ public:
     void setMaxBandWidth(int maxBandWidth);
     int getMaxBandWidth() const;
     
+    void setStatus(int status);
+    int getStatus() const;
     // Ghi dè t? entity
     void inputFromKeyboard() override;
     void showToConsole() override;
