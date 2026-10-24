@@ -1,4 +1,3 @@
-
 #pragma once
 #include "Entity.h"
 #include <string>
@@ -9,7 +8,7 @@ class installationForm : public entity{
 		string idEmployee;
 		string modem;
 		string date;
-		int state;
+		int status;
 	public:
 		installationForm();
 				
@@ -25,8 +24,8 @@ class installationForm : public entity{
 		void setDate(string date);
 		string getDate();
 		
-		void setState(int state);
-		int getState();
+		void setStatus(int status);
+		int getStatus();
 		
 		void inputFromKeyboard() override;
     	void showToConsole() override;
@@ -34,4 +33,3 @@ class installationForm : public entity{
     	void fromFileString(string &line) override;
 		
 };
-
