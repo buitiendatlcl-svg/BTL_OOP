@@ -187,6 +187,7 @@ void contractController::createFunction(){
 	}
 	newContract.setTerm(termValue);
 	newContract.setStatus(2);
+	newContract.setExpiryDate("none");
 	
 	if(contractRepo.create(newContract)){
 		cout << "Them moi hop dong thanh cong!" << endl;
@@ -205,13 +206,14 @@ void contractController::readFunction(){
 	else{
 		cout << "\n--- DANH SACH HOP DONG HIEN CO ---" << endl;
 		
-		cout << left << setw(20) << "Ma hop dong"
+		cout << left << setw(15) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
-		 	 << "| " << setw(15) << "Ma goi"
-			 << "| " << setw(15) << "Ma khu vuc" 
-			 << "| " << setw(15) << "Ngay ky" 
+		 	 << "| " << setw(10) << "Ma goi"
+			 << "| " << setw(12) << "Ma khu vuc" 
+			 << "| " << setw(12) << "Ngay ky" 
 			 << "| " << setw(10) << "Ky han"
-			 << "| " << setw(18) << "Trang thai" << endl;
+			 << "| " << setw(15) << "Ngay het han"
+			 << "| " << setw(16) << "Trang thai" << endl;
 		cout << string(120, '-') << endl;
 		
 		for(auto x : listContract){

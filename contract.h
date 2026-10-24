@@ -9,6 +9,7 @@ private:
 	string customerId, packageId, areaId, signDate;
 	int term;
 	int status;
+	string expiryDate;
 public:
 	contract();
 	
@@ -29,6 +30,9 @@ public:
 	
 	void setStatus(int status);
 	int getStatus();
+	void setExpiryDate(string expiryDate);
+	string getExpiryDate();
+	void calculateExpiryDate(string installDate);
 	
 	void inputFromKeyboard();
 	
