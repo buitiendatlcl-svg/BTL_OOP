@@ -10,7 +10,16 @@ district::district() {
     nameDistrict = "";
     station = "";
     maxBandWidth = 0;  
+    status = 0;
 }
+
+void district::setStatus(int status) {
+    this->status = status;
+}
+int district::getStatus() const {
+    return status;
+}
+
 
 void district::setDistrict(string district) {
     this->nameDistrict = district;
@@ -38,14 +47,22 @@ void district::inputFromKeyboard() {
 }
 
 void district::showToConsole() {
+   string trangThai;
+   switch(status){
+	    	case 0:  trangThai = "On Dinh"; break;
+	        case 1:  trangThai = "Canh Bao"; break;
+	        default: trangThai = "Khong xac dinh"; break;
+			}
+			
     cout << left << setw(10) << id 
-         << "| " << setw(25) << nameDistrict
-         << "| " << setw(25) << station 
-         << "| " << setw(15) << maxBandWidth << endl;	
+         << "| " << setw(20) << nameDistrict
+         << "| " << setw(20) << station 
+         << "| " << setw(12) << maxBandWidth 
+         << "| " << setw(15) << trangThai << endl;
 }
 
 string district::toFileString() {
-    return id + "|" + nameDistrict + "|" + station + "|" + to_string(maxBandWidth);
+    return id + "|" + nameDistrict + "|" + station + "|" + to_string(maxBandWidth) + "|" + to_string(status);
 }
 
 void district::fromFileString(string &line) {
@@ -56,6 +73,7 @@ void district::fromFileString(string &line) {
     getline(ss, nameDistrict, '|'); 
     getline(ss, station, '|');
     getline(ss, tmp, '|');
-    
     if(!tmp.empty()) maxBandWidth = stoi(tmp);
+    getline(ss, tmp, '|');
+    if(!tmp.empty()) status = stoi(tmp);
 }

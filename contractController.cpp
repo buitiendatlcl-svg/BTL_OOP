@@ -56,8 +56,37 @@ void contractController::createFunction(){
 		
 		auto itCustomer = customerRepo.searchId(idCustomer);
 		if(itCustomer != NULL){
-			newContract.setCustomerId(idCustomer);
-			break;
+			bool hasUnpaidInvoice = false;
+			string unpaidInvoiceId = "";
+			string unpaidContractId = "";
+
+			vector<contract> listContract = contractRepo.getData();
+			vector<Invoice> listInvoice = invoiceRepo.getData();
+
+			for(auto c : listContract){
+				if(c.getCustomerId() == idCustomer){
+					for(auto inv : listInvoice){
+						if(inv.getContractId() == c.getId() && inv.getPaymentStatus() == "Unpaid"){
+							hasUnpaidInvoice = true;
+							unpaidInvoiceId = inv.getId();
+							unpaidContractId = c.getId();
+							break;
+						}
+					}
+				}
+				if(hasUnpaidInvoice) break;
+			}
+
+			if(hasUnpaidInvoice){
+				cout << "[Loi] Khach hang " << idCustomer << " dang co hoa don [" << unpaidInvoiceId 
+				     << "] (Hop dong " << unpaidContractId << ") o trang thai Unpaid!" << endl;
+				cout << "=> Khong duoc phep lap them hop dong moi de tranh no xau. Vui long thanh toan truoc!" << endl;
+			}
+			else{
+				// Khách hàng không n? cu?c -> Cho phép gán vào h?p d?ng m?i và di ti?p
+				newContract.setCustomerId(idCustomer);
+				break; 
+			}
 		}
 		else{
 			cout << "Khong tim thay ID khach hang" << endl;
@@ -166,6 +195,29 @@ void contractController::createFunction(){
 	if(date == "0") return;
 	else
 		newContract.setSignDate(date);
+		
+	int termValue;
+	while(true){
+		cout << "Nhap ky han hop dong (thang) (nhap '0' de quay lai): ";
+		string termStr;
+		getline(cin, termStr);
+		if(termStr == "0") return;
+		try{
+			size_t pos;
+			termValue = stoi(termStr, &pos);
+			if(pos != termStr.size() || termValue <= 0){
+				cout << "[Loi] Vui long nhap so nguyen duong!" << endl;
+			} else {
+				break;
+			}
+		}catch(...){
+			cout << "[Loi] Vui long nhap lai!" << endl;
+		}
+	}
+	newContract.setTerm(termValue);
+	newContract.setStatus(2);
+	newContract.setExpiryDate("none");
+	
 	if(contractRepo.create(newContract)){
 		cout << "Them moi hop dong thanh cong!" << endl;
 	}
@@ -175,18 +227,23 @@ void contractController::createFunction(){
 }
 
 void contractController::readFunction(){
-	cout << "\n--- DANH SACH HOP DONG HIEN CO ---" << endl;
+	
 	vector<contract> listContract = contractRepo.getData();
 	if(listContract.empty()){
 		cout << "Danh sach chua co hop dong nao" << endl;
 	}
 	else{
-		cout << left << setw(20) << "Ma hop dong"
+		cout << "\n--- DANH SACH HOP DONG HIEN CO ---" << endl;
+		
+		cout << left << setw(15) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
-		 	 << "| " << setw(15) << "Ma goi"
-			 << "| " << setw(15) << "Ma khu vuc" 
-			 << "| " << setw(15) << "Ngay ky" << endl;
-		cout << string(85, '-') << endl;
+		 	 << "| " << setw(10) << "Ma goi"
+			 << "| " << setw(12) << "Ma khu vuc" 
+			 << "| " << setw(12) << "Ngay ky" 
+			 << "| " << setw(10) << "Ky han"
+			 << "| " << setw(15) << "Ngay het han"
+			 << "| " << setw(16) << "Trang thai" << endl;
+		cout << string(120, '-') << endl;
 		
 		for(auto x : listContract){
 			x.showToConsole();
@@ -327,6 +384,10 @@ void contractController::deleteFunction(){
 }
 
 void contractController::run(){
+	contractRepo.reloadData();
+	installationRepo.reloadData();
+	warrantyRepo.reloadData();
+	invoiceRepo.reloadData();
 	int choice = -1;
 	do{
 		cout << "\n============= QUAN LY HOP DONG =============" << endl;

@@ -48,10 +48,11 @@ void districtController::docDanhSachTram() {
 
 void districtController::showTitle() {
     cout << left << setw(10) << "Ma KV" 
-         << "| " << setw(25) << "Ten Tinh/Thanh" 
-         << "| " << setw(25) << "Tram Quan Ly" 
-         << "| " << setw(15) << "Bang Thong" << endl;
-    cout << string(75, '-') << endl;
+         << "| " << setw(20) << "Ten Tinh/Thanh" 
+         << "| " << setw(20) << "Tram Quan Ly" 
+         << "| " << setw(15) << "Bang Thong" 
+         << "| " << setw(15) << "Trang Thai" << endl;
+    cout << string(85, '-') << endl;
 }
 int districtController::tinhTongBangThong(string maKV){//ham tinh tong bang thon trong 1 khu vuc trong hop dong
 	repoHopDong.reloadData();
@@ -59,7 +60,7 @@ int districtController::tinhTongBangThong(string maKV){//ham tinh tong bang thon
 	int tong=0;
 	vector<contract> dsHopDong=repoHopDong.getData();//doc hop dong
 	for(auto& hd : dsHopDong ){
-		if(hd.getAreaId()==maKV){//lay ma khuvuc cua hop dong
+		if(hd.getAreaId()==maKV&& hd.getStatus() == 1){//lay ma khuvuc cua hop dong
 			string maGoi=hd.getPackageId();//lay ma internet
 			internet* timThay=repoInternet.searchId(maGoi);//tim kiem id cua internet
 			if(timThay!=nullptr){
@@ -75,7 +76,7 @@ repoHopDong.reloadData();
 	int tong=0;
 	vector<contract> dsHopDong=repoHopDong.getData();
 	for(auto& hd: dsHopDong){
-		if(hd.getAreaId()==maKV){
+		if(hd.getAreaId()==maKV&&hd.getStatus()==1){
 			tong++;
 		}
 	}
@@ -215,19 +216,39 @@ docDanhSachTram();
     kvMoi.setId(ma);
     kvMoi.setDistrict(tinhNhap);
     kvMoi.setStation(tramNhap);
-
+	kvMoi.setStatus(0);
     if (repo.create(kvMoi)) {
         cout << "=> Them thanh cong! He thong da tu cap ma: " << ma << endl;
     }}
 void districtController::readFunction() {
+	repo.reloadData();
     cout << "\n--- DANH SACH KHU VUC QUAN LY ---" << endl;
     vector<district> ds = repo.getData();
     if(ds.empty()) {
         cout << "=> Danh sach hien dang trong!" << endl;
-    } else {
+        return;
+    } 
         showTitle();
-        for(auto &kv : ds) kv.showToConsole();
-    }
+        int count=0;
+        for(auto &kv : ds){
+        	kv.showToConsole();
+        	if(kv.getStatus()==1){
+        		count++;
+			}
+		}
+		if(count>0){
+			 cout <<"\nHien dang co "<<count<<" khu vuc qua tai bang thong\n";
+			 cout << "\n--- DANH SACH KHU VUC QUA TAI ---" << endl;
+			 showTitle();
+			 for(auto &kv : ds){
+        	if(kv.getStatus()==1){
+        	kv.showToConsole();
+			}
+		}
+		}
+		else{
+    	cout <<"\nCac khu vuc dang o trang thai an toan !\n";
+	}
     while(true){
     cout << "\nNhap Ma KV de xem chi tiet (hoac '0' de thoat): ";
     string ma;
@@ -261,13 +282,32 @@ void districtController::readFunction() {
 }
 
 void districtController::updateFunction() {
+	repo.reloadData();
     cout << "\n--- CAP NHAT THONG TIN KHU VUC ---" << endl;
-    cout << "\n--- DANH SACH DANG CO TRONG HE THONG ---" << endl;
+    cout << "\n--- DANH SACH KHU VUC DANG CO TRONG HE THONG ---" << endl;
     vector<district> ds=repo.getData();
-    showTitle();
-    for(auto& kv :ds){
-    	kv.showToConsole();
+     showTitle();
+        int count=0;
+        for(auto &kv : ds){
+        	kv.showToConsole();
+        	if(kv.getStatus()==1){
+        		count++;
+			}
+		}
+		if(count>0){
+			 cout <<"\nHien dang co "<<count<<" khu vuc qua tai bang thong\n";
+			 cout << "\n--- DANH SACH KHU VUC QUA TAI ---" << endl;
+			 showTitle();
+			 for(auto &kv : ds){
+        	if(kv.getStatus()==1){
+        	kv.showToConsole();
+			}
+		}
+		} 
+    else{
+    	cout <<"Cac khu vuc dang o trang thai an toan !\n";
 	}
+	
 	district* timThay = nullptr;
     while (true) {
         cout << "Nhap ma KV can cap nhat (hoac '0' de thoat): ";
@@ -278,9 +318,7 @@ void districtController::updateFunction() {
             cout << "=> Da thoat chuc nang cap nhat." << endl;
             return;
         }
-        
         timThay = repo.searchId(ma);
-        
         if (timThay == nullptr) {
             cout << "=> [LOI] Khong tim thay khu vuc mang ma: " << ma << "! Vui long nhap lai.\n";
         } else {
@@ -303,36 +341,43 @@ void districtController::updateFunction() {
 			}
 			else cout<< "=> THONG BAO: Bang thong cua tram o muc an toan !\n";
         string input;
-       
-        cout << "Sua bang thong (" << timThay->getMaxBandWidth() << ") [Bo trong giu nguyen]: ";
+        cout << "\nSua bang thong (" << maxBand << ") [Bo trong giu nguyen]: ";
         getline(cin, input);
-          if(input.empty()) {
+        
+        if(input.empty()) {
             cout << "=> Khong co thay doi nao duoc luu." << endl;
             break;
         }
-		 try {   
+        
+        try {   
             size_t pos; 
             int kq = stoi(input, &pos);
             
             if (pos != input.length()) {
-                throw runtime_error("Chuoi co chua chu cai hoac ky tu la"); 
+                throw runtime_error("Loi"); 
             }
             
             if (kq < 0) {
                 cout << "=> Vui long chi nhap so lon hon 0!\n";
-            } else {
-                timThay->setMaxBandWidth(stoi(input));
-                cout<<"Da cap nhat thanh cong!";
+            } 
+            else if (kq <= inUse) {
+                cout << "=> [LOI] Bang thong moi (" << kq << " Mbps) phai lon hon han tong bang thong dang dung (" << inUse << " Mbps)!\n";
+            } 
+            else {
+                timThay->setMaxBandWidth(kq);
+                timThay->setStatus(0); 
                 repo.saveChange();
+                cout << "=> Da cap nhat bang thong va dua trang thai tram ve muc on dinh (0) thanh cong!\n";
                 break;
             }
         } catch(...) {
-            cout << "=> [LOI] Vui long chi nhap so nguyen hop le (khong dinh chu cai hay ky tu la)!\n";
+            cout << "=> [LOI] Vui long chi nhap so nguyen hop le!\n";
         }
     }}
 
 
 void districtController::deleteFunction() {
+	repo.reloadData();
     cout << "\n--- XOA KHU VUC ---" << endl;
     cout << "\n--- DANH SACH KHU VUC HIEN CO TRONG HE THONG ---" << endl;
     showTitle();
