@@ -42,7 +42,7 @@ void warrantyController::createFunction() {
     warranty newWarranty; 
 
     // BUOC 1: HIEN THI HOP DONG HIEN CO & CHON ID KHACH HANG
-    cout << "DANH SACH HOP DONG HIEN CO: \n";
+	cout << "DANH SACH HOP DONG HIEN CO: \n";
     cout << left << setw(15) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
 		 	 << "| " << setw(10) << "Ma goi"
