@@ -22,12 +22,15 @@ void warrantyController::createFunction() {
 
     warranty newWarranty; 
 	cout << "DANH SACH HOP DONG HIEN CO: \n";
-    cout << left << setw(20) << "Ma hop dong"
+    cout << left << setw(15) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
-		 	 << "| " << setw(15) << "Ma goi"
-			 << "| " << setw(15) << "Ma khu vuc" 
-			 << "| " << setw(15) << "Ngay ky" << endl;
-		cout << string(85, '-') << endl;
+		 	 << "| " << setw(10) << "Ma goi"
+			 << "| " << setw(12) << "Ma khu vuc" 
+			 << "| " << setw(12) << "Ngay ky" 
+			 << "| " << setw(10) << "Ky han"
+			 << "| " << setw(15) << "Ngay het han"
+			 << "| " << setw(16) << "Trang thai" << endl;
+		cout << string(120, '-') << endl;
     for (auto c : contractList) {
         c.showToConsole();
     }

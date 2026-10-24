@@ -120,14 +120,14 @@ void InvoiceController::addInvoice(){
         cout << "\n[THONG BAO]: Chua co hop dong nao trong he thong!" << endl;
     } else {
         cout << left << setw(15) << "Ma hop dong"
-             << "| " << setw(15) << "Ma khach hang"
-             << "| " << setw(10) << "Ma goi"
-             << "| " << setw(12) << "Ma khu vuc" 
-             << "| " << setw(12) << "Ngay ky" 
-             << "| " << setw(10) << "Ky han"
-             << "| " << setw(15) << "Ngay het han"
-             << endl;
-        cout << string(110, '-') << endl;
+		 	 << "| " << setw(15) << "Ma khach hang"
+		 	 << "| " << setw(10) << "Ma goi"
+			 << "| " << setw(12) << "Ma khu vuc" 
+			 << "| " << setw(12) << "Ngay ky" 
+			 << "| " << setw(10) << "Ky han"
+			 << "| " << setw(15) << "Ngay het han"
+			 << "| " << setw(16) << "Trang thai" << endl;
+		cout << string(120, '-') << endl;
         for (auto obj : list) {
             obj.showToConsole(); 
         }
@@ -176,7 +176,7 @@ void InvoiceController::addInvoice(){
 	}
 	if (!daNghiemThu) {
 		cout << "\n[TU CHOI XUAT HOA DON]: Hop dong '" << contractId 
-		     << "' chua co Phieu lap dat o trang thai 'Hoan thanh' (state = 1)!" << endl;
+		     << "' chua co Phieu lap dat o trang thai 'Hoan thanh'!" << endl;
 		cout << "=> He thong chi xuat hoa don sau khi da nghiem thu lap dat thanh cong." << endl;
 		return;
 	}
