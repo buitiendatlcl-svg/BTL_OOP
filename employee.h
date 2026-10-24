@@ -11,7 +11,8 @@ private:
     string phoneNumber;
     string specialization; 
     string areaId;
-	double salary;   
+    int level;     // Cap bac: 1, 2, 3
+    double salary;   
     string standardizeName(string fullName);
 
 public:
@@ -20,8 +21,8 @@ public:
     
     bool isValidName(string name);
     bool isValidDate(string date);
-    bool isValidPhoneNumber (string phoneNumber);
-    bool isValidSalary (string salaryStr);
+    bool isValidPhoneNumber(string phoneNumber);
+    bool isValidSalary(string salaryStr);
 
     void setFullName(string fullName);
     string getFullName();
@@ -35,19 +36,23 @@ public:
     void setSpecialization(string specialization);
     string getSpecialization();
 	
-	void setAreaId(string areaId);
-	string getAreaId();
+    void setAreaId(string areaId);
+    string getAreaId();
     
+    void setLevel(int level);
+    int getLevel();
+    void updateSalary();
+
     void setSalary(double salary);
     double getSalary();
 
-  
-	void inputFromKeyboard();
+    void inputFromKeyboard();
 	
-	void showToConsole();
+    void showToConsole();
+    void showToConsole(string districtName, string stationName);
 	
-	string toFileString();
+    string toFileString();
 	
-	void fromFileString(string &line);
+    void fromFileString(string &line);
 
 };

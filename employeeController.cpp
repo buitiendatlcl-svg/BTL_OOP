@@ -6,6 +6,14 @@ employeeController::employeeController()
 	, installFormRepo("data/data_phieulapdat.txt"){
 }
 
+bool employeeController::isPhoneExist(string phone) {
+    for (auto emp : employeeRepo.getData()) {
+        if (emp.getPhoneNumber() == phone) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void employeeController::createFunction() {
     cout << "\n--- THEM NHAN VIEN MOI ---" << endl;
@@ -17,6 +25,27 @@ void employeeController::createFunction() {
         cout << "=> Da huy thao tac them nhan vien, quay lai menu!" << endl;
         return;
     }
+
+    string tempPhone;
+    while (true) {
+        cout << "Nhap sdt (10 so, bat dau bang 0)(nhap 0 de quay lai): ";
+        getline(cin, tempPhone);
+        
+        if (tempPhone == "0") {
+            cout << "=> Da huy thao tac them nhan vien, quay lai menu!" << endl;
+            return;
+        }
+        
+        if (!newEmployee.isValidPhoneNumber(tempPhone)) {
+            cout << "=> Loi! Sai dinh dang (phai du 10 so va bat dau bang 0), vui long nhap lai!" << endl;
+        } else if (isPhoneExist(tempPhone)) {
+            cout << "=> Loi! So dien thoai nay da ton tai trong he thong, vui long nhap so khac!" << endl;
+        } else {
+            newEmployee.setPhoneNumber(tempPhone);
+            break;
+        }
+    }
+
     districtRepo.reloadData();
     cout << "DANH SACH KHU VUC HIEN CO: \n";
     vector<district> distList = districtRepo.getData();
@@ -40,7 +69,7 @@ void employeeController::createFunction() {
         	return;
 		}
         
-        for (int i = 0; i < chosenDistrict.size(); i++){
+        for (int i = 0; i < (int)chosenDistrict.size(); i++){
         	if (isalpha(chosenDistrict[i])){
         		chosenDistrict[i] = toupper(chosenDistrict[i]);
 			}
@@ -66,6 +95,7 @@ void employeeController::createFunction() {
 
 void employeeController::readFunction() {
     cout << "\n--- DANH SACH NHAN VIEN ---" << endl;
+    districtRepo.reloadData();
     vector<employee> list = employeeRepo.getData();
     if (list.empty()) {
         cout << "Danh sach trong!" << endl;
@@ -76,14 +106,21 @@ void employeeController::readFunction() {
              << left << setw(12) << "SDT" << "| "
              << left << setw(20) << "Chuyen Mon" << "| "
              << left << setw(8)  << "Ma KV" << "| "
+             << left << setw(15) << "Ten KV" << "| "
+             << left << setw(15) << "Ten Tram" << "| "
+             << left << setw(8)  << "Cap Bac" << "| "
              << "Luong (VND)" << endl;
-        cout << "----------------------------------------------------------------------------------------------------" << endl;
+        cout << string(144, '-') << endl;
         for (auto emp : list) {
-            emp.showToConsole();
+            district* d = districtRepo.searchId(emp.getAreaId());
+            if (d != nullptr) {
+                emp.showToConsole(d->getDistrict(), d->getStation());
+            } else {
+                emp.showToConsole("Chua ro", "Chua ro");
+            }
         }
     }
 }
-
 
 void employeeController::updateFunction() {
 	if (employeeRepo.getData().empty()){
@@ -98,7 +135,7 @@ void employeeController::updateFunction() {
     while (true) {
         cout << "\nNhap ID nhan vien can sua (nhap '0' de quay lai): ";
         getline(cin, searchId);
-        for (int i = 0; i < searchId.size(); i++){
+        for (int i = 0; i < (int)searchId.size(); i++){
         	if (isalpha(searchId[i])){
         		searchId[i] = toupper(searchId[i]);
 			}
@@ -117,17 +154,22 @@ void employeeController::updateFunction() {
         do {
             cout << "\n--- THONG TIN HIEN TAI cua nhan vien [" << empPtr->getId() << "] ---" << endl;
 
-            empPtr->showToConsole(); 
+            district* curDist = districtRepo.searchId(empPtr->getAreaId());
+            if (curDist != nullptr) {
+                empPtr->showToConsole(curDist->getDistrict(), curDist->getStation());
+            } else {
+                empPtr->showToConsole("Chua ro", "Chua ro");
+            }
             
             cout << "\nCHON THONG TIN CAN SUA:" << endl;
             cout << "1. Ten nhan vien" << endl;
             cout << "2. Ngay sinh" << endl;
             cout << "3. So dien thoai" << endl;
             cout << "4. Chuyen mon" << endl;
-            cout << "5. Khu vuc phu trach " << endl;
-            cout << "6. Muc luong" << endl;
+            cout << "5. Khu vuc phu trach" << endl;
+            cout << "6. Cap bac (Tu dong tinh lai luong)" << endl;
             cout << "0. HOAN TAT VA LUU" << endl;
-            cout << "Chon (0-6):";
+            cout << "Chon (0-6): ";
             
             string choiceStr;
 			getline (cin, choiceStr);
@@ -176,12 +218,15 @@ void employeeController::updateFunction() {
                         cout << "Nhap SDT moi (Enter de giu nguyen): ";
                         getline(cin, newInfo);
                         if (newInfo.empty()) break;
-                        if (empPtr->isValidPhoneNumber(newInfo)) {
+                        if (!empPtr->isValidPhoneNumber(newInfo)) {
+                            cout << "=> Loi! Sai dinh dang, vui long nhap lai!" << endl;
+                        } else if (newInfo != empPtr->getPhoneNumber() && isPhoneExist(newInfo)) {
+                            cout << "=> Loi! So dien thoai nay da ton tai, vui long nhap so khac!" << endl;
+                        } else {
                             empPtr->setPhoneNumber(newInfo);
                             cout << "=> Da cap nhat SDT!\n";
                             break;
                         }
-                        cout << "=> Loi! Sai dinh dang, vui long nhap lai!" << endl;
                     }
                     break;
                 }
@@ -231,7 +276,7 @@ void employeeController::updateFunction() {
                         cout << "Nhap ma KV moi (an Enter de huy thao tac sua): ";
                         getline(cin, newInfo);
                         
-						for (int i = 0; i < newInfo.size(); i++){
+						for (int i = 0; i < (int)newInfo.size(); i++){
                         	if (isalpha(newInfo[i])){
                         		newInfo[i] = toupper(newInfo[i]);
 							}
@@ -251,25 +296,36 @@ void employeeController::updateFunction() {
                 }
                 
                 case 6: { 
-                bool validSalary = false;
-                while (!validSalary) {
-                    cout << "Nhap muc luong moi (VND/thang) (an Enter de giu nguyen): ";
-                    getline(cin, newInfo);
-                    
-                    if (newInfo.empty()) validSalary = true;
-                    if (empPtr->isValidSalary(newInfo)) {
-                        empPtr->setSalary(stod(newInfo));
-                        cout << "=> Da cap nhat Muc luong moi thanh cong!\n";
-                        validSalary = true;
-                    } else {
-                        cout << "=> Loi: Luong phai la so duong hop le (khong chua chu cai)!\n";
+                    while (true) {
+                        cout << "\nChon cap bac moi (Luong co ban: 8,000,000 VND):\n";
+                        cout << "  1. Bac 1 (He so 1.0 ->  8,000,000 VND)\n";
+                        cout << "  2. Bac 2 (He so 1.4 -> 11,200,000 VND)\n";
+                        cout << "  3. Bac 3 (He so 1.8 -> 14,400,000 VND)\n";
+                        cout << "Chon (1-3, an Enter de giu nguyen): ";
+                        getline(cin, newInfo);
+                        
+                        if (newInfo.empty()) break;
+
+                        if (newInfo == "1") {
+                            empPtr->setLevel(1);
+                            cout << "=> Da cap nhat sang Bac 1! Muc luong moi: " << fixed << setprecision(0) << empPtr->getSalary() << " VND\n";
+                            break;
+                        } else if (newInfo == "2") {
+                            empPtr->setLevel(2);
+                            cout << "=> Da cap nhat sang Bac 2! Muc luong moi: " << fixed << setprecision(0) << empPtr->getSalary() << " VND\n";
+                            break;
+                        } else if (newInfo == "3") {
+                            empPtr->setLevel(3);
+                            cout << "=> Da cap nhat sang Bac 3! Muc luong moi: " << fixed << setprecision(0) << empPtr->getSalary() << " VND\n";
+                            break;
+                        } else {
+                            cout << "=> Loi: Lua chon khong hop le! Vui long chon tu 1 den 3.\n";
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
                 case 0:
-                    
                     employeeRepo.saveToFile();
                     cout << "=> CAP NHAT VA LUU THANH CONG!" << endl;
                     break;
@@ -286,6 +342,11 @@ void employeeController::updateFunction() {
 
 
 void employeeController::deleteFunction() {
+	if (employeeRepo.getData().empty()) {
+		cout << "Danh sach nhan vien hien dang trong!" << endl;
+		return;
+	}
+
 	readFunction();
 	
     cout << "\n--- XOA NHAN VIEN ---" << endl;
@@ -294,7 +355,7 @@ void employeeController::deleteFunction() {
         cout << "\nNhap ID nhan vien can xoa (nhap '0' de quay lai): ";
         getline(cin, delId);
         
-        for (int i = 0; i < delId.size(); i++){
+        for (int i = 0; i < (int)delId.size(); i++){
         	if (isalpha(delId[i])){
         		delId[i] = toupper(delId[i]);
 			}
@@ -311,10 +372,8 @@ void employeeController::deleteFunction() {
     bool isWorking = false; 
     vector<warranty> wList = warrantyRepo.getData();
     for (auto w : wList) {
-  
-        if (w.getEmployeeId() == delId) { 
+        if (w.getEmployeeId() == delId && w.getStatus() != "Da hoan thanh" && w.getStatus() != "Da huy") { 
             isWorking = true;
-
             cout << "=> KHONG THE XOA! Nhan vien dang phu trach Phieu bao hanh ma: " << w.getId() << endl;
         }
     }
@@ -322,16 +381,14 @@ void employeeController::deleteFunction() {
     bool isInstalling = false;
     vector<installationForm> formList = installFormRepo.getData();
     for (auto i : formList){
-    	
-    	if (i.getIdEmployee() == delId){
+    	if (i.getIdEmployee() == delId && i.getStatus() != 1 && i.getStatus() != -1 ){
     		isInstalling = true;
-    		
     		cout << "=> KHONG THE XOA! Nhan vien dang phu trach Phieu lap dat ma: " << i.getId() << endl;
 		}
 	}
 
     if (isWorking || isInstalling) { 
-        cout << "=> Vui long chuyen giao cac Phieu tren cho nhan vien khac truoc khi xoa nhan vien nay!" << endl;
+        cout << "=> Vui long chuyen giao hoac hoan tat cac Phieu tren truoc khi xoa nhan vien nay!" << endl;
         return; 
     }
 

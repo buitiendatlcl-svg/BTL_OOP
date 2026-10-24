@@ -1,4 +1,4 @@
-#include"employee.h"
+#include "employee.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -12,6 +12,7 @@ employee::employee (){
 	phoneNumber = "";
 	specialization = ""; //chuyen mon
 	areaId = "";
+	level = 1;
 	salary = -1.0;
 }
 
@@ -47,7 +48,7 @@ bool employee::isValidName(string name) { //check ten, chi duoc chua chu cai & k
 
 bool employee::isValidDate(string date){ //check dinh dang dd/mm/yyyy
 	if (date.size() != 10 || date[2] != '/' || date[5] != '/') return false;
-	for (int i = 0; i < date.size(); i++){
+	for (int i = 0; i < (int)date.size(); i++){
 		if (i == 2 || i == 5) continue; // neu la dau "/" thi bo qua
 		if (!isdigit(date[i])) return false;
 	}
@@ -72,7 +73,6 @@ bool employee::isValidPhoneNumber(string phoneNumber) { //check dinh dang 10 so,
     }
     return true;
 }
-
 
 bool employee::isValidSalary(string salaryStr) {
     if (salaryStr.empty()) return false;
@@ -123,6 +123,23 @@ string employee :: getAreaId(){
 	return areaId;
 }
 
+void employee :: setLevel(int level){
+	this->level = level;
+	updateSalary(); // Tu dong tinh lai luong ngay khi dat/doi cap bac
+}
+int employee :: getLevel(){
+	return level;
+}
+
+// Luong co ban 8,000,000 VND nhan he so theo cap bac (Bac 1: 1.0 | Bac 2: 1.4 | Bac 3: 1.8)
+void employee :: updateSalary(){
+	double factor = 1.0;
+	if (this->level == 1) factor = 1.0;
+	else if (this->level == 2) factor = 1.4;
+	else if (this->level == 3) factor = 1.8;
+	this->salary = 8000000 * factor;
+}
+
 void employee :: setSalary(double salary){
 	this->salary = salary;
 } 
@@ -158,19 +175,6 @@ void employee::inputFromKeyboard(){
 		cout << "=> Loi! Sai dinh dang, vui long nhap lai!" << endl;
 	}
 
-	while (true){
-		cout << "Nhap sdt (10 so, bat dau bang 0)(nhap 0 de quay lai): ";
-		getline(cin, temp);
-		
-		if (temp == "0") return;
-		
-		if (isValidPhoneNumber(temp)){
-			setPhoneNumber(temp);
-			break;
-		}
-		cout << "=> Loi! Sai dinh dang, vui long nhap lai!" << endl;
-	}
-	
 	bool validSpec = false;
     while (!validSpec) {
         cout << "Chon chuyen mon cua nhan vien:\n";
@@ -197,36 +201,62 @@ void employee::inputFromKeyboard(){
         }
     }
 	
-	while (true) {
-        cout << "Nhap muc luong (VND) (nhap '-1' de quay lai): ";
+	bool validLevel = false;
+	while (!validLevel) {
+        cout << "Chon cap bac cua nhan vien (Luong co ban: 8,000,000 VND):\n";
+        cout << "  1. Bac 1 (He so 1.0 ->  8,000,000 VND)\n";
+        cout << "  2. Bac 2 (He so 1.4 -> 11,200,000 VND)\n";
+        cout << "  3. Bac 3 (He so 1.8 -> 14,400,000 VND)\n";
+        cout << "  0. Quay lai\n";
+        cout << "Chon (0-3): ";
         getline(cin, temp);
         
-        if (temp == "-1") return;
+        if (temp == "0") return;
         
-        if (isValidSalary(temp)) {
-            setSalary(stod(temp)); 
-            break;
+        if (temp == "1") {
+            setLevel(1);
+            validLevel = true;
+        } else if (temp == "2") {
+            setLevel(2);
+            validLevel = true;
+        } else if (temp == "3") {
+            setLevel(3);
+            validLevel = true;
+        } else {
+            cout << "=> Loi: Lua chon khong hop le! Vui long chi nhap so tu 1 den 3.\n";
         }
-        cout << "=> Loi! Sai dinh dang, vui long nhap lai!" << endl;
-    }	
+    }
 }
 
 void employee::showToConsole() {
+    showToConsole("Chua ro", "Chua ro");
+}
+
+void employee::showToConsole(string districtName, string stationName) {
     cout << left << setw(8)  << getId() << "| "
          << left << setw(20) << fullName << "| "
          << left << setw(12) << dateOfBirth << "| "
          << left << setw(12) << phoneNumber << "| "
          << left << setw(20) << specialization << "| "
          << left << setw(8)  << areaId << "| "
+         << left << setw(15) << districtName << "| "
+         << left << setw(15) << stationName << "| "
+         << left << setw(8)  << ("Bac " + to_string(level)) << "| "
          << fixed << setprecision(0) << salary << endl;
 }
 
 string employee::toFileString(){
-	return getId() + "|" + fullName + "|" + dateOfBirth + "|" + phoneNumber + "|" + specialization + "|" + areaId 
-			+ "|" + to_string(salary);
+	stringstream ss;
+	ss << getId() << "|" << fullName << "|" << dateOfBirth << "|" << phoneNumber << "|" 
+	   << specialization << "|" << areaId << "|" 
+	   << level << "|" 
+	   << fixed << setprecision(0) << salary;
+	return ss.str();
+
 }
 
 void employee::fromFileString(string &s){
+	if (s.empty()) return;
 	stringstream ss(s);
 	string tmp;
 	getline(ss, tmp, '|');
@@ -242,9 +272,13 @@ void employee::fromFileString(string &s){
 	
 	getline(ss, areaId, '|');
 	
+	getline(ss, tmp, '|');
+	if (!tmp.empty()){
+		level = stoi(tmp);
+	}
+	
 	getline(ss, tmp);
 	if (!tmp.empty()){
 		salary = stod(tmp);
 	}
 }
-

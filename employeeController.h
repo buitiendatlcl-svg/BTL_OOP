@@ -17,6 +17,7 @@ private:
     Repository<warranty> warrantyRepo;
     Repository<installationForm> installFormRepo;
 
+    bool isPhoneExist(string phone);
 
     void createFunction();
     void readFunction();
