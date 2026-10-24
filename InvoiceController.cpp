@@ -36,7 +36,7 @@ bool InvoiceController::isWithinContractPeriod(string contractId, int month, int
 	// Tim phieu lap dat hoan thanh (state = 2) de lay moc A (ngay lap dat xong)
 	string installDate = "";
 	for (auto& pld : installationRepo.getData()) {
-		if (pld.getIdContract() == contractId && pld.getState() == 2) {
+		if (pld.getIdContract() == contractId && pld.getStatus() == 2) {
 			installDate = pld.getDate();
 			break;
 		}
@@ -169,7 +169,7 @@ void InvoiceController::addInvoice(){
 	// RANG BUOC 2 (RANG BUOC NGHIEM THU): Chi xuat hoa don neu da co phieu lap dat state = 2 (Hoan thanh)
 	bool daNghiemThu = false;
 	for (auto& pld : installationRepo.getData()) {
-		if (pld.getIdContract() == contractId && pld.getState() == 2) {
+		if (pld.getIdContract() == contractId && pld.getStatus() == 2) {
 			daNghiemThu = true;
 			break;
 		}
