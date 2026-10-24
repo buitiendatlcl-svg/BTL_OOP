@@ -56,8 +56,37 @@ void contractController::createFunction(){
 		
 		auto itCustomer = customerRepo.searchId(idCustomer);
 		if(itCustomer != NULL){
-			newContract.setCustomerId(idCustomer);
-			break;
+			bool hasUnpaidInvoice = false;
+			string unpaidInvoiceId = "";
+			string unpaidContractId = "";
+
+			vector<contract> listContract = contractRepo.getData();
+			vector<Invoice> listInvoice = invoiceRepo.getData();
+
+			for(auto c : listContract){
+				if(c.getCustomerId() == idCustomer){
+					for(auto inv : listInvoice){
+						if(inv.getContractId() == c.getId() && inv.getPaymentStatus() == "Unpaid"){
+							hasUnpaidInvoice = true;
+							unpaidInvoiceId = inv.getId();
+							unpaidContractId = c.getId();
+							break;
+						}
+					}
+				}
+				if(hasUnpaidInvoice) break;
+			}
+
+			if(hasUnpaidInvoice){
+				cout << "[Loi] Khach hang " << idCustomer << " dang co hoa don [" << unpaidInvoiceId 
+				     << "] (Hop dong " << unpaidContractId << ") o trang thai Unpaid!" << endl;
+				cout << "=> Khong duoc phep lap them hop dong moi de tranh no xau. Vui long thanh toan truoc!" << endl;
+			}
+			else{
+				// Khách hàng không n? cu?c -> Cho phép gán vào h?p d?ng m?i và di ti?p
+				newContract.setCustomerId(idCustomer);
+				break; 
+			}
 		}
 		else{
 			cout << "Khong tim thay ID khach hang" << endl;
@@ -327,6 +356,10 @@ void contractController::deleteFunction(){
 }
 
 void contractController::run(){
+	contractRepo.reloadData();
+	installationRepo.reloadData();
+	warrantyRepo.reloadData();
+	invoiceRepo.reloadData();
 	int choice = -1;
 	do{
 		cout << "\n============= QUAN LY HOP DONG =============" << endl;
