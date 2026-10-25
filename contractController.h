@@ -1,3 +1,4 @@
+// UC2 : Bui Tien Dat - giup thuc hien cac thao tac CRUD cho viec quan ly hop dong
 #pragma once
 #include <iostream>
 #include "Repository.h"
@@ -8,7 +9,6 @@
 #include "installation.h"
 #include "warranty.h"
 #include "invoice.h"
-
 using namespace std;
 
 class contractController{

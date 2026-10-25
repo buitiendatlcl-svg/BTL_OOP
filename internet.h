@@ -1,8 +1,8 @@
+//UC 1: Bui Tien Dat - quan ly goi internet
 #pragma once
 #include "Entity.h"
 #include <string>
 #include <vector>
-
 using namespace std;
 
 class internet : public entity{

@@ -1,12 +1,12 @@
+//ca nhom
 #pragma once
 #include <iostream>
 #include <vector>
 #include <fstream>
 #include <algorithm>
 using namespace std;
-
 template <class T>
-class Repository{
+class Repository{ //giup cho viec doc ghi du lieu nham phuc vu chuc nang CRUD
 private:
 	vector<T> data;
 	string fileName;

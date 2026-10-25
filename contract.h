@@ -1,7 +1,7 @@
+// UC2 : Bui Tien Dat - Quan ly hop dong dich vu
 #pragma once
 #include "entity.h"
-#include <string>  
-
+#include <string>
 using namespace std;
 
 class contract : public entity{

@@ -1,6 +1,6 @@
+//ca nhom
 #include <iostream>
 #include <string>
-
 
 // Include c?c file header c?a c?c Controller v? Model tuong ?ng
 #include "Repository.h"
@@ -29,10 +29,8 @@
 
 using namespace std;
 
-int main() {
+int main() { // dieu khien va goi ham run cua cac controller
 
-    // Kh?i t?o c?c d?i tu?ng Controller
-    // districtController c? tham s? m?c d?nh l? "data/data_khuvuc.txt" n?n kh?ng c?n truy?n v?o
     districtController dc;
     internetController ic;
     contractController cc;
