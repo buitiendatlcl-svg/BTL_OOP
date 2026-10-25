@@ -1,3 +1,4 @@
+//Tran Hoang Hai - MSV: B24DCVT123
 #pragma once
 #include <iostream>
 #include <vector>
@@ -6,6 +7,7 @@
 #include "employee.h"
 #include "contract.h"
 #include "installation.h"
+#include "district.h"
 #include "repository.h"
 
 class warrantyController {
@@ -14,8 +16,9 @@ private:
 	Repository <contract> contractRepo;
 	Repository <employee> employeeRepo;
 	Repository <installationForm> installFormRepo;
+	Repository <district> districtRepo;
 
-	// Moi hop dong chi co 1 phieu lap dat -> Tim phieu lap dat theo Ma Hop Dong
+	// moi hop dong chi co 1 phieu lap dat -> tim phieu lap dat theo Ma Hop Dong
 	installationForm* getInstallFormByContractId(string contractId);
 	
 	void createFunction();

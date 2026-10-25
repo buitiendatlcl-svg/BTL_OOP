@@ -1,3 +1,4 @@
+//Tran Hoang Hai - MSV: B24DCVT123
 #include "warranty.h"
 #include <iomanip>
 #include <iostream>
@@ -34,7 +35,7 @@ bool warranty::isValidDate(string date){ //check dinh dang dd/mm/yyyy
     return d <= daysInMonth[m]; // so sanh ngay nhap & ngay toi da cua thang do, neu dung tra ve true	
 }
 
-// Kiem tra ngay bao hanh phai >= ngay lap dat va <= ngay lap dat + 2 nam
+// kiem tra ngay bao hanh phai >= ngay lap dat va <= ngay lap dat + 2 nam
 bool warranty::isWithinTwoYears(string installDate, string warrantyDate) {
 	if (!isValidDate(installDate) || !isValidDate(warrantyDate)) return false;
 
@@ -46,10 +47,10 @@ bool warranty::isWithinTwoYears(string installDate, string warrantyDate) {
 	int m2 = stoi(warrantyDate.substr(3, 2));
 	int y2 = stoi(warrantyDate.substr(6, 4));
 
-	// Quy doi sang so yyyymmdd de so sanh
+	//quy doi sang so yyyymmdd de so sanh
 	int startVal = y1 * 10000 + m1 * 100 + d1;
 	int curVal   = y2 * 10000 + m2 * 100 + d2;
-	int maxVal   = (y1 + 2) * 10000 + m1 * 100 + d1; // Thoi han toi da 2 nam sau lap dat
+	int maxVal   = (y1 + 2) * 10000 + m1 * 100 + d1; // thoi han toi da 2 nam sau lap dat
 
 	return (curVal >= startVal && curVal <= maxVal);
 }
