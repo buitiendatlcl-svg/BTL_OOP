@@ -7,6 +7,7 @@
 #include "Repository.h"
 #include "internet.h"
 #include "installation.h"
+#include "district.h"
 
 using namespace std;
 
@@ -17,10 +18,12 @@ private:
 	Repository<contract> contractRepo;
 	Repository<internet> internetRepo;
 	Repository<installationForm> installationRepo; // Quan ly phieu lap dat de kiem tra nghiem thu
+	Repository<district> districtRepo;             // Quan ly khu vuc / tram quan ly
 	
-	// CAC PHUONG THUC MOI THEO DE XUAT
 	Invoice* getLastInvoice(string contractId);
-	bool isWithinContractPeriod(string contractId, int month, int year);
+	string getInstallationDate(string contractId);
+	void autoUpdateOverdueStatus();
+	
 	void addInvoice();
 	void displayAllInvoices();
 	void updatePaymentStatus();

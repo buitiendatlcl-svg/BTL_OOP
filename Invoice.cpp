@@ -2,6 +2,8 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <ctime>
+#include <algorithm>
 
 using namespace std;
 
@@ -40,18 +42,12 @@ Invoice::Invoice(string contractId, int billingMonth, int billingYear, double pa
 	
 //Ham sinh Id hoa don
 
-void Invoice::generateInvoiceId(){
-	string monthStr;
-	if(billingMonth < 10){
-		monthStr = "0" + to_string(billingMonth);
-	}
-	else{
-		monthStr = to_string(billingMonth);
-	}
-	
-	id = "INV-" + contractId + "-M" + monthStr + "-Y" + to_string(billingYear);
-	
+void Invoice::generateInvoiceId() {
+    string cleanDate = invoiceDate;
+    cleanDate.erase(remove(cleanDate.begin(), cleanDate.end(), '/'), cleanDate.end());
+    id = "INV-" + contractId + "-" + cleanDate;
 }
+
 //Ham tinh tong tien
 
 void Invoice::calculateTotalAmount(){
@@ -145,9 +141,10 @@ bool Invoice::isValidBillingMonth(string billingMonthStr){
 			return true;
 		}
 	}
-	catch(...){
+	catch(...) {
 		return false;
 	}
+	return false;
 }
 
 // Kiem tra nam phai la so lon hon 0
@@ -160,9 +157,10 @@ bool Invoice::isValidBillingYear(string billingYearStr){
 			return true;
 		}
 	}
-	catch(...){
+	catch(...) {
 		return false;
 	}
+	return false;
 }
 // Kiem tra chiet khau (cho phep >= 0 de nhap 0 VND khi khong co giam gia)
 bool Invoice::isValidDiscount(string discountStr){
@@ -308,16 +306,15 @@ void Invoice::inputFromKeyboard() {
 
 void Invoice::showToConsole(){
 	cout << left
-		<< setw(21) << id
-		<< "| " << setw(7)  << contractId
-		<< "| " << setw(9)  << (to_string(billingMonth) + "/" + to_string(billingYear))
-		<< "| " << setw(11) << fixed << setprecision(0) << packageFee
-		<< "| " << setw(11) << fixed << setprecision(0) << discount
-		<< "| " << setw(10) << fixed << setprecision(0) << surcharge
-		<< "| " << setw(12) << fixed << setprecision(0) << totalAmount
-		<< "| " << setw(10) << paymentStatus
-		<< "| " << setw(12) << invoiceDate
-		<< "| " << setw(12) << dueDate
+		<< setw(20) << id
+		<< "| " << setw(8)  << contractId
+		<< "| " << setw(12) << fixed << setprecision(0) << packageFee
+		<< "| " << setw(12) << fixed << setprecision(0) << discount
+		<< "| " << setw(12) << fixed << setprecision(0) << surcharge
+		<< "| " << setw(13) << fixed << setprecision(0) << totalAmount
+		<< "| " << setw(12) << paymentStatus
+		<< "| " << setw(13) << invoiceDate
+		<< "| " << setw(13) << dueDate
 		<< "| " << setw(12) << paymentDate
 		<< endl;
 }
@@ -353,6 +350,60 @@ void Invoice::fromFileString(string& line) {
 	if (invoiceDate.empty()) invoiceDate = "01/" + mStr + "/" + to_string(billingYear);
 	if (dueDate.empty()) dueDate = "15/" + mStr + "/" + to_string(billingYear);
 	if (paymentDate.empty()) paymentDate = (paymentStatus == "Paid") ? invoiceDate : "none";
+}
+
+bool Invoice::parseDate(const string& str, int& d, int& m, int& y) {
+    if (str.empty()) return false;
+    stringstream ss(str);
+    char c1, c2;
+    if (ss >> d >> c1 >> m >> c2 >> y) {
+        if (c1 == '/' && c2 == '/' && d >= 1 && d <= 31 && m >= 1 && m <= 12 && y >= 2000) {
+            return true;
+        }
+    }
+    return false;
+}
+string Invoice::formatDate(int d, int m, int y) {
+    stringstream ss;
+    ss << setfill('0') << setw(2) << d << "/"
+       << setw(2) << m << "/"
+       << setw(4) << y;
+    return ss.str();
+}
+int Invoice::dateToNumber(const string& dateStr) {
+    int d = 0, m = 0, y = 0;
+    if (parseDate(dateStr, d, m, y)) {
+        return y * 10000 + m * 100 + d;
+    }
+    return 0;
+}
+bool Invoice::compareDate(const string& d1, const string& d2) {
+    return dateToNumber(d1) < dateToNumber(d2);
+}
+string Invoice::addMonthsToDate(const string& dateStr, int months) {
+    int d = 0, m = 0, y = 0;
+    if (!parseDate(dateStr, d, m, y)) return dateStr;
+    m += months;
+    while (m > 12) {
+        m -= 12;
+        y += 1;
+    }
+    while (m < 1) {
+        m += 12;
+        y -= 1;
+    }
+    int daysInMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    bool isLeap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+    if (isLeap) daysInMonth[2] = 29;
+    if (d > daysInMonth[m]) {
+        d = daysInMonth[m];
+    }
+    return formatDate(d, m, y);
+}
+string Invoice::getCurrentDate() {
+    time_t t = time(0);
+    tm* now = localtime(&t);
+    return formatDate(now->tm_mday, now->tm_mon + 1, now->tm_year + 1900);
 }
 
 
