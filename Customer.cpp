@@ -2,7 +2,7 @@
 #include <iostream> 
 #include <iomanip>
 #include <sstream> 
-#include <ctype.h>
+#include <cctype>
 
 using namespace std;
 
@@ -10,9 +10,9 @@ string Customer::chuanHoa(string s){
 	stringstream ss(s);
 	string word, res = "";
 	while(ss >> word){
-		res += toupper(word[0]);
+		res += toupper(static_cast<unsigned char>(word[0]));
 		for(size_t i = 1; i < word.size(); i++){
-			res += tolower(word[i]);
+			res += tolower(static_cast<unsigned char>(word[i]));
 		}	
 		res += " ";	
 	}
@@ -28,7 +28,6 @@ Customer::Customer(){
 	nationalId = "";
 	phoneNumber = "";
 	address = "";
-	
 }
 
 void Customer::setName(string name){
@@ -74,17 +73,17 @@ bool Customer::isValidName(string s){
 }
 
 bool Customer::isValidPhoneNumber(string s){
-	if(s[0] != '0' || s.size() != 10) return false;
-	for(auto& c : s){
-		if(!isdigit(c)) return false;
+	if (s.length() != 10 || s[0] != '0') return false;
+	for (char c : s) {
+		if (!isdigit(static_cast<unsigned char>(c))) return false;
 	}
 	return true;
 }
 
 bool Customer::isValidNationalId(string s){
-	if(s[0] != '0' || s[1] != '0') return false;
-	for(auto& c : s){
-		if(!isdigit(c)) return false;
+	if (s.length() != 12 || s[0] != '0') return false;
+	for (char c : s) {
+		if (!isdigit(static_cast<unsigned char>(c))) return false;
 	}
 	return true;
 }
@@ -95,22 +94,25 @@ void Customer::inputFromKeyboard(){
 		cout << "Nhap Ho va Ten (Nhap '0' de quay lai): ";
 		getline(cin, temp);
 		if(temp == "0"){
-			temp = "";
+			name = "";
+			nationalId = "";
+			phoneNumber = "";
 			return;
 		}
 		if(isValidName(temp)){
 			setName(temp);
 			break;
 		}
-		cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
+		cout << "\n[THONG BAO]: Ho va ten khong hop le! Vui long chi nhap chu cai va khoang trang!" << endl;
 	}
 		
-	
 	while(true){
-		cout << "Nhap so CCCD (CCCD hai chu so dau la '0') (Nhap '0' de quay lai) : ";
+		cout << "Nhap so CCCD (gom 12 chu so va bat dau tu '0') (Nhap '0' de quay lai): ";
 		getline(cin, temp);
 		if(temp == "0"){
-			temp = "";
+			name = "";
+			nationalId = "";
+			phoneNumber = "";
 			return;
 		}
 		if(isValidNationalId(temp)){
@@ -118,16 +120,18 @@ void Customer::inputFromKeyboard(){
 			break;
 		} 
 		else{
-			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
+			cout << "\n[THONG BAO]: So CCCD khong hop le (phai du 12 chu so va bat dau bang '0')! Vui long nhap lai!" << endl;
 			continue;
 		}
 	}
 	
 	while(true){
-		cout << "Nhap so dien thoai (SDT gom 10 so va bat dau tu 0) (Nhap '0' de quay lai):";
+		cout << "Nhap so dien thoai (gom 10 chu so va bat dau tu '0') (Nhap '0' de quay lai): ";
 		getline(cin, temp);
-		if(temp== "0"){
-			temp = "";
+		if(temp == "0"){
+			name = "";
+			nationalId = "";
+			phoneNumber = "";
 			return;
 		}
 		if(isValidPhoneNumber(temp)){
@@ -135,21 +139,25 @@ void Customer::inputFromKeyboard(){
 			break;
 		}
 		else{
-			cout << "\n[THONG BAO]: Vui long nhap lai !" << endl;
+			cout << "\n[THONG BAO]: So dien thoai khong hop le (phai du 10 so va bat dau bang '0')! Vui long nhap lai!" << endl;
 			continue;
 		}
 	}
 }
 
 void Customer::showToConsole() {
-	cout << left << setw(10) << id << setw(25) << name << setw(20) << nationalId << setw(20) << phoneNumber << setw(20) << address << endl;
+	cout << left << setw(10) << id 
+	     << "| " << setw(25) << name 
+	     << "| " << setw(16) << nationalId 
+	     << "| " << setw(15) << phoneNumber 
+	     << "| " << address << endl;
 }
 
 string Customer::toFileString() {
 	return id + "|" + name + "|" + nationalId + "|" + phoneNumber + "|" + address;
 }
 
-void Customer::fromFileString( string& line){
+void Customer::fromFileString(string& line){
 	stringstream ss(line);
 	getline(ss, id, '|');
 	getline(ss, name, '|');
@@ -157,5 +165,3 @@ void Customer::fromFileString( string& line){
 	getline(ss, phoneNumber, '|');
 	getline(ss, address, '|');
 }
-
-
