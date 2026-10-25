@@ -220,7 +220,7 @@ void contractController::createFunction(){
 	string feedbackInput;
 	getline(cin, feedbackInput);
 	if(feedbackInput == "0") return;
-	newContract.setFeedback(feedbackInput)
+	newContract.setFeedback(feedbackInput);
 	if(contractRepo.create(newContract)){
 		cout << "Them moi hop dong thanh cong!" << endl;
 	}

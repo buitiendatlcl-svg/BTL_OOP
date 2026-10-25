@@ -302,8 +302,9 @@ void installationController::createFunction(){
 			 << "| " << setw(12) << "Ngay ky" 
 			 << "| " << setw(10) << "Ky han"
 			 << "| " << setw(15) << "Ngay het han"
-			 << "| " << setw(16) << "Trang thai" << endl;
-		cout << string(120, '-') << endl;
+			 << "| " << setw(16) << "Trang thai"
+			 << "| " << "Ghi chu" << endl;
+		cout << string(140, '-') << endl;
 	int dem=0;
 	for(auto& hd : dsHD){//tra ma hop dong trung voi ma hd da có trong phieu lap dat
 		bool check=false;

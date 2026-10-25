@@ -119,15 +119,16 @@ void InvoiceController::addInvoice(){
     if (list.empty()) {
         cout << "\n[THONG BAO]: Chua co hop dong nao trong he thong!" << endl;
     } else {
-        cout << left << setw(15) << "Ma hop dong"
+        	cout << left << setw(15) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
 		 	 << "| " << setw(10) << "Ma goi"
 			 << "| " << setw(12) << "Ma khu vuc" 
 			 << "| " << setw(12) << "Ngay ky" 
 			 << "| " << setw(10) << "Ky han"
 			 << "| " << setw(15) << "Ngay het han"
-			 << "| " << setw(16) << "Trang thai" << endl;
-		cout << string(120, '-') << endl;
+			 << "| " << setw(16) << "Trang thai"
+			 << "| " << "Ghi chu" << endl;
+		cout << string(140, '-') << endl;
         for (auto obj : list) {
             obj.showToConsole(); 
         }
