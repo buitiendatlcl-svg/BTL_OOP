@@ -1,3 +1,4 @@
+//Tran Hoang Hai - MSV: B24DCVT123
 #pragma once
 #include <iostream>
 #include <vector>
@@ -17,7 +18,7 @@ private:
     Repository<warranty> warrantyRepo;
     Repository<installationForm> installFormRepo;
 
-    bool isPhoneExist(string phone);
+    bool isPhoneExist(string phone); //ktra sdt
 
     void createFunction();
     void readFunction();

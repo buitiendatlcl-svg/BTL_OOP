@@ -1,3 +1,4 @@
+//Tran Hoang Hai - MSV: B24DCVT123
 #include "employee.h"
 #include <iomanip>
 #include <iostream>
@@ -12,7 +13,7 @@ employee::employee (){
 	phoneNumber = "";
 	specialization = ""; //chuyen mon
 	areaId = "";
-	level = 1;
+	level = 1; //bac: 1,2,3
 	salary = -1.0;
 }
 
@@ -131,7 +132,7 @@ int employee :: getLevel(){
 	return level;
 }
 
-// Luong co ban 8,000,000 VND nhan he so theo cap bac (Bac 1: 1.0 | Bac 2: 1.4 | Bac 3: 1.8)
+// luong co ban 8m VND nhan he so theo cap bac
 void employee :: updateSalary(){
 	double factor = 1.0;
 	if (this->level == 1) factor = 1.0;
