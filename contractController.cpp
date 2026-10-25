@@ -216,7 +216,11 @@ void contractController::createFunction(){
 	newContract.setTerm(termValue);
 	newContract.setStatus(2);
 	newContract.setExpiryDate("none");
-	
+	cout << "Nhap ghi chu hop dong (nhan Enter de bo qua, hoac nhap '0' de quay lai): ";
+	string feedbackInput;
+	getline(cin, feedbackInput);
+	if(feedbackInput == "0") return;
+	newContract.setFeedback(feedbackInput)
 	if(contractRepo.create(newContract)){
 		cout << "Them moi hop dong thanh cong!" << endl;
 	}
@@ -241,8 +245,9 @@ void contractController::readFunction(){
 			 << "| " << setw(12) << "Ngay ky" 
 			 << "| " << setw(10) << "Ky han"
 			 << "| " << setw(15) << "Ngay het han"
-			 << "| " << setw(16) << "Trang thai" << endl;
-		cout << string(120, '-') << endl;
+			 << "| " << setw(16) << "Trang thai"
+			 << "| " << "Ghi chu" << endl;
+		cout << string(140, '-') << endl;
 		
 		for(auto x : listContract){
 			x.showToConsole();
@@ -274,7 +279,7 @@ void contractController::updateFunction(){
 		if(itContract != NULL){
 			do{
 				cout << "\nNhap thanh phan ban muon thay doi" << endl;
-				cout << "1. Ngay ky hop dong" << endl;
+				cout << "1. Ghi chu hop dong" << endl;
 				cout << "0. Quay lai" << endl;
 				cout << "Nhap lua chon cua ban: ";
 				string optionStr;
@@ -289,15 +294,16 @@ void contractController::updateFunction(){
 				}
 				switch(option){
 					case 1: {
-						cout << "Nhap ngay ky hop dong thay doi(nhap '0' de quay lai): ";
-						string newSignDate;
-						getline(cin, newSignDate);
-						if(newSignDate == "0"){
+						cout << "Nhap ghi chu moi(nhap '0' de quay lai): ";
+						string newFeedback;
+						getline(cin, newFeedback);
+						if(newFeedback == "0"){
 							option = -1;
 							break;
 						}
-						itContract->setSignDate(newSignDate);
+						itContract->setFeedback(newFeedback);
 						contractRepo.saveToFile();
+						cout << "Cap nhat ghi chu thanh cong!" << endl;
 						break;
 					}
 					default:{

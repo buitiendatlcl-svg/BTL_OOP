@@ -10,6 +10,7 @@ private:
 	int term;
 	int status;
 	string expiryDate;
+	string feedback;
 public:
 	contract();
 	
@@ -33,6 +34,9 @@ public:
 	void setExpiryDate(string expiryDate);
 	string getExpiryDate();
 	void calculateExpiryDate(string installDate);
+	
+	void setFeedback(string feedback);
+	string getFeedback();
 	
 	void inputFromKeyboard();
 	

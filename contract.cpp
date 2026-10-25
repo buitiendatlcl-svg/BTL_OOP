@@ -14,6 +14,7 @@ contract::contract(){
 	term = 0;
 	status = 2;
 	expiryDate = "none";
+	feedback = "none";
 }
 
 void contract::setCustomerId(string customerId){
@@ -65,6 +66,24 @@ void contract::setExpiryDate(string expiryDate){
 string contract::getExpiryDate(){
 	return expiryDate;
 }
+void contract::setFeedback(string feedback){
+	bool isAllSpace = true;
+	for(char c : feedback){
+		if(!isspace(c)){
+			isAllSpace = false;
+			break;
+		}
+	}
+	if(feedback.empty() || isAllSpace){
+		this->feedback = "none";
+	} else {
+		this->feedback = feedback;
+	}
+}
+string contract::getFeedback(){
+	return feedback;
+}
+
 
 void contract::inputFromKeyboard(){
 }
@@ -116,11 +135,12 @@ void contract::showToConsole(){
 		 << "| " << setw(12) << signDate
 		 << "| " << setw(10) << (to_string(term) + " thang")
 		 << "| " << setw(15) << expiryDate
-		 << "| " << setw(16) << statusText << endl;
+		 << "| " << setw(16) << statusText
+		 << "| " << feedback << endl;
 }
 
 string contract::toFileString(){
-	return getId() + "|" + getCustomerId() + "|" + getPackageId() + "|" + getAreaId() + "|" +signDate + "|" + to_string(term) + "|" + to_string(status) + "|" + expiryDate;
+	return getId() + "|" + getCustomerId() + "|" + getPackageId() + "|" + getAreaId() + "|" +signDate + "|" + to_string(term) + "|" + to_string(status) + "|" + expiryDate + "|" + feedback;
 }
 
 void contract::fromFileString(string &s){
@@ -155,6 +175,10 @@ void contract::fromFileString(string &s){
 	getline(ss, expiryDate, '|');
 	if(expiryDate.empty()){
 		expiryDate = "none";
+	}
+	getline(ss, feedback, '|');
+	if(feedback.empty()){
+		feedback = "none";
 	}
 }
 
