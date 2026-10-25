@@ -1,3 +1,4 @@
+//vu tran tuan minh
 #include "installationController.h"
 using namespace std;
 // check lai ai xem co sai code ko
@@ -295,16 +296,12 @@ void installationController::createFunction(){
 	string loaiModem;
 	cout << "\n----THEM MOI PHIEU LAP DAT----" << endl;
 	cout << "\n* DANH SACH HOP DONG DANG CHO THI CONG:\n";
-		cout << left << setw(15) << "Ma hop dong"
+		cout << left << setw(20) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
-		 	 << "| " << setw(10) << "Ma goi"
-			 << "| " << setw(12) << "Ma khu vuc" 
-			 << "| " << setw(12) << "Ngay ky" 
-			 << "| " << setw(10) << "Ky han"
-			 << "| " << setw(15) << "Ngay het han"
-			 << "| " << setw(16) << "Trang thai"
-			 << "| " << "Ghi chu" << endl;
-		cout << string(140, '-') << endl;
+		 	 << "| " << setw(15) << "Ma goi"
+			 << "| " << setw(15) << "Ma khu vuc" 
+			 << "| " << setw(15) << "Ngay ky" << endl;
+		cout << string(85, '-') << endl;
 	int dem=0;
 	for(auto& hd : dsHD){//tra ma hop dong trung voi ma hd da có trong phieu lap dat
 		bool check=false;
@@ -351,6 +348,7 @@ void installationController::createFunction(){
 		else cout<<"=> [LOI]: Khong tim thay Ma Hop Dong trong he thong!\n";
 	}
 	//nhan vien lap dat 
+	repoNhanVien.reloadData();
 	contract* check=repoHopDong.searchId(maHD);
 	string k=check->getAreaId();
 	district* timKiem=repoKhuVuc.searchId(k);

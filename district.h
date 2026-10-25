@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include <string>
-
+//vu tran tuan minh
 using namespace std;
 
 class district : public entity {
@@ -12,8 +12,6 @@ private :
     int status;
 public:
     district();
-    
-    // Setter và Getter dã s?a ki?u tr? v? thành string
     void setDistrict(string district);
     string getDistrict() const;
     
@@ -25,7 +23,7 @@ public:
     
     void setStatus(int status);
     int getStatus() const;
-    // Ghi dè t? entity
+    
     void inputFromKeyboard() override;
     void showToConsole() override;
     string toFileString() override;
