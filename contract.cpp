@@ -84,7 +84,6 @@ void contract::calculateExpiryDate(string installDate){
 		int m = stoi(temp.substr(3, 2));
 		int y = stoi(temp.substr(6, 4));
 		
-		// C?ng thêm s? tháng k? h?n (term)
 		int totalMonths = (m - 1) + this->term;
 		y += totalMonths / 12;
 		m = (totalMonths % 12) + 1;
@@ -92,13 +91,12 @@ void contract::calculateExpiryDate(string installDate){
 	
 		int daysInMonth[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 		if((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)){
-			daysInMonth[2] = 29; // Nam nhu?n
+			daysInMonth[2] = 29;
 		}
 		if(d > daysInMonth[m]){
 			d = daysInMonth[m];
 		}
 		
-		// Ð?nh d?ng l?i thành chu?i dd/mm/yyyy
 		string dd = (d < 10 ? "0" : "") + to_string(d);
 		string mm = (m < 10 ? "0" : "") + to_string(m);
 		string yyyy = to_string(y);

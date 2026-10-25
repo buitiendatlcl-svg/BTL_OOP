@@ -83,7 +83,6 @@ void contractController::createFunction(){
 				cout << "=> Khong duoc phep lap them hop dong moi de tranh no xau. Vui long thanh toan truoc!" << endl;
 			}
 			else{
-				// Khách hàng không n? cu?c -> Cho phép gán vào h?p d?ng m?i và di ti?p
 				newContract.setCustomerId(idCustomer);
 				break; 
 			}
