@@ -38,6 +38,8 @@ public:
 	void setFeedback(string feedback);
 	string getFeedback();
 	
+	bool isValidDate(string date); // kiem tra xem ngay thang co hop le khong
+	
 	void inputFromKeyboard(); // lay du lieu tu file
 	
 	void showToConsole(); // hien thi danh sach ra man hinh

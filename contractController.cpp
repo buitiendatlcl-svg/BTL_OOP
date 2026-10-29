@@ -190,12 +190,24 @@ void contractController::createFunction(){ // chuc nang them
 	string newContractId = contractRepo.autoGenId("HD");
 	newContract.setId(newContractId);
 	
-	cout << "Nhap ngay ky hop dong(dd/mm/yyyy)(nhap '0' de quay lai): ";
-	string date;
-	getline(cin, date);
-	if(date == "0") return;
-	else
-		newContract.setSignDate(date);
+	string tempDate;
+    while (true) {
+        cout << "Nhap ngay ky hop dong(dd/mm/yyyy)(nhap '0' de quay lai): ";
+        getline(cin, tempDate);
+
+        if (tempDate == "0") {
+            cout << "Da huy thao tac them phieu bao hanh, quay lai menu!" << endl;
+            return;
+        }
+
+        if (!newContract.isValidDate(tempDate)) {
+            cout << "Loi! Sai dinh dang ngay thang, vui long nhap lai!" << endl;
+        } 
+        else {
+            newContract.setSignDate(tempDate);
+            break;
+        }
+    }
 		
 	int termValue;
 	while(true){

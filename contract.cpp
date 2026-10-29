@@ -16,6 +16,25 @@ contract::contract(){
 	expiryDate = "none";
 	feedback = "none";
 }
+bool contract::isValidDate(string date){ //check dinh dang dd/mm/yyyy
+	if (date.size() != 10 || date[2] != '/' || date[5] != '/') return false;
+	for (int i = 0; i < (int)date.size(); i++){
+		if (i == 2 || i == 5) continue; // neu la dau "/" thi bo qua
+		if (!isdigit(date[i])) return false;
+	}
+	
+	int d = stoi(date.substr(0, 2)); 
+	int m = stoi(date.substr(3, 2));
+	int y = stoi(date.substr(6, 4));
+	
+	if ( d < 1 || m < 1 || m > 12 || y < 2000 || y > 2028 ) return false;
+	
+	int daysInMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) {
+        daysInMonth[2] = 29; // nam nhuan
+    }
+    return d <= daysInMonth[m]; // so sanh ngay nhap & ngay toi da cua thang do, neu dung tra ve true	
+}
 
 void contract::setCustomerId(string customerId){
 	this->customerId = customerId;
