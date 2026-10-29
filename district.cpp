@@ -1,4 +1,4 @@
-//vu tran tuan minh
+//Vu Tran Tuan Minh - B24DCVT263
 #include "district.h"
 #include <iostream>
 #include <iomanip>

@@ -1,7 +1,6 @@
-//vu tran tuan minh
+//Vu Tran Tuan Minh - B24DCVT263
 #include "installationController.h"
 using namespace std;
-// check lai ai xem co sai code ko
 
 installationController::installationController() : 
 		repoPhieuLapDat("data/data_phieulapdat.txt"),

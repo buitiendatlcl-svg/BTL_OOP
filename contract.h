@@ -1,4 +1,4 @@
-// UC2 : Bui Tien Dat - Quan ly hop dong dich vu
+//Bui Tien Dat - B24DCVT062
 #pragma once
 #include "entity.h"
 #include <string>
@@ -38,12 +38,12 @@ public:
 	void setFeedback(string feedback);
 	string getFeedback();
 	
-	void inputFromKeyboard();
+	void inputFromKeyboard(); // lay du lieu tu file
 	
-	void showToConsole();
+	void showToConsole(); // hien thi danh sach ra man hinh
 	
-	string toFileString();
+	string toFileString(); // luu du lieu dang string vao file
 	
-	void fromFileString(string &line);
+	void fromFileString(string &line); // lay du lieu tu file
 };
 

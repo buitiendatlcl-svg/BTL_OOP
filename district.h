@@ -1,7 +1,7 @@
+//Vu Tran Tuan Minh - B24DCVT263
 #pragma once
 #include "Entity.h"
 #include <string>
-//vu tran tuan minh
 using namespace std;
 
 class district : public entity {

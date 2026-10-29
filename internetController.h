@@ -1,4 +1,4 @@
-// UC1 : Bui Tien Dat - giup thuc hien cac thao tac CRUD cho goi Internet
+//Bui Tien Dat - B24DCVT062
 #pragma once
 #include <iostream>
 #include "Repository.h"
@@ -12,10 +12,10 @@ private:
 	Repository<internet> internetRepo{"data/internet.txt"};
 	Repository<contract> contractRepo{"data/contract.txt"};
 	
-	void createFunction();
-	void readFunction();
-	void updateFunction();
-	void deleteFunction();
+	void createFunction(); // chuc nang them
+	void readFunction(); // chuc nang hien thi
+	void updateFunction(); // chuc nang chinh sua
+	void deleteFunction(); // chuc nang xoa
 public:
 	internetController();
 	void run();

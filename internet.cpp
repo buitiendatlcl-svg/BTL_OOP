@@ -1,8 +1,8 @@
+//Bui Tien Dat - B24DCVT062
 #include "internet.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-
 using namespace std;
 
 internet::internet(){

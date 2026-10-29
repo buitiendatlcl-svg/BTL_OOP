@@ -1,8 +1,8 @@
+// Nguyen Manh Khanh - B24DCVT192
 #pragma once
 #include <iostream>
 #include <string>
 #include "Entity.h"
-
 using namespace std;
 
 class Invoice : public entity{

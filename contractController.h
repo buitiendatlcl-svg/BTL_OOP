@@ -1,4 +1,4 @@
-// UC2 : Bui Tien Dat - giup thuc hien cac thao tac CRUD cho viec quan ly hop dong
+//Bui Tien Dat - B24DCVT062
 #pragma once
 #include <iostream>
 #include "Repository.h"

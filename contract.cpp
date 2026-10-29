@@ -1,9 +1,9 @@
+//Bui Tien Dat - B24DCVT062
 #include "contract.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
-
 using namespace std;
 
 contract::contract(){

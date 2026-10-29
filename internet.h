@@ -1,4 +1,4 @@
-//UC 1: Bui Tien Dat - quan ly goi internet
+//Bui Tien Dat - B24DCVT062
 #pragma once
 #include "Entity.h"
 #include <string>
@@ -27,7 +27,7 @@ public:
 	double getPrice();
 	
 	void inputFromKeyboard();
-	void inputFromKeyboard(vector<internet> list);
+	void inputFromKeyboard(vector<internet> list); // lay du lieu tu ban phim
 	
 	void showToConsole();
 	

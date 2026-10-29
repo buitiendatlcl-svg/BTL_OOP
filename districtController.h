@@ -1,4 +1,4 @@
-//vu tran tuan minh
+//Vu Tran Tuan Minh - B24DCVT263
 #pragma once
 #include <iostream>
 #include <vector>

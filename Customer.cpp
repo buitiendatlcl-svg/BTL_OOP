@@ -1,9 +1,9 @@
+// Nguyen Manh Khanh - B24DCVT192
 #include "Customer.h"
 #include <iostream> 
 #include <iomanip>
 #include <sstream> 
 #include <cctype>
-
 using namespace std;
 
 string Customer::chuanHoa(string s){

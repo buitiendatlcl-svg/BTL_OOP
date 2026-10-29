@@ -1,3 +1,4 @@
+//Bui Tien Dat - B24DCVT062
 #include "contractController.h"
 #include <cctype>
 #include <iomanip>
@@ -12,7 +13,7 @@ contractController::contractController(){
 	Repository<Invoice> invoiceRepo{"data/invoice.txt"};
 }
 
-void contractController::createFunction(){
+void contractController::createFunction(){ // chuc nang them
 	installationRepo.reloadData();
 	warrantyRepo.reloadData();
 	invoiceRepo.reloadData();
@@ -230,7 +231,7 @@ void contractController::createFunction(){
 	}
 }
 
-void contractController::readFunction(){
+void contractController::readFunction(){ // chuc nang read
 	
 	vector<contract> listContract = contractRepo.getData();
 	if(listContract.empty()){
@@ -256,7 +257,7 @@ void contractController::readFunction(){
 	}
 }
 
-void contractController::updateFunction(){
+void contractController::updateFunction(){ // chuc nang chinh sua
 	installationRepo.reloadData();
 	warrantyRepo.reloadData();
 	invoiceRepo.reloadData();
@@ -321,7 +322,7 @@ void contractController::updateFunction(){
 	if(check) return;	
 }
 
-void contractController::deleteFunction(){
+void contractController::deleteFunction(){ // chuc nang xoa
 	readFunction();
 	bool check = false;
 	while(true){
