@@ -1,3 +1,4 @@
+//Vu Tran Tuan Minh - B24DCVT263
 #include "installation.h"
 #include<sstream>
 #include<iostream>
@@ -10,7 +11,7 @@ installationForm::installationForm(){
 		 idEmployee="";
 		 modem="";
 		 date="";
-		 state=0;
+		 status=0;
 }
 
 		void installationForm :: setIdContract(string idContract){
@@ -41,35 +42,32 @@ installationForm::installationForm(){
 			return date;
 		}
 		
-		void installationForm :: setState(int state){
-			this->state=state;
+		void installationForm :: setStatus(int status){
+			this->status=status;
 		}
-		int installationForm:: getState(){
-			return state;
+		int installationForm:: getStatus(){
+			return status;
 		}
 		void installationForm::inputFromKeyboard(){
 			
 		}
     	void installationForm::showToConsole(){
     		string trangThai;// vi chi luu state la cac so  0 1 2 nen cho vao switch bat cac trang thai in ra
-	    	switch(state){
+	    	switch(status){
 	    	case 0:  trangThai = "Cho xu ly"; break;
-	        case 1:  trangThai = "Dang thi cong"; break;
-	        case 2:  trangThai = "Hoan thanh"; break;
+	        case 1:  trangThai = "Hoan thanh"; break;
 	        case -1:  trangThai= "Huy bo";break;
 	        default: trangThai = "Khong xac dinh"; break;
 			}
-			cout << left << setw(18) << id
-         << "| " << setw(15) << idContract
-         << "| " << setw(25) << idEmployee
-         << "| " << setw(25) << modem
-         << "| " << setw(20) << date
-         << "| " << setw(15) << trangThai << endl;
-    		
-    		
-		}
+cout << left << setw(18) << id
+<<"| " << setw(15) << idContract
+<<"| "  << setw(25) << idEmployee
+<<"| "  << setw(25) << modem
+<<"| " << setw(20) << date
+<<"| "  << setw(15) << trangThai << endl;	
+}
     	string installationForm:: toFileString(){
-    		return id + "|" +idContract+ "|"+ idEmployee +"|" +modem+ "|" +date+ "|" +to_string(state);
+    		return id + "|" +idContract+ "|"+ idEmployee +"|" +modem+ "|" +date+ "|" +to_string(status);
     		
 		}
     	void installationForm::fromFileString(string &line){
@@ -81,7 +79,7 @@ installationForm::installationForm(){
     		getline(ss,modem,'|');
     		getline(ss,date,'|');
     		getline(ss,tmp,'|');
-    		if(!tmp.empty()) state=stoi(tmp);
+    		if(!tmp.empty()) status=stoi(tmp);
     		
     		
 		}

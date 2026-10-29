@@ -1,9 +1,9 @@
+//Bui Tien Dat - B24DCVT062
 #include "contract.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
-
 using namespace std;
 
 contract::contract(){
@@ -14,6 +14,26 @@ contract::contract(){
 	term = 0;
 	status = 2;
 	expiryDate = "none";
+	feedback = "none";
+}
+bool contract::isValidDate(string date){ //check dinh dang dd/mm/yyyy
+	if (date.size() != 10 || date[2] != '/' || date[5] != '/') return false;
+	for (int i = 0; i < (int)date.size(); i++){
+		if (i == 2 || i == 5) continue; // neu la dau "/" thi bo qua
+		if (!isdigit(date[i])) return false;
+	}
+	
+	int d = stoi(date.substr(0, 2)); 
+	int m = stoi(date.substr(3, 2));
+	int y = stoi(date.substr(6, 4));
+	
+	if ( d < 1 || m < 1 || m > 12 || y < 2000 || y > 2028 ) return false;
+	
+	int daysInMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) {
+        daysInMonth[2] = 29; // nam nhuan
+    }
+    return d <= daysInMonth[m]; // so sanh ngay nhap & ngay toi da cua thang do, neu dung tra ve true	
 }
 
 void contract::setCustomerId(string customerId){
@@ -65,6 +85,24 @@ void contract::setExpiryDate(string expiryDate){
 string contract::getExpiryDate(){
 	return expiryDate;
 }
+void contract::setFeedback(string feedback){
+	bool isAllSpace = true;
+	for(char c : feedback){
+		if(!isspace(c)){
+			isAllSpace = false;
+			break;
+		}
+	}
+	if(feedback.empty() || isAllSpace){
+		this->feedback = "none";
+	} else {
+		this->feedback = feedback;
+	}
+}
+string contract::getFeedback(){
+	return feedback;
+}
+
 
 void contract::inputFromKeyboard(){
 }
@@ -84,7 +122,6 @@ void contract::calculateExpiryDate(string installDate){
 		int m = stoi(temp.substr(3, 2));
 		int y = stoi(temp.substr(6, 4));
 		
-		// C?ng thêm s? tháng k? h?n (term)
 		int totalMonths = (m - 1) + this->term;
 		y += totalMonths / 12;
 		m = (totalMonths % 12) + 1;
@@ -92,13 +129,12 @@ void contract::calculateExpiryDate(string installDate){
 	
 		int daysInMonth[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 		if((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)){
-			daysInMonth[2] = 29; // Nam nhu?n
+			daysInMonth[2] = 29;
 		}
 		if(d > daysInMonth[m]){
 			d = daysInMonth[m];
 		}
 		
-		// Ð?nh d?ng l?i thành chu?i dd/mm/yyyy
 		string dd = (d < 10 ? "0" : "") + to_string(d);
 		string mm = (m < 10 ? "0" : "") + to_string(m);
 		string yyyy = to_string(y);
@@ -111,18 +147,19 @@ void contract::calculateExpiryDate(string installDate){
 
 void contract::showToConsole(){
 	string statusText = (status == 1) ? "Hoat dong" : "Khong hoat dong";
-	cout << left << setw(20) << getId()
+	cout << left << setw(15) << getId()
 		 << "| " << setw(15) << customerId
-		 << "| " << setw(15) << packageId
-		 << "| " << setw(15) << areaId 
-		 << "| " << setw(15) << signDate
+		 << "| " << setw(10) << packageId
+		 << "| " << setw(12) << areaId 
+		 << "| " << setw(12) << signDate
 		 << "| " << setw(10) << (to_string(term) + " thang")
 		 << "| " << setw(15) << expiryDate
-		 << "| " << setw(18) << statusText << endl;
+		 << "| " << setw(16) << statusText
+		 << "| " << feedback << endl;
 }
 
 string contract::toFileString(){
-	return getId() + "|" + getCustomerId() + "|" + getPackageId() + "|" + getAreaId() + "|" +signDate + "|" + to_string(term) + "|" + to_string(status) + "|" + expiryDate;
+	return getId() + "|" + getCustomerId() + "|" + getPackageId() + "|" + getAreaId() + "|" +signDate + "|" + to_string(term) + "|" + to_string(status) + "|" + expiryDate + "|" + feedback;
 }
 
 void contract::fromFileString(string &s){
@@ -157,6 +194,10 @@ void contract::fromFileString(string &s){
 	getline(ss, expiryDate, '|');
 	if(expiryDate.empty()){
 		expiryDate = "none";
+	}
+	getline(ss, feedback, '|');
+	if(feedback.empty()){
+		feedback = "none";
 	}
 }
 

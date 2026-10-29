@@ -1,8 +1,10 @@
+//Ca nhom
 #pragma once
 #include <string>
 using namespace std;
 
-class entity{
+
+class entity{ // cac class quan ly du lieu se ke thua class nay
 protected:
 	string id;
 public:

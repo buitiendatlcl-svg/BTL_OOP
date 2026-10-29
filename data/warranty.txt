@@ -1,2 +1,10 @@
-BH4|HD2|NV7|04/12/2026|Mat ket noi Internet|Dang sua chua
-BH5|HD2|NV3|03/04/2026|Loi thiet bi Modem/Wifi|Dang sua chua
+BH1|HD1|NV8|05/11/2027|Mang cham, chap chon|Cho xac nhan
+BH2|HD2|NV6|30/10/2027|Loi thiet bi Modem/Wifi|Cho xac nhan
+BH3|HD6|NV6|25/10/2028|Van de khac|Cho xac nhan
+BH5|HD9|NV5|27/10/2027|Mat ket noi Internet|Cho xac nhan
+BH6|HD10|NV3|25/10/2027|Mat ket noi Internet|Cho xac nhan
+BH7|HD4|NV1|01/11/2027|Mat ket noi Internet|Cho xac nhan
+BH8|HD8|NV9|05/11/2027|Mang cham, chap chon|Cho xac nhan
+BH9|HD5|NV4|07/12/2027|Loi thiet bi Modem/Wifi|Cho xac nhan
+BH10|HD7|NV2|25/10/2027|Van de khac|Cho xac nhan
+BH11|HD3|NV5|28/10/2027|Mat ket noi Internet|Cho xac nhan

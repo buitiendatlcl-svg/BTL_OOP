@@ -1,12 +1,13 @@
+//Vu Tran Tuan Minh - B24DCVT263
 #include "installationController.h"
 using namespace std;
-// check lai ai xem co sai code ko
 
 installationController::installationController() : 
 		repoPhieuLapDat("data/data_phieulapdat.txt"),
 		repoHopDong("data/contract.txt"),
 		repoNhanVien("data/employee.txt"),
-		repoInternet("data/internet.txt")
+		repoInternet("data/internet.txt"),
+		repoKhuVuc("data/data_khuvuc.txt")
 		{
 			docDanhSachModem();
 		}
@@ -34,6 +35,31 @@ bool installationController::chuanHoaNgay(string date){
     }
     return d <= daysInMonth[m]; // so sanh ngay nhap & ngay toi da cua thang do, neu dung tra ve true	
 }
+
+bool installationController::checkDay(string ngay1, string ngay2) {
+    int d1 = stoi(ngay1.substr(0, 2)), m1 = stoi(ngay1.substr(3, 2)), y1 = stoi(ngay1.substr(6, 4));
+    int d2 = stoi(ngay2.substr(0, 2)), m2 = stoi(ngay2.substr(3, 2)), y2 = stoi(ngay2.substr(6, 4));
+    if (y1 != y2) return y1 > y2;
+    if (m1 != m2) return m1 > m2;
+    return d1 >= d2;
+}
+void installationController::showToConsoleNew(installationForm& ph) {
+    string tenHienThi = ph.getIdEmployee();
+        tenHienThi += "(Da nghi viec)"; 
+		string trangThai;// vi chi luu state la cac so  0 1 2 nen cho vao switch bat cac trang thai in ra
+	    	switch(ph.getStatus()){
+	        case 1:  trangThai = "Hoan thanh"; break;
+	        case -1:  trangThai= "Huy bo";break;
+	        default: trangThai = "Khong xac dinh"; break;
+			}
+    cout << left << setw(18) << ph.getId() 
+         << setw(15) << ph.getIdContract() 
+         << setw(25) << tenHienThi 
+         << setw(25) << ph.getModem() 
+         << setw(20) << ph.getDate() 
+         << setw(15) << trangThai << endl;
+}
+
 void installationController::docDanhSachModem(){//doc danh sach modem luu map key-value
 	mapModem.clear();
 	ifstream file("data/data_modem.txt");//doc file txt
@@ -60,67 +86,150 @@ void installationController::docDanhSachModem(){//doc danh sach modem luu map ke
 }
 	void installationController:: showTitle(){
 		cout << left << setw(18) << "Ma phieu lap dat" 
-         << "| " << setw(15) << "Ma hop dong" 
-         << "| " << setw(25) << "Ma nhan vien ky thuat" 
-         << "| " << setw(25) << "Loai modem" 
-         << "| " << setw(20) << "Ngay lap dat" 
-         << "| " << setw(15) << "Trang thai" << endl;
+          <<"| " << setw(15) << "Ma hop dong" 
+          <<"| " << setw(25) << "Ma nhan vien ky thuat" 
+          <<"| " << setw(25) << "Loai modem" 
+          <<"| " << setw(20) << "Ngay lap dat" 
+          <<"| " << setw(15) << "Trang thai" << endl;
     cout << string(125, '-') << endl;
 	}
 	
 	void installationController::capNhatNgayHen(installationForm* phieu) {
-    cout << "\n--- CAP NHAT NGAY HEN ---\n";
+   cout << "\n--- CAP NHAT NGAY HEN ---\n";
     cout << "Ngay hen hien tai: " << phieu->getDate() << "\n";
-    
-    while(true){
-    cout << "Nhap ngay hen moi (VD: 25/10/2026) [Bo trong giu nguyen]: ";
-    string ngayMoi;
-    getline(cin, ngayMoi);
-    if(!chuanHoaNgay(ngayMoi)){
-    	cout<<"[LOI] vui long nhap ngay thang hop le\n";
-	}
-    if (!ngayMoi.empty()&&chuanHoaNgay(ngayMoi)) {
-        phieu->setDate(ngayMoi);
-        cout << "=> Tinh trang: Da cap nhat ngay hen tren he thong tam thoi.\n";
-        break;
-    }
-    if(ngayMoi.empty()){
-    	cout <<  "=> Khong co thay doi nao duoc luu." << endl;
-    	break;
-	} 
-}}
+    repoHopDong.reloadData();
+    contract* hd = repoHopDong.searchId(phieu->getIdContract());
+    string ngayKy = (hd != nullptr) ? hd->getSignDate() : "01/01/2000";
 
-void installationController::capNhatTrangThai(installationForm* phieu) {
-    cout << "\n--- CAP NHAT TRANG THAI ---\n";
-    cout << "Trang thai hien tai: " << phieu->getState() << "\n";
-    cout << "Cac trang thai: [0: Cho xu ly | 1: Dang thi cong | 2: Hoan thanh | -1: Huy bo]\n";
     while(true){
-	cout << "Nhap trang thai moi [Bo trong giu nguyen]: ";
-    string trangThaiMoi;
-    getline(cin, trangThaiMoi);
-	if(trangThaiMoi.empty()) {
-    cout << "=> Khong co thay doi nao duoc luu.\n";
-    break;
-}
-    //try catch de bat ng dung nhap int so chu khong phai string linh tinh
-    try {
-    	size_t pos;
-        int tt = stoi(trangThaiMoi,&pos);
-        if(pos!=trangThaiMoi.length()){
-        	throw runtime_error("Loi ky tu la");
-		}
-        else if (tt == -1 || tt == 0 || tt == 1 || tt == 2) {
-                phieu->setState(tt);
-                cout << "=> Tinh trang: Da cap nhat trang thai tren he thong tam thoi.\n";
-				break;
-				}
+        cout << "Nhap ngay hen moi (VD: 25/10/2026) [Bo trong giu nguyen]: ";
+        string ngayMoi;
+        getline(cin, ngayMoi);
+        
+        if(ngayMoi.empty()){
+            cout << "=> Khong co thay doi nao duoc luu." << endl;
+            break;
+        } 
+        
+        if(!chuanHoaNgay(ngayMoi)){
+            cout<<"=> [LOI] Vui long nhap ngay thang hop le!\n";
+        }
+        else if (checkDay(ngayMoi, ngayKy) == false) {
+            cout<<"=> [LOI] Ngay hen khong duoc nho hon ngay ky HD (" << ngayKy << ")!\n";
+        }
         else {
-                cout << "=> [LOI]: So khong hop le. Vui long chi nhap -1, 0, 1 hoac 2!\n";
-    }} catch (...) {
-        cout << "=> [LOI]: Vui long chi nhap so (0, 1, 2, hoac -1)!\n";
+            phieu->setDate(ngayMoi);
+            cout << "=> Tinh trang: Da cap nhat ngay hen tren he thong tam thoi.\n";
+            break;
+        }
     }
-} 
 }
+string tinhNgayHetHan(string ngayKy, int kiHanThang) {
+    int d = stoi(ngayKy.substr(0, 2));
+    int m = stoi(ngayKy.substr(3, 2));
+    int y = stoi(ngayKy.substr(6, 4));
+    m += kiHanThang;
+    while (m > 12) {
+        m -= 12;
+        y++;
+    }
+    int daysInMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) {
+        daysInMonth[2] = 29; // Nam nhu?n
+    }
+    if (d > daysInMonth[m]) {
+        d = daysInMonth[m];
+    }
+    string kq = "";
+    
+    if (d < 10) kq += "0";
+    kq += to_string(d) + "/";
+    
+    if (m < 10) kq += "0";
+    kq += to_string(m) + "/";
+    
+    kq += to_string(y);
+    
+    return kq;
+}
+  void installationController::capNhatTrangThai(installationForm* phieu) {
+    cout << "\n--- CAP NHAT TRANG THAI ---\n";
+    if (phieu->getStatus() == 1 || phieu->getStatus() == -1) {
+        cout << "=> [TU CHOI]: Phieu nay da chot so (Hoan thanh / Huy bo). Khong the thay doi trang thai!\n";
+        return; 
+    }
+    
+    cout << "Trang thai hien tai: " << phieu->getStatus() << "\n";
+    cout << "Cac trang thai: [0: Cho xu ly | 1: Hoan thanh | -1: Huy bo]\n";
+    
+    while (true) {
+        cout << "Nhap trang thai moi [Bo trong giu nguyen]: ";
+        string trangThaiMoi;
+        getline(cin, trangThaiMoi);
+        if (trangThaiMoi.empty()) {
+            cout << "=> Khong co thay doi nao duoc luu.\n";
+            break;
+        }
+        
+        try {
+            size_t pos;
+            int tt = stoi(trangThaiMoi, &pos);
+            if (pos != trangThaiMoi.length()) throw runtime_error("Loi ky tu la");
+            if (tt == -1 || tt == 0 || tt == 1) {
+                phieu->setStatus(tt); 
+                if (tt == 1) {
+                    repoHopDong.reloadData();
+                    repoKhuVuc.reloadData();
+                    contract* hd = repoHopDong.searchId(phieu->getIdContract());
+                    
+                    if (hd != nullptr) {
+                        hd->setStatus(1); 
+                        
+                        int kiHan = hd->getTerm(); 
+                        string ngayHetHan = tinhNgayHetHan(phieu->getDate(), kiHan);
+                        hd->setExpiryDate(ngayHetHan); 
+                        
+                        cout << "=> He thong tu dong KICH HOAT Hop Dong: " << hd->getId() << "\n";
+                        cout << "=> Tu dong tinh Ngay Het Han Hop Dong: " << ngayHetHan << "\n";
+
+                        district* tram = repoKhuVuc.searchId(hd->getAreaId());
+                        if (tram != nullptr) {
+                            int inUse = 0;
+                            vector<contract> dsHD = repoHopDong.getData();
+                            for (auto& c : dsHD) {
+                                if (c.getAreaId() == tram->getId() && c.getStatus() == 1) {
+                                    internet* goi = repoInternet.searchId(c.getPackageId());
+                                    if (goi != nullptr) inUse += goi->getSpeed();
+                                }
+                            }
+                            
+                            if (inUse >= tram->getMaxBandWidth()) {
+                                tram->setStatus(1); 
+                                cout << "=> [CANH BAO]: Khu vuc " << tram->getDistrict()<<"Tram "<< tram->getStation() << " da vuot tai!\n";
+                            }
+                            
+                            repoKhuVuc.saveChange(); 
+                        }
+                        
+                        repoHopDong.saveChange(); 
+                    }
+                } 
+                else if (tt == -1) {
+                    cout << "=> Phieu lap dat da chuyen sang trang thai Huy (-1).\n";
+                }
+                repoPhieuLapDat.saveChange();
+                cout << "=> [THANH CONG]: Da luu trang thai truc tiep xuong file!\n";
+                break; 
+                
+            } else { 
+                cout << "=> [LOI]: So khong hop le. Vui long chi nhap -1, 0 hoac 1!\n";
+            }
+        } catch (...) {
+            cout << "=> [LOI]: Vui long chi nhap so (-1, 0 hoac 1)!\n";
+        }
+    } 
+}
+	
 
 	void installationController::capNhatModem(installationForm* phieu) {
 		docDanhSachModem();
@@ -164,7 +273,8 @@ void installationController::capNhatTrangThai(installationForm* phieu) {
 	                cout << "=> Tinh trang: Da thay doi Modem thanh cong.\n";
 	                break;
 	            }
-	            else  cout<< "=> Vui long chi nhap cac so trong khoang (1-" <<dsModem.size()<<")"<< endl;
+	            else  cout<< "=> Vui long chi nhap cac so trong khoang (1-" 
+				<<dsModem.size()<<")"<< endl;
 				}
 	            catch(...){
 	            	cout<<"[LOI] Vui long chi nhap so nguyen !\n";
@@ -184,13 +294,16 @@ void installationController::createFunction(){
 	string ngayHen;
 	string loaiModem;
 	cout << "\n----THEM MOI PHIEU LAP DAT----" << endl;
-	cout << "\n* DANH SACH HOP DONG DANG CHO THI CONG:\n";
-		cout << left << setw(20) << "Ma hop dong"
+	cout << left << setw(15) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
-		 	 << "| " << setw(15) << "Ma goi"
-			 << "| " << setw(15) << "Ma khu vuc" 
-			 << "| " << setw(15) << "Ngay ky" << endl;
-		cout << string(85, '-') << endl;
+		 	 << "| " << setw(10) << "Ma goi"
+			 << "| " << setw(12) << "Ma khu vuc" 
+			 << "| " << setw(12) << "Ngay ky" 
+			 << "| " << setw(10) << "Ky han"
+			 << "| " << setw(15) << "Ngay het han"
+			 << "| " << setw(16) << "Trang thai"
+			 << "| " << "Ghi chu" << endl;
+		cout << string(135, '-') << endl;
 	int dem=0;
 	for(auto& hd : dsHD){//tra ma hop dong trung voi ma hd da có trong phieu lap dat
 		bool check=false;
@@ -237,24 +350,29 @@ void installationController::createFunction(){
 		else cout<<"=> [LOI]: Khong tim thay Ma Hop Dong trong he thong!\n";
 	}
 	//nhan vien lap dat 
+	repoNhanVien.reloadData();
 	contract* check=repoHopDong.searchId(maHD);
 	string k=check->getAreaId();
+	district* timKiem=repoKhuVuc.searchId(k);
 	cout << "\n* DANH SACH NHAN VIEN QUAN LY "<<k<<" DANG CO TRONG HE THONG:\n";
-	cout << left << setw(8)  << "Ma NV" << "| "
+ cout << left << setw(8)  << "Ma NV" << "| "
              << left << setw(20) << "Ho va Ten" << "| "
              << left << setw(12) << "Ngay Sinh" << "| "
              << left << setw(12) << "SDT" << "| "
              << left << setw(20) << "Chuyen Mon" << "| "
              << left << setw(8)  << "Ma KV" << "| "
+             << left << setw(15) << "Ten KV" << "| "
+             << left << setw(15) << "Ten Tram" << "| "
+             << left << setw(8)  << "Cap Bac" << "| "
              << "Luong (VND)" << endl;
-        cout << "----------------------------------------------------------------------------------------------------" << endl;
+        cout << string(144, '-') << endl;
 		repoNhanVien.reloadData();
 		vector<employee> dsNV=repoNhanVien.getData();
 		bool kt=false;
 	for(auto& nv : dsNV){
 		if(nv.getAreaId()==k){
 		kt=true;
-		nv.showToConsole();
+		nv.showToConsole(timKiem->getDistrict(),timKiem->getStation());
 	}}
 	cout << "\n" << string(40, '-') << "\n";
 	if(!kt){
@@ -338,20 +456,21 @@ void installationController::createFunction(){
 		cout << "=> [LOI] Vui long chi nhap so!\n";
 	}}
 	
-	
-	
-while(true){
-cout << "-> Nhap ngay hen lap dat (VD: 20/10/2026) hoac('0' de thoat): ";
-getline(cin, ngayHen);
- 	if(ngayHen=="0"){
-		cout<<"Da thoat chuc nang them phieu !\n";
-		return;
+	string ngayKyHopDong=tim->getSignDate();
+	while(true){
+	cout << "-> Nhap ngay hen lap dat (VD: 20/10/2026) hoac('0' de thoat): ";
+	getline(cin, ngayHen);
+	 	if(ngayHen=="0"){
+			cout<<"Da thoat chuc nang them phieu !\n";
+			return;
+		}
+	if(!chuanHoaNgay(ngayHen)){
+		cout<<"[LOI] Vui long nhap ngay thang hop le (VD: 20/10/2026) !\n";
 	}
-if(!chuanHoaNgay(ngayHen)){
-	cout<<"[LOI] Vui long nhap ngay thang hop le (VD: 20/10/2026) !\n";
-}
-else break;
-}
+	else if(checkDay(ngayHen, ngayKyHopDong) == false) 
+	cout<<"[LOI] Ngay hen ("<< ngayHen <<") khong duoc dien ra TRUOC ngay ky HÐ ("<< ngayKyHopDong <<")!\n";
+	else break; // Vu?t qua m?i rào ch?n
+ }
 	//sinh mã tu don
 	int maxId=0;
 	for(auto& ph : dsPhieu){
@@ -380,12 +499,13 @@ else break;
 	phieuMoi.setIdEmployee(maNV);
 	phieuMoi.setModem(loaiModem);
 	phieuMoi.setDate(ngayHen);
-	phieuMoi.setState(0);// them 1 phieu thi phai dang trong trang thai cho xu ly
+	phieuMoi.setStatus(0);// them 1 phieu thi phai dang trong trang thai cho xu ly
 	
 	if(repoPhieuLapDat.create(phieuMoi)){
 		cout << "\n=> [THANH CONG] Da tao Phieu Lap Dat ! He thong tu cap ma " <<maPhieuMoi<<"!\n";
 	}}
 void installationController::readFunction() {
+	repoNhanVien.reloadData();
     cout << "\n--- DANH SACH PHIEU LAP DAT ---" << endl;
     vector<installationForm> ds = repoPhieuLapDat.getData();
     
@@ -397,8 +517,13 @@ void installationController::readFunction() {
     // In danh sách
     showTitle();
     for (auto& ph : ds) {
-        ph.showToConsole();
+    employee* nv = repoNhanVien.searchId(ph.getIdEmployee());
+    if (nv == nullptr) {
+       showToConsoleNew(ph);
     }
+    else{
+        ph.showToConsole();
+    }}
     
     while (true) {
         cout << "\nNhap Ma Phieu Lap Dat de xem chi tiet (hoac '0' de thoat): ";
@@ -413,10 +538,14 @@ void installationController::readFunction() {
         installationForm* timThay = repoPhieuLapDat.searchId(ma);
         
         if(timThay) {
+        	employee* nv = repoNhanVien.searchId(timThay->getIdEmployee());
+        	if (nv == nullptr) {
+        		showToConsoleNew(*timThay);}
+        	else{
             cout << "\n--- CHI TIET MA " << ma << " ---" << endl;
             showTitle();
             timThay->showToConsole();
-        } 
+        }} 
 		else {
           
             cout << "=> [LOI]: Khong tim thay Phieu Lap Dat co ma: " << ma << endl;
@@ -452,6 +581,12 @@ void installationController::updateFunction(){
     if (timThay == nullptr) {
     cout << "=> [LOI]: Khong tim thay Phieu Lap Dat co ma: " << ma << " Moi nhap lai !"<<"\n";
 	}
+	
+	else{
+		if(timThay->getStatus()==1){
+			cout<<"Phieu lap dat da hoan thanh vui long ko sua thong tin !\n";
+			continue;
+		}
 		else{
 		while(true){
         cout << "\n--- THONG TIN PHIEU HIEN TAI ---\n";
@@ -474,7 +609,11 @@ void installationController::updateFunction(){
                 capNhatNgayHen(timThay); 
                 break;
             case 3: 
-                capNhatTrangThai(timThay); 
+                capNhatTrangThai(timThay);
+				if (timThay->getStatus() == 1 || timThay->getStatus() == -1) {
+                    cout << "=> Phieu da chot so, he thong tu dong thoat khoi man hinh cap nhat.\n";
+                    return; 
+                } 
                 break;
             case 0: 
                
@@ -488,7 +627,7 @@ void installationController::updateFunction(){
     }catch(...){
     	cout<<"[LOI] Vui long chi nhap so\n";
 	}}}
-}}
+}}}
     void installationController::deleteFunction(){
     	cout << "\n--- DANH SACH PHIEU LAP DAT HIEN CO TRONG HE THONG ---" << endl;
     	vector<installationForm> ds=repoPhieuLapDat.getData();
@@ -515,10 +654,10 @@ void installationController::updateFunction(){
 			 cout << "=> [LOI]: Khong tim thay Phieu Lap Dat co ma: " << ma <<". Vui long chon lai!\n";
 		}
 		else {
-			if(timThay->getState()==1||timThay->getState()==2){
+			if(timThay->getStatus()==1){
 				showTitle();
                 timThay->showToConsole();
-                cout << "\n=> [TU CHOI XOA]: Khong the xoa phieu dang thi cong hoac da hoan thanh !\n";
+                cout << "\n=> [TU CHOI XOA]: Khong the xoa phieu da hoan thanh !\n";
 			}
 			else{
 			cout << "\n--- CHI TIET MA " << ma << " ---" << endl;

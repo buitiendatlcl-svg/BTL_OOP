@@ -1,8 +1,8 @@
+//Bui Tien Dat - B24DCVT062
 #pragma once
 #include "Entity.h"
 #include <string>
 #include <vector>
-
 using namespace std;
 
 class internet : public entity{
@@ -27,7 +27,7 @@ public:
 	double getPrice();
 	
 	void inputFromKeyboard();
-	void inputFromKeyboard(vector<internet> list);
+	void inputFromKeyboard(vector<internet> list); // lay du lieu tu ban phim
 	
 	void showToConsole();
 	

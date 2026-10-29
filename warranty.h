@@ -1,3 +1,4 @@
+//Tran Hoang Hai - MSV: B24DCVT123
 #pragma once
 #include "entity.h"
 #include <string>
@@ -16,6 +17,7 @@ public:
 	warranty ();
 	
 	bool isValidDate(string date);
+	bool isWithinTwoYears(string installDate, string warrantyDate);
 	
 	void setContractId(string contractId);
 	string getContractId();
@@ -41,5 +43,3 @@ public:
 	void fromFileString(string &line);
 	
 };
-
-

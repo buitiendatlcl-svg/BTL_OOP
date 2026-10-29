@@ -1,3 +1,4 @@
+//Vu Tran Tuan Minh - B24DCVT263
  #include "districtController.h"
 
 //quan ly cac tram mang va khu vuc qua file text(tu them cac tram va khu vuv)

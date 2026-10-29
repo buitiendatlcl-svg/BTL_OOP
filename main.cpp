@@ -1,6 +1,6 @@
+//ca nhom
 #include <iostream>
 #include <string>
-
 
 // Include c?c file header c?a c?c Controller v? Model tuong ?ng
 #include "Repository.h"
@@ -29,10 +29,8 @@
 
 using namespace std;
 
-int main() {
+int main() { // dieu khien va goi ham run cua cac controller
 
-    // Kh?i t?o c?c d?i tu?ng Controller
-    // districtController c? tham s? m?c d?nh l? "data/data_khuvuc.txt" n?n kh?ng c?n truy?n v?o
     districtController dc;
     internetController ic;
     contractController cc;
@@ -72,40 +70,40 @@ int main() {
 
         switch (mainChoice) {
             case 1: {
-                ic.run();
+                ic.run(); // goi den ham run cua internetController
                 break;
             }
 
             case 2: {
-                dc.run();
+                dc.run(); // goi den ham run cua districtController
                 break;
             }
 
             case 3: {
-                ec.run();
+                ec.run(); // goi den ham run cua employeeController
                 break;
             }
 
             case 4: {
-                cc.run();
+                cc.run(); // goi den ham run cua contractController
                 break;
             }
 
             case 5: {
-                wc.run();
+                wc.run(); // goi den ham run cua warrantyController
                 break;
             }
             
 			case 6:{
-				inc.run();
+				inc.run(); // goi den ham run cua installationController
 				break;
 			}
 			case 7:{
-				cuc.run();
+				cuc.run(); // goi den ham run cua customerController
 				break;
 			}
 			case 8:{
-				invc.run();
+				invc.run(); // goi den ham run cua invoiceController
 				break;
 			}
             case 0:

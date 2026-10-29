@@ -1,8 +1,23 @@
+//Tran Hoang Hai - MSV: B24DCVT123
 #include "warrantyController.h"
 #include <iomanip>
+
 warrantyController::warrantyController()
 	: warrantyRepo("data/warranty.txt"), contractRepo("data/contract.txt"), employeeRepo("data/employee.txt")
+	, installFormRepo("data/data_phieulapdat.txt"), districtRepo("data/data_khuvuc.txt")
 {
+}
+
+// tim pld tuong ung voi hop dong 
+installationForm* warrantyController::getInstallFormByContractId(string contractId) {
+	vector<installationForm> formList = installFormRepo.getData();
+	for (int i = 0; i < (int)formList.size(); i++) {
+
+		if (formList[i].getIdContract() == contractId) {
+			return installFormRepo.searchId(formList[i].getId());
+		}
+	}
+	return nullptr;
 }
 
 void warrantyController::createFunction() {
@@ -20,20 +35,78 @@ void warrantyController::createFunction() {
         return; 
     }
 
+    if (installFormRepo.getData().empty()) {
+        cout << "Hien chua co phieu lap dat nao trong he thong! Khong the tao phieu bao hanh!" << endl;
+        return;
+    }
+
     warranty newWarranty; 
-	cout << "DANH SACH HOP DONG HIEN CO: \n";
-    cout << left << setw(20) << "Ma hop dong"
+
+    cout << "DANH SACH HOP DONG HIEN CO: \n";
+    cout << left << setw(15) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
-		 	 << "| " << setw(15) << "Ma goi"
-			 << "| " << setw(15) << "Ma khu vuc" 
-			 << "| " << setw(15) << "Ngay ky" << endl;
-		cout << string(85, '-') << endl;
+		 	 << "| " << setw(10) << "Ma goi"
+			 << "| " << setw(12) << "Ma khu vuc" 
+			 << "| " << setw(12) << "Ngay ky" 
+			 << "| " << setw(10) << "Ky han"
+			 << "| " << setw(15) << "Ngay het han"
+			 << "| " << setw(16) << "Trang thai"
+			 << "| " << "Ghi chu" << endl;
+		cout << string(135, '-') << endl;
     for (auto c : contractList) {
         c.showToConsole();
+    }
+
+    string chosenCustomer;
+    vector<contract> customerContracts;
+    while (true) {
+        cout << "\nNhap ID khach hang can bao hanh (nhap '0' de quay lai): ";
+        getline(cin, chosenCustomer);
+
+        if (chosenCustomer == "0") {
+            cout << "=> Da huy thao tac them phieu bao hanh, quay lai menu!" << endl;
+            return;
+        }
+
+        for (int i = 0; i < (int)chosenCustomer.size(); i++) {
+            if (isalpha(chosenCustomer[i])) {
+                chosenCustomer[i] = toupper(chosenCustomer[i]);
+            }
+        }
+
+        customerContracts.clear();
+        for (auto c : contractList) {
+            if (c.getCustomerId() == chosenCustomer) {
+                customerContracts.push_back(c);
+            }
+        }
+
+        if (!customerContracts.empty()) {
+            break;
+        }
+        cout << "=> Khach hang [" << chosenCustomer << "] khong ton tai hoac chua co hop dong nao! Vui long nhap lai!" << endl;
+    }
+
+    //hien thi danh sach hd, phieu ld va trang thai pld
+    cout << "\nDANH SACH HOP DONG CUA KHACH HANG [" << chosenCustomer << "]:\n";
+    for (auto c : customerContracts) {
+        installationForm* insPtr = getInstallFormByContractId(c.getId());
+        string contractStatusStr = (c.getStatus() == 1) ? "Dang hoat dong" : "Khong hoat dong";
+        
+        cout << "  + Ma HD: " << left << setw(8) << c.getId()
+             << " | Trang thai HD: " << left << setw(16) << contractStatusStr;
+        if (insPtr != nullptr) {
+            cout << " | Phieu lap dat: " << insPtr->getId() 
+                 << " (Ngay lap dat: " << insPtr->getDate() << ")" << endl;
+        } else {
+            cout << " | [Chua co Phieu lap dat]" << endl;
+        }
     }
 	
 	bool validContract = false;
     string chosenContract;
+    string installDate = "";
+    string contractAreaId = ""; // luu ma kv cua hd duoc chon
     
 	while (!validContract) {
         cout << "\nNhap ID hop dong can bao hanh (nhap '0' de quay lai): ";
@@ -50,32 +123,84 @@ void warrantyController::createFunction() {
             }
         }
         
-        if (contractRepo.searchId(chosenContract) != nullptr) {
-            newWarranty.setContractId(chosenContract);
-            validContract = true;
-        } else {
-            cout << "=> Ma hop dong khong ton tai. Vui long nhap lai!" << endl;
+        //kiem tra hop dong co thuoc ve khach hang dang chon khong
+        contract* selectedContractPtr = nullptr;
+        for (int i = 0; i < (int)customerContracts.size(); i++) {
+            if (customerContracts[i].getId() == chosenContract) {
+                selectedContractPtr = &customerContracts[i];
+                break;
+            }
         }
+
+        if (selectedContractPtr == nullptr) {
+            cout << "=> Ma hop dong khong thuoc ve khach hang [" << chosenCustomer << "]. Vui long nhap lai!" << endl;
+            continue;
+        }
+
+        //kiem tra trang thai hd
+        if (selectedContractPtr->getStatus() != 1) {
+            cout << "=> KHONG THE THEM! Hop dong [" << chosenContract << "] hien KHONG HOAT DONG!" << endl;
+            cout << "=> Chi duoc tao phieu bao hanh cho hop dong dang hoat dong. Vui long chon hop dong khac hoac nhap '0' de quay lai." << endl;
+            continue;
+        }
+
+        //tim pld cua hd de lay ngay lap dat
+        installationForm* insPtr = getInstallFormByContractId(chosenContract);
+        if (insPtr == nullptr) {
+            cout << "=> KHONG THE THEM! Hop dong [" << chosenContract << "] chua co Phieu lap dat!" << endl;
+            cout << "=> Vui long chon hop dong khac hoac nhap '0' de quay lai." << endl;
+            continue;
+        }
+
+        contractAreaId = selectedContractPtr->getAreaId(); 
+        installDate = insPtr->getDate(); 
+        newWarranty.setContractId(chosenContract);
+        validContract = true;
+
+        cout << "=> Da chon Hop dong [" << chosenContract << "] (Khu vuc: " << contractAreaId 
+             << ") - Ngay lap dat: " << installDate << endl;
     }
     
-    cout << "\nDANH SACH NHAN VIEN HIEN CO:\n";
+    //tim nhan vien thuoc khu vuc hd
+    vector<employee> areaEmployees;
+    for (auto emp : empList) {
+        if (emp.getAreaId() == contractAreaId) {
+            areaEmployees.push_back(emp);
+        }
+    }
+
+    if (areaEmployees.empty()) {
+        cout << "=> KHONG THE THEM! Khu vuc [" << contractAreaId << "] cua hop dong nay hien chua co nhan vien ky thuat nao phu trach!" << endl;
+        cout << "=> Vui long bo sung nhan vien cho khu vuc [" << contractAreaId << "] truoc!" << endl;
+        return;
+    }
+
+    cout << "\nDANH SACH NHAN VIEN PHU TRACH KHU VUC [" << contractAreaId << "]:\n";
     cout << left << setw(8)  << "Ma NV" << "| "
          << left << setw(20) << "Ho va Ten" << "| "
          << left << setw(12) << "Ngay Sinh" << "| "
          << left << setw(12) << "SDT" << "| "
          << left << setw(20) << "Chuyen Mon" << "| "
          << left << setw(8)  << "Ma KV" << "| "
+         << left << setw(15) << "Ten KV" << "| "
+         << left << setw(15) << "Ten Tram" << "| "
+         << left << setw(8)  << "Cap Bac" << "| "
          << "Luong (VND)" << endl;
-    cout << "----------------------------------------------------------------------------------------------------" << endl;
-    for (auto emp : empList) {
-        emp.showToConsole();
+    cout << string(144, '-') << endl;
+    for (auto emp : areaEmployees) {
+        district* d = districtRepo.searchId(emp.getAreaId());
+        if (d != nullptr) {
+            emp.showToConsole(d->getDistrict(), d->getStation());
+        } else {
+            emp.showToConsole("Chua ro", "Chua ro");
+        }
     }    
         
     bool validEmployee = false;
 	string chosenEmployee;
     
     while (!validEmployee) {
-        cout << "\nNhap ID nhan vien phu trach (nhap '0' de quay lai): "; 
+        cout << "\nNhap ID nhan vien phu trach thuoc khu vuc [" << contractAreaId << "] (nhap '0' de quay lai): "; 
         getline(cin, chosenEmployee);
         
         if (chosenEmployee == "0") {
@@ -89,14 +214,38 @@ void warrantyController::createFunction() {
             }
         }
         
-        if (employeeRepo.searchId(chosenEmployee) != nullptr) {
+        employee* empPtr = employeeRepo.searchId(chosenEmployee);
+        if (empPtr == nullptr) {
+            cout << "=> Ma nhan vien khong ton tai. Vui long nhap lai!" << endl;
+        } else if (empPtr->getAreaId() != contractAreaId) {
+            cout << "=> Loi! Nhan vien [" << chosenEmployee << "] thuoc khu vuc [" << empPtr->getAreaId() 
+                 << "], khong phu trach khu vuc [" << contractAreaId << "] cua hop dong nay! Vui long chon lai." << endl;
+        } else {
             newWarranty.setEmployeeId(chosenEmployee);
             validEmployee = true;
-        } else {
-            cout << "=> Ma nhan vien khong ton tai. Vui long nhap lai!" << endl;
         }
     }
-    
+
+    //ngay tiep nhan
+    string tempDate;
+    while (true) {
+        cout << "Nhap ngay tiep nhan (dd/mm/yyyy, sau ngay lap dat " << installDate << " toi da 2 nam) (nhap 0 de quay lai): ";
+        getline(cin, tempDate);
+
+        if (tempDate == "0") {
+            cout << "=> Da huy thao tac them phieu bao hanh, quay lai menu!" << endl;
+            return;
+        }
+
+        if (!newWarranty.isValidDate(tempDate)) {
+            cout << "=> Loi! Sai dinh dang ngay thang, vui long nhap lai!" << endl;
+        } else if (!newWarranty.isWithinTwoYears(installDate, tempDate)) {
+            cout << "=> Loi! Ngay tiep nhan phai tu ngay lap dat (" << installDate << ") va trong han 2 nam bao hanh!" << endl;
+        } else {
+            newWarranty.setReceivedDate(tempDate);
+            break;
+        }
+    }
     
     newWarranty.inputFromKeyboard();
     
@@ -109,7 +258,7 @@ void warrantyController::createFunction() {
     newWarranty.setId(newId);
 
     if (warrantyRepo.create(newWarranty) == 1) {
-        cout << "=> Tao phieu bao hanh thanh cong! Ma phieu: " << newId << endl;
+        cout << "=> Tao phieu bao hanh thanh cong! Ma phieu: " << newId << " (Trang thai: " << newWarranty.getStatus() << ")" << endl;
     } else {
         cout << "=> Loi: Khong the tao phieu bao hanh." << endl;
     }    
@@ -143,10 +292,8 @@ void warrantyController::updateFunction() {
         return;
     }
 
-    // Hien thi danh sach phieu bao hanh de chon ID
     readFunction();
 
-    // Cho nhap lai neu nhap sai ID, nhap '0' de quay lai
     string searchId;
     warranty* warrantyPtr = nullptr;
     while (true) {
@@ -172,13 +319,11 @@ void warrantyController::updateFunction() {
         
         cout << "\nCHON THONG TIN CAN SUA:" << endl;
         cout << "1. Nhan vien phu trach" << endl;
-        cout << "2. Ngay tiep nhan" << endl;
-        cout << "3. Noi dung su co" << endl;
-        cout << "4. Trang thai xu ly" << endl;
+        cout << "2. Noi dung su co" << endl;
+        cout << "3. Trang thai xu ly" << endl;
         cout << "0. HOAN TAT VA LUU" << endl;
-        cout << "Chon (0-4): ";
+        cout << "Chon (0-3): ";
         
-        // ngoai le nhap chu vao menu
         string choiceStr;
         getline(cin, choiceStr);
         try {
@@ -192,23 +337,53 @@ void warrantyController::updateFunction() {
         string newInfo;
         switch (editChoice) {
             case 1: {
-                cout << "\n--- DANH SACH NHAN VIEN HIEN CO ---" << endl;
+                // Tim Hop dong cua Phieu bao hanh nay de lay Ma Khu Vuc
+                contract* cPtr = contractRepo.searchId(warrantyPtr->getContractId());
+                if (cPtr == nullptr) {
+                    cout << "=> Loi: Khong tim thay thong tin hop dong goc cua phieu bao hanh nay!" << endl;
+                    break;
+                }
+
+                // LUU Y: Doi getAreaId() neu trong contract.h dat la getDistrictId() hoac getIdDistrict()
+                string contractAreaId = cPtr->getAreaId();
+
+                // Loc danh sach nhan vien cung khu vuc voi hop dong
                 vector<employee> employeeList = employeeRepo.getData();
-                cout << "\nDANH SACH NHAN VIEN HIEN CO:\n";
+                vector<employee> areaEmployees;
+                for (auto emp : employeeList) {
+                    if (emp.getAreaId() == contractAreaId) {
+                        areaEmployees.push_back(emp);
+                    }
+                }
+
+                if (areaEmployees.empty()) {
+                    cout << "=> Khu vuc [" << contractAreaId << "] hien khong co nhan vien nao de thay the!" << endl;
+                    break;
+                }
+
+                cout << "\nDANH SACH NHAN VIEN CUNG KHU VUC [" << contractAreaId << "] VOI HOP DONG:\n";
     			cout << left << setw(8)  << "Ma NV" << "| "
-         		<< left << setw(20) << "Ho va Ten" << "| "
-         		<< left << setw(12) << "Ngay Sinh" << "| "
-         		<< left << setw(12) << "SDT" << "| "
-         		<< left << setw(20) << "Chuyen Mon" << "| "
-         		<< left << setw(8)  << "Ma KV" << "| "
-         		<< "Luong (VND)" << endl;
-    			cout << "----------------------------------------------------------------------------------------------------" << endl;
-    		for (auto emp : employeeList) {
-       		 emp.showToConsole();
-   			}    
+         		     << left << setw(20) << "Ho va Ten" << "| "
+         		     << left << setw(12) << "Ngay Sinh" << "| "
+         		     << left << setw(12) << "SDT" << "| "
+         		     << left << setw(20) << "Chuyen Mon" << "| "
+         		     << left << setw(8)  << "Ma KV" << "| "
+                     << left << setw(15) << "Ten KV" << "| "
+                     << left << setw(15) << "Ten Tram" << "| "
+                     << left << setw(8)  << "Cap Bac" << "| "
+         		     << "Luong (VND)" << endl;
+    			cout << string(144, '-') << endl;
+    		    for (auto emp : areaEmployees) {
+                    district* d = districtRepo.searchId(emp.getAreaId());
+                    if (d != nullptr) {
+                        emp.showToConsole(d->getDistrict(), d->getStation());
+                    } else {
+                        emp.showToConsole("Chua ro", "Chua ro");
+                    }
+   			    }    
                 
                 while (true) {
-                    cout << "Nhap ID nhan vien phu trach moi (Enter de huy): ";
+                    cout << "Nhap ID nhan vien phu trach moi thuoc khu vuc [" << contractAreaId << "] (Enter de huy): ";
                     getline(cin, newInfo);
                     if (newInfo.empty()) break;
 
@@ -216,33 +391,22 @@ void warrantyController::updateFunction() {
                         if (isalpha(newInfo[i])) newInfo[i] = toupper(newInfo[i]);
                     }
 
-                    if (employeeRepo.searchId(newInfo) != nullptr) {
+                    employee* empPtr = employeeRepo.searchId(newInfo);
+                    if (empPtr == nullptr) {
+                        cout << "=> Ma nhan vien khong ton tai. Vui long nhap lai!" << endl;
+                    } else if (empPtr->getAreaId() != contractAreaId) {
+                        cout << "=> Loi! Nhan vien [" << newInfo << "] thuoc khu vuc [" << empPtr->getAreaId() 
+                             << "], khong cung khu vuc [" << contractAreaId << "] voi hop dong! Vui long chon lai." << endl;
+                    } else {
                         warrantyPtr->setEmployeeId(newInfo);
                         cout << "=> Da cap nhat nhan vien phu trach!" << endl;
                         break;
-                    } else {
-                        cout << "=> Ma nhan vien khong ton tai. Vui long nhap lai!" << endl;
                     }
-                }
-                break;
-            }
-
-            case 2: {
-                while (true) {
-                    cout << "Nhap ngay tiep nhan moi (dd/mm/yyyy)(Enter de huy): ";
-                    getline(cin, newInfo);
-                    if (newInfo.empty()) break;
-                    if (warrantyPtr->isValidDate(newInfo)) {
-                        warrantyPtr->setReceivedDate(newInfo);
-                        cout << "=> Da cap nhat ngay tiep nhan!" << endl;
-                        break;
-                    }
-                    cout << "=> Loi! Sai dinh dang ngay thang, vui long nhap lai!" << endl;
                 }
                 break;
             }
             
-            case 3: {
+            case 2: {
             	bool validIssue = false;
                 while (!validIssue) {
                     cout << "\nChon noi dung su co moi:\n";
@@ -271,7 +435,7 @@ void warrantyController::updateFunction() {
                         validIssue = true;
                     } 
 					else if (newInfo == "4") {
-                        warrantyPtr->setIssueDescribe("Bao tri & keo lai day cap");
+                        warrantyPtr->setIssueDescribe("Van de khac");
                         cout << "=> Da cap nhat noi dung su co!" << endl;
                         validIssue = true;
                     } 
@@ -282,11 +446,11 @@ void warrantyController::updateFunction() {
                 break;
             }
             
-            case 4: {
+            case 3: {
             	bool validStatus = false;
                 while (!validStatus) {
                     cout << "\nChon trang thai xu ly moi:\n";
-                    cout << "  1. Cho xu ly\n";
+                    cout << "  1. Cho xac nhan\n";
                     cout << "  2. Dang sua chua\n";
                     cout << "  3. Da hoan thanh\n";
                     cout << "  4. Da huy\n";
@@ -295,10 +459,11 @@ void warrantyController::updateFunction() {
                     getline(cin, newInfo);
                     if (newInfo.empty()) {
                     	validStatus = true;
+                    	break;
 					}
 
                     if (newInfo == "1") {
-                        warrantyPtr->setStatus("Cho xu ly");
+                        warrantyPtr->setStatus("Cho xac nhan");
                         cout << "=> Da cap nhat trang thai!\n";
                         validStatus = true;
                     } 
@@ -348,6 +513,7 @@ void warrantyController::deleteFunction() {
     readFunction();
 
     string delId;
+    warranty* wPtr = nullptr;
     while (true) {
         cout << "\nNhap Ma phieu BH can xoa (nhap '0' de quay lai): ";
         getline(cin, delId);
@@ -357,10 +523,17 @@ void warrantyController::deleteFunction() {
             if (isalpha(delId[i])) delId[i] = toupper(delId[i]);
         }
 
-        if (warrantyRepo.searchId(delId) != nullptr) {
+        wPtr = warrantyRepo.searchId(delId);
+        if (wPtr != nullptr) {
             break;
         }
         cout << "=> Loi: Khong tim thay ma phieu " << delId << "! Vui long nhap lai." << endl;
+    }
+
+    if (wPtr->getStatus() != "Da hoan thanh" && wPtr->getStatus() != "Da huy") {
+        cout << "=> KHONG THE XOA! Phieu bao hanh [" << delId << "] dang o trang thai: " << wPtr->getStatus() << endl;
+        cout << "=> Chi duoc phep xoa phieu khi trang thai la 'Da hoan thanh' hoac 'Da huy'!" << endl;
+        return;
     }
 
     if (warrantyRepo.remove(delId) == 1) {
@@ -374,7 +547,8 @@ void warrantyController::run() {
 	warrantyRepo.reloadData();
     contractRepo.reloadData();
     employeeRepo.reloadData();
-    
+    installFormRepo.reloadData();
+    districtRepo.reloadData();
     
     int choice = -1;
     do {

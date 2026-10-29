@@ -1,8 +1,8 @@
+// Nguyen Manh Khanh - B24DCVT194
 #pragma once 
 #include <string>
 #include <iostream>
 #include "Entity.h"
-
 using namespace std;
 
 class Customer : public entity{
@@ -11,6 +11,7 @@ private :
 	string nationalId;
 	string phoneNumber;
 	string address;
+	
 	
 	string chuanHoa(string s);
 public : 
@@ -27,6 +28,7 @@ public :
 	
 	void setAddress(string Address);
 	string getAddress();
+	
 	
 	bool isValidName(string s);
 	bool isValidPhoneNumber(string s);

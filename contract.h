@@ -1,7 +1,7 @@
+//Bui Tien Dat - B24DCVT062
 #pragma once
 #include "entity.h"
-#include <string>  
-
+#include <string>
 using namespace std;
 
 class contract : public entity{
@@ -10,6 +10,7 @@ private:
 	int term;
 	int status;
 	string expiryDate;
+	string feedback;
 public:
 	contract();
 	
@@ -34,11 +35,17 @@ public:
 	string getExpiryDate();
 	void calculateExpiryDate(string installDate);
 	
-	void inputFromKeyboard();
+	void setFeedback(string feedback);
+	string getFeedback();
 	
-	void showToConsole();
+	bool isValidDate(string date); // kiem tra xem ngay thang co hop le khong
 	
-	string toFileString();
+	void inputFromKeyboard(); // lay du lieu tu file
 	
-	void fromFileString(string &line);
+	void showToConsole(); // hien thi danh sach ra man hinh
+	
+	string toFileString(); // luu du lieu dang string vao file
+	
+	void fromFileString(string &line); // lay du lieu tu file
 };
+

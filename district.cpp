@@ -1,3 +1,4 @@
+//Vu Tran Tuan Minh - B24DCVT263
 #include "district.h"
 #include <iostream>
 #include <iomanip>
@@ -57,7 +58,7 @@ void district::showToConsole() {
     cout << left << setw(10) << id 
          << "| " << setw(20) << nameDistrict
          << "| " << setw(20) << station 
-         << "| " << setw(12) << maxBandWidth 
+         << "| " << setw(15) << maxBandWidth 
          << "| " << setw(15) << trangThai << endl;
 }
 

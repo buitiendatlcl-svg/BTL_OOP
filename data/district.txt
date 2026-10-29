@@ -1,6 +1,0 @@
-KV01|HUNG YEN|Tram To Lam|250000
-KV02|HA NOI|Tram Cau Giay|40000
-KV04|HAI PHONG|Tram Ngo Quyen|20000
-KV05|HA NOI|Tram Ha Dong|40000
-
-
