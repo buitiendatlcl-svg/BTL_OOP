@@ -108,18 +108,14 @@ public:
 		for(auto obj : data){
 			string currentId = obj.getId();
 	        
-	        // 1. Ki?m tra mã ID có d? dài l?n hon ti?n t? (VD: "G1" dài hon "G") 
-	        // và ph?i b?t d?u b?ng ti?n t? dó
 	        if (currentId.length() > productName.length() && currentId.find(productName) == 0) {
 			    string numStr = currentId.substr(productName.length());
-	            // 2. B?c try-catch khi ép ki?u
 	            try {
 			        int num = stoi(numStr);
 			        if(num > maxIdNumber){
 				        maxIdNumber = num;
 			        }
 	            } catch(...) {
-	                // N?u g?p mã l?i (nhu Gabc), h? th?ng s? ph?t l? và không b? crash
 	            }
 	        }
 		}
