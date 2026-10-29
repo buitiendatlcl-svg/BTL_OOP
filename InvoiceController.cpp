@@ -357,7 +357,7 @@ void InvoiceController::displayAllInvoices() {
          << "| " << setw(13) << "Han Tra" 
          << "| " << setw(12) << "Ngay TT" 
          << endl;
-    cout << string(145, '-') << endl;
+    cout << string(143, '-') << endl;
     for (auto obj : list) {
         obj.showToConsole(); 
     }
