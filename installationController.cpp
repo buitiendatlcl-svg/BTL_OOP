@@ -295,13 +295,16 @@ void installationController::createFunction(){
 	string ngayHen;
 	string loaiModem;
 	cout << "\n----THEM MOI PHIEU LAP DAT----" << endl;
-	cout << "\n* DANH SACH HOP DONG DANG CHO THI CONG:\n";
-		cout << left << setw(20) << "Ma hop dong"
+	cout << left << setw(15) << "Ma hop dong"
 		 	 << "| " << setw(15) << "Ma khach hang"
-		 	 << "| " << setw(15) << "Ma goi"
-			 << "| " << setw(15) << "Ma khu vuc" 
-			 << "| " << setw(15) << "Ngay ky" << endl;
-		cout << string(85, '-') << endl;
+		 	 << "| " << setw(10) << "Ma goi"
+			 << "| " << setw(12) << "Ma khu vuc" 
+			 << "| " << setw(12) << "Ngay ky" 
+			 << "| " << setw(10) << "Ky han"
+			 << "| " << setw(15) << "Ngay het han"
+			 << "| " << setw(16) << "Trang thai"
+			 << "| " << "Ghi chu" << endl;
+		cout << string(135, '-') << endl;
 	int dem=0;
 	for(auto& hd : dsHD){//tra ma hop dong trung voi ma hd da có trong phieu lap dat
 		bool check=false;

@@ -50,8 +50,9 @@ void warrantyController::createFunction() {
 			 << "| " << setw(12) << "Ngay ky" 
 			 << "| " << setw(10) << "Ky han"
 			 << "| " << setw(15) << "Ngay het han"
-			 << "| " << setw(16) << "Trang thai" << endl;
-		cout << string(120, '-') << endl;
+			 << "| " << setw(16) << "Trang thai"
+			 << "| " << "Ghi chu" << endl;
+		cout << string(135, '-') << endl;
     for (auto c : contractList) {
         c.showToConsole();
     }

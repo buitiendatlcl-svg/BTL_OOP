@@ -24,12 +24,12 @@ void contractController::createFunction(){
 		cout << "\n--- DANH SACH KHACH HANG HIEN CO ---" << endl;
 		cout << left 
          << setw(10) << "Ma KH" 
-         << setw(25) << "Ho va Ten" 
-         << setw(20) << "So CCCD" 
-         << setw(20) << "So Dien Thoai" 
-         << setw(20) << "Dia Chi" 
+         << "| " << setw(25) << "Ho va Ten" 
+         << "| " << setw(16) << "So CCCD" 
+         << "| " << setw(15) << "So Dien Thoai" 
+         << "| " << "Dia Chi" 
          << endl;
-    	cout << string(95, '-') << endl;
+    cout << string(105, '-') << endl;
     	
 		for(auto x : listCustomer){
 			x.showToConsole();
@@ -147,10 +147,11 @@ void contractController::createFunction(){
 	}	
 	else{
 		cout << left << setw(10) << "Ma KV" 
-         	 << setw(25) << "Ten Tinh/Thanh" 
-         	 << setw(25) << "Tram Quan Ly" 
-         	 << setw(15) << "Bang Thong" << endl;
-    	cout << string(75, '-') << endl;
+         << "| " << setw(20) << "Ten Tinh/Thanh" 
+         << "| " << setw(20) << "Tram Quan Ly" 
+         << "| " << setw(15) << "Bang Thong" 
+         << "| " << setw(15) << "Trang Thai" << endl;
+    	cout << string(85, '-') << endl;
     	
 		for(auto x : listDistrict){
 			x.showToConsole();
@@ -247,7 +248,7 @@ void contractController::readFunction(){
 			 << "| " << setw(15) << "Ngay het han"
 			 << "| " << setw(16) << "Trang thai"
 			 << "| " << "Ghi chu" << endl;
-		cout << string(140, '-') << endl;
+		cout << string(135, '-') << endl;
 		
 		for(auto x : listContract){
 			x.showToConsole();
